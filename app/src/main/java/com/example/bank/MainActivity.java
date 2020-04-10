@@ -10,8 +10,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*
+
         Bank bank1 = new Bank("Nordea", "Pankkikatu", "Suomi", "FINOR");
+        Customer cust1 = new Customer("kalle", "kallenkatu", "Suomi", "00111", "testi@mail.com");
+        boolean added = bank1.addCustomer(cust1);
+        System.out.println("Should be true");
+        System.out.println(added);
+        added = bank1.addCustomer(cust1);
+        System.out.println("Should be false");
+        System.out.println(added);
+
+        /*
         Bank bank2 = new Bank("Sampo", "Pankkitie", "Suomi", "FISamp");
 
         System.out.println("Ensimmäisen pankin tiedot: "+ bank1.toString());

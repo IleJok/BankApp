@@ -2,6 +2,7 @@ package com.example.bank;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Bank {
@@ -10,6 +11,8 @@ public class Bank {
     private String address;
     private String country;
     private String BIC;
+    // Customers in this bank
+    private ArrayList<Customer> customers;
 
     /*Simple constructor for Bank class. Could use Singleton pattern, but I want to
     * have multiple banks in the future*/
@@ -20,6 +23,7 @@ public class Bank {
         this.address = bankAddress;
         this.country = bankCountry;
         this.BIC = bicB;
+        this.customers = new ArrayList<>();
     }
 
     public String getName() {
@@ -56,6 +60,22 @@ public class Bank {
 
     public UUID getId() {
         return id;
+    }
+
+    /* Add customer to arrayList if it is not there already, return true if added
+    and return false if not.
+     */
+    public boolean addCustomer(Customer customer) {
+        if (!this.customers.contains(customer)) {
+            this.customers.add(customer);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public ArrayList<Customer> getCustomers() {
+        return customers;
     }
 
     /*equals function compares two objects if they are identical or not. I use the UUID
