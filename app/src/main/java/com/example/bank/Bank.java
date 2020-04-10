@@ -13,6 +13,8 @@ public class Bank {
     private String BIC;
     // Customers in this bank
     private ArrayList<Customer> customers;
+    // Accounts in this bank
+    private ArrayList<Account> accounts;
 
     /*Simple constructor for Bank class. Could use Singleton pattern, but I want to
     * have multiple banks in the future*/
@@ -24,6 +26,7 @@ public class Bank {
         this.country = bankCountry;
         this.BIC = bicB;
         this.customers = new ArrayList<>();
+        this.accounts = new ArrayList<>();
     }
 
     public String getName() {
@@ -74,10 +77,27 @@ public class Bank {
         }
     }
 
-    public ArrayList<Customer> getCustomers() {
-        return customers;
+    /* Add account to arrayList if it is not there already, return true if added
+    and return false if not.
+     */
+    public boolean addAccount(Account account) {
+        if (!this.accounts.contains(account)) {
+            this.accounts.add(account);
+            return true;
+        } else {
+            return false;
+        }
     }
 
+    /*Get all the customers in the bank*/
+    public ArrayList<Customer> getCustomers() {
+        return this.customers;
+    }
+
+    /*Get all the accounts in the bank*/
+    public ArrayList<Account> getAccounts() {
+        return this.accounts;
+    }
     /*equals function compares two objects if they are identical or not. I use the UUID
     * as "main" source for comparison, because it should be unique*/
     @Override
