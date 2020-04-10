@@ -14,11 +14,8 @@ public class MainActivity extends AppCompatActivity {
         Bank bank1 = new Bank("Nordea", "Pankkikatu", "Suomi", "FINOR");
         Customer cust1 = new Customer("kalle", "kallenkatu", "Suomi", "00111", "testi@mail.com");
         boolean added = bank1.addCustomer(cust1);
-        System.out.println("Should be true");
-        System.out.println(added);
-        added = bank1.addCustomer(cust1);
-        System.out.println("Should be false");
-        System.out.println(added);
+        Account account = new Account(bank1, cust1, (double) 0, false, false);
+        System.out.println(account.toString());
 
         /*
         Bank bank2 = new Bank("Sampo", "Pankkitie", "Suomi", "FISamp");
