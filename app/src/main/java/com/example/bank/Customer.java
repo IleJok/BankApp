@@ -2,8 +2,10 @@ package com.example.bank;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
+/* This class is named as customer, could be named as user instead also*/
 public class Customer {
     private UUID id;
     private String name;
@@ -65,6 +67,10 @@ public class Customer {
     public UUID getId() {
         return id;
     }
+    /* List accounts owned by customer */
+    /*public ArrayList<Account> listAccounts() {
+
+    }*/
 
     /* Make own comparison method for customer,
     I'm using the uuid as the main source for comparison
