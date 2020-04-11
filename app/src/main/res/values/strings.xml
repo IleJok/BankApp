@@ -1,7 +1,16 @@
 <resources>
     <string name="app_name">Bank</string>
     <string name="add_bank">Add Bank</string>
-    <string name="hint_bank">Bank...</string>
+    <string name="hint_bankName">Name of the Bank</string>
+    <string name="hint_bankAddress">Address of the Bank</string>
+    <string name="hint_bankCountry">Country of the Bank</string>
+    <string name="hint_bankBIC">BIC of the Bank</string>
     <string name="button_save">Save</string>
-    <string name="empty_not_saved">Bank not saved because it is empty.</string>
+    <string name="empty_not_saved">Not saved because it (or some of it) is empty.</string>
+    <string name="hint_cName">Enter your name</string>
+    <string name="hint_cAddress">Enter your address</string>
+    <string name="hint_cCountry">Enter your Country</string>
+    <string name="hint_cPhone">Enter your phone number</string>
+    <string name="hint_cEmail">Enter your email</string>
+    <string name="hint_cPass">Enter your password</string>
 </resources>

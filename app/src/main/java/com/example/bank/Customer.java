@@ -1,28 +1,39 @@
 package com.example.bank;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 /* This class is named as customer, could be named as user instead also*/
+@Entity(tableName = "customers")
 public class Customer {
-    private UUID id;
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    private int id;
+
     private String name;
     private String address;
-    // UUID password; // TODO implement password for user/customer
+    private String password; // TODO implement proper password for user/customer
     private String country;
     private String phone;
     private String email;
 
+    Customer() {
 
-    Customer(String cName, String cAddress, String cCountry, String cPhone, String cEmail) {
-        this.id = UUID.randomUUID(); // generate random uuid as id for customer
+    }
+
+    Customer(String cName, String cAddress, String cCountry, String cPhone, String cEmail, String cPassword) {
+
         this.name = cName;
         this.address = cAddress;
         this.country = cCountry;
         this.phone = cPhone;
         this.email = cEmail;
+        this.password = cPassword;
     }
 
     public String getName() {
@@ -65,8 +76,20 @@ public class Customer {
         this.phone = phone;
     }
 
-    public UUID getId() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     /* List accounts owned by customer */
     /*public ArrayList<Account> listAccounts() {

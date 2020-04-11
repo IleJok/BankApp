@@ -23,10 +23,11 @@ import java.util.concurrent.Executors;
 *     also make sure to add abstract interfaces for the entities
 *       check BankDao for reference
 * */
-@Database(entities = {Bank.class}, version = 1, exportSchema = false)
+@Database(entities = {Bank.class, Customer.class}, version = 2, exportSchema = false)
 public abstract class BankRoomDatabase extends RoomDatabase {
 
     public abstract BankDao bankDao();
+    public abstract CustomerDao customerDao();
 
     private static volatile BankRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -42,6 +43,7 @@ public abstract class BankRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             BankRoomDatabase.class, "bank_database")
+                            .fallbackToDestructiveMigration()
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
@@ -58,8 +60,10 @@ public abstract class BankRoomDatabase extends RoomDatabase {
             databaseWriteExecutor.execute(() -> {
                 // Add couple banks to the app
                 BankDao dao = INSTANCE.bankDao();
+                //CustomerDao customerDao = INSTANCE.customerDao();
                 // When the app starts again, it wipes all the banks
                 dao.deleteAllBanks();
+                //customerDao.deleteAllCustomers();
 
                 Bank bank = new Bank("Nordea", "Pankkikatu 1",
                         "Suomi", "NDEAFIHH");
