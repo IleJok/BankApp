@@ -1,13 +1,23 @@
 package com.example.bank;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    private BankViewModel mBankViewModel;
+    public static final int NEW_BANK_ACTIVITY_REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,19 +28,38 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        /*Bank bank1 = new Bank("Nordea", "Pankkikatu", "Suomi", "FINOR");
-        Customer cust1 = new Customer("kalle", "kallenkatu", "Suomi", "00111", "testi@mail.com");
-        boolean added = bank1.addCustomer(cust1);
-        Account account = new Account(bank1, cust1, (double) 0, false, false);
-        System.out.println(account.toString());
-*/
-        /*
-        Bank bank2 = new Bank("Sampo", "Pankkitie", "Suomi", "FISamp");
+        mBankViewModel = new ViewModelProvider(this).get(BankViewModel.class);
+        mBankViewModel.getAllBanks().observe(this, new Observer<List<Bank>>() {
+            @Override
+            public void onChanged(List<Bank> banks) {
+                adapter.setBanks(banks);
+            }
+        });
 
-        System.out.println("Ensimmäisen pankin tiedot: "+ bank1.toString());
-        System.out.println("Toisen pankin tiedot: "+ bank2.toString());
-        System.out.println("Onko oliot yhtäläiset (pitäisi olla false): "+ bank1.equals(bank2));
-        System.out.println("Onko oliot yhtäläiset (pitäisi olla true): "+ bank1.equals(bank1));
-        */
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NewBankActivity.class);
+                startActivityForResult(intent, NEW_BANK_ACTIVITY_REQUEST_CODE);
+            }
+        });
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == NEW_BANK_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            Bank bank = new Bank(data.getStringExtra(NewBankActivity.EXTRA_BANK_NAME),
+                    data.getStringExtra(NewBankActivity.EXTRA_BANK_ADDRESS),
+                    data.getStringExtra(NewBankActivity.EXTRA_BANK_COUNTRY),
+                    data.getStringExtra(NewBankActivity.EXTRA_BANK_BIC));
+            mBankViewModel.insert(bank);
+        } else {
+            Toast.makeText(
+                    getApplicationContext(),
+                    R.string.empty_not_saved,
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }
