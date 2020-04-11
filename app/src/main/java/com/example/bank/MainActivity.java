@@ -1,6 +1,8 @@
 package com.example.bank;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
@@ -11,12 +13,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Bank bank1 = new Bank("Nordea", "Pankkikatu", "Suomi", "FINOR");
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        final BankListAdapter adapter = new BankListAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        /*Bank bank1 = new Bank("Nordea", "Pankkikatu", "Suomi", "FINOR");
         Customer cust1 = new Customer("kalle", "kallenkatu", "Suomi", "00111", "testi@mail.com");
         boolean added = bank1.addCustomer(cust1);
         Account account = new Account(bank1, cust1, (double) 0, false, false);
         System.out.println(account.toString());
-
+*/
         /*
         Bank bank2 = new Bank("Sampo", "Pankkitie", "Suomi", "FISamp");
 

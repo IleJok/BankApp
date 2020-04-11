@@ -1,26 +1,38 @@
 package com.example.bank;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ColumnInfo;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
+@Entity(tableName = "banks")
 public class Bank {
-    private UUID id;
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    private int id;
+
     private String name;
     private String address;
     private String country;
     private String BIC;
     // Customers in this bank
+    @Ignore
     private ArrayList<Customer> customers;
     // Accounts in this bank
+    @Ignore
     private ArrayList<Account> accounts;
+
+    Bank() {
+
+    }
 
     /*Simple constructor for Bank class. Could use Singleton pattern, but I want to
     * have multiple banks in the future*/
     Bank(String bankName, String bankAddress, String bankCountry, String bicB) {
 
-        this.id = UUID.randomUUID(); // generate random unique id for the bank
         this.name = bankName;
         this.address = bankAddress;
         this.country = bankCountry;
@@ -30,7 +42,7 @@ public class Bank {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -38,7 +50,7 @@ public class Bank {
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
@@ -46,7 +58,7 @@ public class Bank {
     }
 
     public String getCountry() {
-        return country;
+        return this.country;
     }
 
     public void setCountry(String country) {
@@ -54,20 +66,24 @@ public class Bank {
     }
 
     public String getBIC() {
-        return BIC;
+        return this.BIC;
     }
 
     public void setBIC(String BIC) {
         this.BIC = BIC;
     }
 
-    public UUID getId() {
-        return id;
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /* Add customer to arrayList if it is not there already, return true if added
-    and return false if not.
-     */
+        and return false if not.
+         */
     public boolean addCustomer(Customer customer) {
         if (!this.customers.contains(customer)) {
             this.customers.add(customer);
