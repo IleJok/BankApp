@@ -23,7 +23,7 @@ public class Account {
     private int customerId; // FK to a customer
 
     private String accountType; // Let the customer change her/his account type
-
+    private String bankBIC;
     private Double balance;
     // if transfers are allowed or not
     private Boolean transfers;
@@ -37,11 +37,12 @@ public class Account {
 
     }
 
-    Account(int bank, int customer, String aType, Double bal, Boolean trans, Boolean payments){
+    Account(int bank, int customer, String aType, String bic, Double bal, Boolean trans, Boolean payments){
 
         this.bankId = bank;
         this.customerId = customer;
         this.accountType = aType;
+        this.bankBIC = bic;
         this.balance = bal;
         this.transfers = trans;
         this.cardPayments = payments;
@@ -102,6 +103,15 @@ public class Account {
     public void setTransfers(Boolean transfers) {
         this.transfers = transfers;
     }
+
+    public String getBankBIC() {
+        return bankBIC;
+    }
+
+    public void setBankBIC(String bankBIC) {
+        this.bankBIC = bankBIC;
+    }
+
 
     /* Deposit money to account*/
     public void deposit(Double amount) {
