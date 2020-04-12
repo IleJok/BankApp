@@ -3,18 +3,23 @@ package com.example.bank;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 /* This class is named as customer, could be named as user instead also*/
-@Entity(tableName = "customers")
+@Entity(tableName = "customers", foreignKeys = @ForeignKey(entity = Bank.class,
+parentColumns = "id", childColumns = "bankId", onDelete = CASCADE))
 public class Customer {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;
 
+    private int bankId;
     private String name;
     private String address;
     private String password; // TODO implement proper password for user/customer
@@ -26,8 +31,8 @@ public class Customer {
 
     }
 
-    Customer(String cName, String cAddress, String cCountry, String cPhone, String cEmail, String cPassword) {
-
+    Customer(int cBankId, String cName, String cAddress, String cCountry, String cPhone, String cEmail, String cPassword) {
+        this.bankId = cBankId;
         this.name = cName;
         this.address = cAddress;
         this.country = cCountry;
@@ -91,6 +96,15 @@ public class Customer {
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getBankId() {
+        return bankId;
+    }
+
+    public void setBankId(int bankId) {
+        this.bankId = bankId;
+    }
+
     /* List accounts owned by customer */
     /*public ArrayList<Account> listAccounts() {
 
