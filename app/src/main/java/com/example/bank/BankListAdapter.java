@@ -24,7 +24,7 @@ public class BankListAdapter extends RecyclerView.Adapter<BankListAdapter.BankVi
     }
 
     private final LayoutInflater mInflater;
-    private List<Bank> mBanks; // cached copy of banks, later implement the same with other classe
+    private List<Bank> mBanks; // cached copy of banks, later implement the same with other classes
 
     BankListAdapter(Context context){mInflater = LayoutInflater.from(context);}
 

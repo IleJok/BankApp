@@ -23,12 +23,13 @@ import java.util.concurrent.Executors;
 *     also make sure to add abstract interfaces for the entities
 *       check BankDao for reference
 * */
-@Database(entities = {Bank.class, Customer.class, Account.class}, version = 3, exportSchema = false)
+@Database(entities = {Bank.class, Customer.class, Account.class, Transaction.class}, version = 4, exportSchema = false)
 public abstract class BankRoomDatabase extends RoomDatabase {
 
     public abstract BankDao bankDao();
     public abstract CustomerDao customerDao();
     public abstract AccountDao accountDao();
+    public abstract TransactionDao transactionDao();
 
     private static volatile BankRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
