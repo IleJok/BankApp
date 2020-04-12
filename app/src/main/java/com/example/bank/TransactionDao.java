@@ -30,7 +30,7 @@ public interface TransactionDao {
     LiveData<List<Transaction>> loadAllTransactions();
 
     @Query("SELECT * FROM transactions WHERE id =:id AND transactionDate BETWEEN :someDate AND :anotherDate")
-    LiveData<List<Transaction>> loadTransactionsBetweenDates(int id, Date someDate, Date anotherDate);
+    LiveData<List<Transaction>> loadTransactionsBetweenDates(int id, String someDate, String anotherDate);
 
     @Query("SELECT * FROM transactions WHERE id =:id")
     Transaction getTransaction(int id);

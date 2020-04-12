@@ -3,6 +3,7 @@ package com.example.bank;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 
@@ -16,10 +17,10 @@ parentColumns = "id", childColumns = "bankId", onDelete = CASCADE), @ForeignKey(
 public class Account {
 
     @PrimaryKey(autoGenerate = true)
-    @NonNull
     private int id;
 
     private int bankId; // FK to a bank
+
     private int customerId; // FK to a customer
 
     private String accountType; // Let the customer change her/his account type
@@ -37,16 +38,17 @@ public class Account {
 
     }
 
-    Account(int bank, int customer, String aType, String bic, Double bal, Boolean trans, Boolean payments){
+    public Account(int bankId, int customerId, String accountType, String bankBIC, Double balance, Boolean transfers, Boolean cardPayments){
 
-        this.bankId = bank;
-        this.customerId = customer;
-        this.accountType = aType;
-        this.bankBIC = bic;
-        this.balance = bal;
-        this.transfers = trans;
-        this.cardPayments = payments;
+        this.bankId = bankId;
+        this.customerId = customerId;
+        this.accountType = accountType;
+        this.bankBIC = bankBIC;
+        this.balance = balance;
+        this.transfers = transfers;
+        this.cardPayments = cardPayments;
     }
+
 
     public int getId() {
         return id;

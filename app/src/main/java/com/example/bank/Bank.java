@@ -24,21 +24,19 @@ public class Bank {
     // Accounts in this bank
     @Ignore
     private ArrayList<Account> accounts;
-
+    @Ignore
     Bank() {
 
     }
 
     /*Simple constructor for Bank class. Could use Singleton pattern, but I want to
     * have multiple banks in the future*/
-    Bank(String bankName, String bankAddress, String bankCountry, String bicB) {
+    public Bank(String name, String address, String country, String BIC) {
 
-        this.name = bankName;
-        this.address = bankAddress;
-        this.country = bankCountry;
-        this.BIC = bicB;
-        this.customers = new ArrayList<>();
-        this.accounts = new ArrayList<>();
+        this.name = name;
+        this.address = address;
+        this.country = country;
+        this.BIC = BIC;
     }
 
     public String getName() {

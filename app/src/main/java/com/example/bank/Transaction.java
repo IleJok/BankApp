@@ -3,6 +3,7 @@ package com.example.bank;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -22,15 +23,15 @@ public class Transaction {
 
     private String transactionType;
 
-    private Date transactionDate;
+    private String transactionDate;
 
     private String bic;
-
+    @Ignore
     Transaction() {
 
     }
 
-    public Transaction(int accountId, double amount, String transactionType, Date transactionDate, String bic) {
+    public Transaction(int accountId, double amount, String transactionType, String transactionDate, String bic) {
         this.accountId = accountId;
         this.amount = amount;
         this.transactionType = transactionType;
@@ -71,11 +72,11 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
-    public Date getTransactionDate() {
+    public String getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(String transactionDate) {
         this.transactionDate = transactionDate;
     }
 

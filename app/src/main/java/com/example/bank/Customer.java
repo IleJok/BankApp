@@ -3,6 +3,7 @@ package com.example.bank;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -26,19 +27,19 @@ public class Customer {
     private String country;
     private String phone;
     private String email;
-
+    @Ignore
     Customer() {
 
     }
 
-    Customer(int cBankId, String cName, String cAddress, String cCountry, String cPhone, String cEmail, String cPassword) {
-        this.bankId = cBankId;
-        this.name = cName;
-        this.address = cAddress;
-        this.country = cCountry;
-        this.phone = cPhone;
-        this.email = cEmail;
-        this.password = cPassword;
+    public Customer(int bankId, String name, String address, String country, String phone, String email, String password) {
+        this.bankId = bankId;
+        this.name = name;
+        this.address = address;
+        this.country = country;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
     }
 
     public String getName() {

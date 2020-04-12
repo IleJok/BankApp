@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -30,5 +31,9 @@ public interface AccountDao {
 
     @Query("SELECT * FROM accounts WHERE id =:id")
     Account getAccount(int id);
+
+    @Transaction
+    @Query("SELECT * FROM customers WHERE id =:id")
+    LiveData<List<AccountWithTransactions>> getAccountWithTransactions(int id);
 
 }

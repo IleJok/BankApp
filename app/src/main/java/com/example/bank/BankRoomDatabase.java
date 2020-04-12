@@ -62,12 +62,17 @@ public abstract class BankRoomDatabase extends RoomDatabase {
             databaseWriteExecutor.execute(() -> {
                 // Add couple banks to the app
                 BankDao dao = INSTANCE.bankDao();
-                //CustomerDao customerDao = INSTANCE.customerDao();
+                CustomerDao customerDao = INSTANCE.customerDao();
+                AccountDao accountDao = INSTANCE.accountDao();
+                TransactionDao transactionDao = INSTANCE.transactionDao();
+
                 // When the app starts again, it wipes all the banks
                 dao.deleteAllBanks();
-                //customerDao.deleteAllCustomers();
+                customerDao.deleteAllCustomers();
+                accountDao.deleteAccounts();
+                transactionDao.deleteAllTransactions();
 
-                Bank bank = new Bank("Nordea", "Pankkikatu 1",
+              /*  Bank bank = new Bank("Nordea", "Pankkikatu 1",
                         "Suomi", "NDEAFIHH");
                 dao.insert(bank);
                 Bank bank2 = new Bank("OP", "Teollisuuskatu 1",
@@ -75,7 +80,7 @@ public abstract class BankRoomDatabase extends RoomDatabase {
                 dao.insert(bank2);
                 Bank bank3 = new Bank("S-Pankki", "Osuuskuntakatu 1",
                         "Suomi", "SBANFIHH ");
-                dao.insert(bank3);
+                dao.insert(bank3);*/
             });
         }
     };

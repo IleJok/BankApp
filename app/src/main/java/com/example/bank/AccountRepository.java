@@ -20,6 +20,11 @@ public class AccountRepository {
 
     LiveData<List<Account>> getAllAccounts() {return allAccounts;}
 
+    // Get all transactions from the account
+    LiveData<List<AccountWithTransactions>> getAccountWithTransactions(int id) {
+        return accountDao.getAccountWithTransactions(id);
+    }
+
     Account getAccount(int id) {return accountDao.getAccount(id);}
 
     void insert(Account account) {
