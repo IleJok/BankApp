@@ -27,6 +27,10 @@ public class BankRepository {
         return mBankDao.getBank(id);
     }
 
+    LiveData<List<BankWithCustomers>> getBankWithCustomers(int id) {
+        return mBankDao.getBankWithCustomers(id);
+    }
+
     void insert(Bank bank) {
         BankRoomDatabase.databaseWriteExecutor.execute(() -> {
             mBankDao.insert(bank);

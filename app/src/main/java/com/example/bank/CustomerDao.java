@@ -31,6 +31,6 @@ public interface CustomerDao {
     @Query("SELECT * FROM customers WHERE id = :id")
     Customer getCustomer(int id);
 
-   /* @Query("SELECT * FROM accounts WHERE customerId = :id")
-    Account getAccountsForCustomer(int id);*/
+   @Query("SELECT * FROM customers WHERE id = :id")
+    LiveData<List<CustomerWithAccounts>> getCustomerWithAccounts(int id);
 }
