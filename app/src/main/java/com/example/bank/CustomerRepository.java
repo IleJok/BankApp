@@ -26,6 +26,8 @@ public class CustomerRepository {
     }
     // Get customer with the id
     Customer getCustomer(int id) {return mCustomerDao.getCustomer(id);}
+    Customer getCustomerWithCred(String name, String password) {
+        return mCustomerDao.getCustomerWithCred(name, password);}
     // Insert customer to database
     void insert(Customer customer) {
         BankRoomDatabase.databaseWriteExecutor.execute(() -> {

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @Entity(tableName = "banks")
 public class Bank {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @NonNull
     private int id;
 
@@ -31,8 +31,8 @@ public class Bank {
 
     /*Simple constructor for Bank class. Could use Singleton pattern, but I want to
     * have multiple banks in the future*/
-    public Bank(String name, String address, String country, String BIC) {
-
+    public Bank(int id, String name, String address, String country, String BIC) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.country = country;

@@ -30,8 +30,11 @@ public interface CustomerDao {
     @Query("SELECT * FROM customers")
     LiveData<List<Customer>> loadAllCustomers();
     // Get customer with primary key
-    @Query("SELECT * FROM customers WHERE id = :id")
+    @Query("SELECT * FROM customers WHERE id = :id LIMIT 1")
     Customer getCustomer(int id);
+    // Get customer with credentials, used for login // TODO implement proper auth
+    @Query("SELECT * FROM customers WHERE name =:name AND password=:password")
+    Customer getCustomerWithCred(String name, String password);
     // Get the customer and her/his accounts
     @Transaction
     @Query("SELECT * FROM customers WHERE id = :id")

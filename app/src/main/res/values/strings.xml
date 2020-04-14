@@ -6,11 +6,18 @@
     <string name="hint_bankCountry">Country of the Bank</string>
     <string name="hint_bankBIC">BIC of the Bank</string>
     <string name="button_save">Save</string>
+    <string name="button_login">Log In</string>
     <string name="empty_not_saved">Not saved because it (or some of it) is empty.</string>
-    <string name="hint_cName">Enter your name</string>
+    <string name="hint_cName">Name</string>
     <string name="hint_cAddress">Enter your address</string>
     <string name="hint_cCountry">Enter your Country</string>
     <string name="hint_cPhone">Enter your phone number</string>
     <string name="hint_cEmail">Enter your email</string>
-    <string name="hint_cPass">Enter your password</string>
+    <string name="hint_cPass">Password</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="invalid_credentials">Wrong name or password</string>
+    <string name="welcome">Welcome to my humble bank application </string>
+    <string name="button_profile">View profile</string>
 </resources>

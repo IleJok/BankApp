@@ -3,12 +3,15 @@ package com.example.bank;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.bank.BankListAdapter;
@@ -17,16 +20,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private BankViewModel mBankViewModel;
-    private CustomerViewModel mCustomerViewModel;
-
-    public static final int NEW_BANK_ACTIVITY_REQUEST_CODE = 1;
+    private NavController navController;
+    private LoginViewModel loginViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        System.out.println("authsatte" + loginViewModel.authstate.toString());
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+
+        /*RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final CustomerListAdapter adapter = new CustomerListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, NewCustomerActivity.class);
                 startActivityForResult(intent, NEW_BANK_ACTIVITY_REQUEST_CODE);
             }
-        });
+        });*/
        /* RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final BankListAdapter adapter = new BankListAdapter(this);
         recyclerView.setAdapter(adapter);
