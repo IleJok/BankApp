@@ -16,7 +16,7 @@ public interface CustomerDao {
 
     // On possible conflict do not Insert customer to db
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Customer customer);
+    long insert(Customer customer);
     // Update the customers, can be one or many
     @Update
     void updateCustomers(Customer... customers);

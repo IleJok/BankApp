@@ -23,21 +23,23 @@ public class ProfileFragment extends Fragment {
 
     private LoginViewModel loginViewModel;
     TextView welcomeText;
-
+    View view;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.profile_fragment, container, false);
+        return view;
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
-        System.out.println("TULLAAANKO");
-       //welcomeText = view.findViewById(R.id.welcome_text);
-        
+        welcomeText = this.view.findViewById(R.id.profileText);
         final NavController controller = Navigation.findNavController(view);
         loginViewModel.authstate.observe(getViewLifecycleOwner(),
                 authState -> {
                     switch (authState){
                         case AUTH:
-                            //showWelcome();
-                            System.out.println("Herran haltuun!!");
+                            showWelcome();
                             break;
                         case UNAUTH:
                             controller.navigate(R.id.login_fragment);
@@ -46,7 +48,9 @@ public class ProfileFragment extends Fragment {
                 });
     }
 
-/*    private void showWelcome() {
-        welcomeText.setText(R.string.welcome);
-    }*/
+    public void showWelcome() {
+        String welcome = getResources().getString(R.string.welcome);
+        System.out.println("Welcome on: " + loginViewModel.customer.getName());
+        this.welcomeText.setText(welcome + " " + loginViewModel.customer.getName());
+    }
 }

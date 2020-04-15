@@ -31,10 +31,12 @@ public class BankRepository {
         return mBankDao.getBankWithCustomers(id);
     }
 
-    void insert(Bank bank) {
+    int insert(Bank bank) {
+
         BankRoomDatabase.databaseWriteExecutor.execute(() -> {
             mBankDao.insert(bank);
         });
+        return bank.getId();
     }
 
     void delete(Bank... banks) {

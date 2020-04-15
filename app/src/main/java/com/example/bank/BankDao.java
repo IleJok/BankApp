@@ -15,7 +15,7 @@ import java.util.List;
 public interface BankDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Bank bank);
+    long insert(Bank bank);
 
     @Update
     void updateBanks(Bank... banks);

@@ -27,10 +27,11 @@ public class AccountRepository {
 
     Account getAccount(int id) {return accountDao.getAccount(id);}
 
-    void insert(Account account) {
+    int insert(Account account) {
         BankRoomDatabase.databaseWriteExecutor.execute(()-> {
             accountDao.insert(account);
         });
+        return account.getId();
     }
 
     void delete(Account... accounts) {

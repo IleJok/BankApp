@@ -29,10 +29,11 @@ public class CustomerRepository {
     Customer getCustomerWithCred(String name, String password) {
         return mCustomerDao.getCustomerWithCred(name, password);}
     // Insert customer to database
-    void insert(Customer customer) {
+    int insert(Customer customer) {
         BankRoomDatabase.databaseWriteExecutor.execute(() -> {
             mCustomerDao.insert(customer);
         });
+        return customer.getId();
     }
     // Delete given customers from the db
     void delete(Customer... customers) {

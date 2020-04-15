@@ -15,7 +15,7 @@ import java.util.List;
 public interface AccountDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Account account);
+    long insert(Account account);
 
     @Update
     void updateAccounts(Account... accounts);

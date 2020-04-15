@@ -16,7 +16,11 @@
         android:label="fragment_main_fragment"
         tools:layout="@layout/main_fragment">
         <action
-            android:id="@+id/action_main_fragment_to_login_fragment"
-            app:destination="@id/login_fragment" />
+            android:id="@+id/action_main_fragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.bank.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>

@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 *     also make sure to add abstract interfaces for the entities
 *       check BankDao for reference
 * */
-@Database(entities = {Bank.class, Customer.class, Account.class, Transaction.class}, version = 5, exportSchema = false)
+@Database(entities = {Bank.class, Customer.class, Account.class, Transaction.class}, version = 6, exportSchema = false)
 public abstract class BankRoomDatabase extends RoomDatabase {
 
     public abstract BankDao bankDao();
@@ -73,18 +73,23 @@ public abstract class BankRoomDatabase extends RoomDatabase {
                 accountDao.deleteAccounts();
                 transactionDao.deleteAllTransactions();
 
-                Bank bank = new Bank(1, "Nordea", "Pankkikatu 1",
+                Bank bank = new Bank("Nordea", "Pankkikatu 1",
                         "Suomi", "NDEAFIHH");
-                dao.insert(bank);
-                Bank bank2 = new Bank(2, "OP", "Teollisuuskatu 1",
+                int id = (int) dao.insert(bank);
+                /*Bank bank2 = new Bank(2, "OP", "Teollisuuskatu 1",
                         "Suomi", "OKOYFIHH ");
                 dao.insert(bank2);
                 Bank bank3 = new Bank( 3, "S-Pankki", "Osuuskuntakatu 1",
                         "Suomi", "SBANFIHH ");
-                dao.insert(bank3);
-                Customer customer = new Customer(1, "Ilkka", "testikatu", "Suomi", "044",
+                dao.insert(bank3);*/
+                Customer customer = new Customer(id, "Ilkka", "testikatu", "Suomi", "044",
                         "ilkka@testi.com", "ilkka");
-                customerDao.insert(customer);
+                int custId = (int) customerDao.insert(customer);
+
+                Account account = new Account(id, custId, "Current Account", bank.getBIC(), (double) 10.0, true, true);
+                long accountId = (int)  accountDao.insert(account);
+
+
             });
         }
     };
