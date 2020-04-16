@@ -9,7 +9,7 @@ import java.util.List;
 public class AccountRepository {
 
     private AccountDao accountDao;
-    private LiveData<List<Account>> allAccounts;
+    private List<Account> allAccounts;
 
     /* Dependency injection*/
     AccountRepository(Application application) {
@@ -18,10 +18,10 @@ public class AccountRepository {
         allAccounts = accountDao.loadAllAccounts();
     }
 
-    LiveData<List<Account>> getAllAccounts() {return allAccounts;}
+    List<Account> getAllAccounts() {return allAccounts;}
 
     // Get all transactions from the account
-    LiveData<List<AccountWithTransactions>> getAccountWithTransactions(int id) {
+    Account getAccountWithTransactions(int id) {
         return accountDao.getAccountWithTransactions(id);
     }
 

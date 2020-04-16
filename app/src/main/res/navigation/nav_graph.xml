@@ -17,10 +17,19 @@
         tools:layout="@layout/main_fragment">
         <action
             android:id="@+id/action_main_fragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profile_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/profileFragment"
+        android:id="@+id/profile_fragment"
         android:name="com.example.bank.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profile_fragment_to_add_Account_Fragment"
+            app:destination="@id/add_Account_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/add_Account_Fragment"
+        android:name="com.example.bank.AddAccountFragment"
+        android:label="add_account_fragment"
+        tools:layout="@layout/add_account_fragment" />
 </navigation>

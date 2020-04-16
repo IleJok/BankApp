@@ -8,6 +8,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static androidx.room.ForeignKey.CASCADE;
@@ -27,6 +28,10 @@ public class Customer {
     private String country;
     private String phone;
     private String email;
+
+    @Ignore
+    private List<Account> accounts;
+
     @Ignore
     Customer() {
 
@@ -106,10 +111,14 @@ public class Customer {
         this.bankId = bankId;
     }
 
-    /* List accounts owned by customer */
-    /*public ArrayList<Account> listAccounts() {
 
-    }*/
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
 
     /* Make own comparison method for customer,
     I'm using the uuid as the main source for comparison

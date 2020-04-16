@@ -9,7 +9,8 @@ public class CustomerWithAccounts {
     @Embedded public Customer customer;
     @Relation(
             parentColumn = "id",
-            entityColumn = "customerId"
+            entityColumn = "customerId",
+            entity = Account.class
     )
     public List<Account> accounts;
 }

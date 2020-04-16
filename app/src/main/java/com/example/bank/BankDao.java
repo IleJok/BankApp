@@ -32,12 +32,12 @@ public interface BankDao {
     @Query("SELECT * FROM banks WHERE id = :id")
     Bank getBank(int id);
 
-    @Transaction
+    /*@Transaction
     @Query("SELECT * FROM banks WHERE id = :id")
     LiveData<List<BankWithCustomers>> getBankWithCustomers(int id);
 
     @Transaction
     @Query("SELECT * FROM banks WHERE id = :id")
-    LiveData<List<BankWithAccounts>> getBankWithAccounts(int id);
+    LiveData<List<BankWithAccounts>> getBankWithAccounts(int id);*/
 
 }

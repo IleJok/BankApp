@@ -7,6 +7,8 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 
+import java.util.List;
+
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "accounts", foreignKeys = { @ForeignKey(entity = Bank.class,
@@ -30,6 +32,11 @@ public class Account {
     private Boolean transfers;
     // if cardPayments are allowed or not
     private Boolean cardPayments;
+
+
+
+    @Ignore
+    private List<Transaction> transactionList;
 
     // TODO add List of cards
     // TODO add List of transactions
@@ -114,6 +121,13 @@ public class Account {
         this.bankBIC = bankBIC;
     }
 
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
+    }
 
     /* Deposit money to account*/
     public void deposit(Double amount) {

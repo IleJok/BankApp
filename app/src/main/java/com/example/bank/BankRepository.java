@@ -27,9 +27,9 @@ public class BankRepository {
         return mBankDao.getBank(id);
     }
 
-    LiveData<List<BankWithCustomers>> getBankWithCustomers(int id) {
+  /*  LiveData<List<BankWithCustomers>> getBankWithCustomers(int id) {
         return mBankDao.getBankWithCustomers(id);
-    }
+    }*/
 
     int insert(Bank bank) {
 

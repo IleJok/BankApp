@@ -30,7 +30,7 @@ public class MainFragment extends Fragment {
         loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
         NavController navController = Navigation.findNavController(view);
 
-        Button button = view.findViewById(R.id.joku);
+        Button button = view.findViewById(R.id.button_view_profile);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

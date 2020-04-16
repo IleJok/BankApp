@@ -9,6 +9,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
 /* Inspiration and guide for this code is from the docs:
 https://developer.android.com/guide/navigation/navigation-conditional
  */
@@ -65,8 +67,12 @@ public class LoginViewModel extends AndroidViewModel {
             return false;
         }
     }
-
+    // Gets the customer from db with name and password TODO implement proper authentication
     Customer getCustomerWithCred(String name, String password) {
         return customerRepository.getCustomerWithCred(name, password);
+    }
+    // Gets the customer with accounts
+    Customer getCustomersAccounts(int id) {
+        return customerRepository.getCustomerWithAccounts(id);
     }
 }

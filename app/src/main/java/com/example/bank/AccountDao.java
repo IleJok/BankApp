@@ -6,34 +6,50 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
 
 @Dao
-public interface AccountDao {
+public abstract class AccountDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    long insert(Account account);
+    public abstract long insert(Account account);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    public abstract void insertTransactionList(List<Transaction>transactions);
 
     @Update
-    void updateAccounts(Account... accounts);
+    public abstract void updateAccounts(Account... accounts);
 
     @Delete
-    void deleteAccounts(Account... accounts);
+    public abstract void deleteAccounts(Account... accounts);
 
     @Query("DELETE FROM accounts")
-    void deleteAllAccounts();
+    public abstract void deleteAllAccounts();
 
     @Query("SELECT * FROM accounts")
-    LiveData<List<Account>> loadAllAccounts();
+    public abstract List<Account> loadAllAccounts();
 
     @Query("SELECT * FROM accounts WHERE id =:id")
-    Account getAccount(int id);
+    public abstract Account getAccount(int id);
 
-    @Transaction
-    @Query("SELECT * FROM customers WHERE id =:id")
-    LiveData<List<AccountWithTransactions>> getAccountWithTransactions(int id);
+    @Query("SELECT * FROM transactions WHERE accountId =:accountId")
+    public abstract List<Transaction> getTransactionsList(int accountId);
+
+    public void insertTransactions(Account account) {
+        List<Transaction> transactions = account.getTransactionList();
+        for (int i = 0; i < transactions.size(); i++) {
+            transactions.get(i).setAccountId(account.getId());
+        }
+        insertTransactionList(transactions);
+    }
+
+    public Account getAccountWithTransactions(int id) {
+        Account account = getAccount(id);
+        List<Transaction> transactions = getTransactionsList(id);
+        account.setTransactionList(transactions);
+        return account;
+    }
 
 }

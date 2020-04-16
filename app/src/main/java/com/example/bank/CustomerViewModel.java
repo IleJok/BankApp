@@ -11,7 +11,7 @@ public class CustomerViewModel extends AndroidViewModel {
 
     private CustomerRepository customerRepository;
 
-    private LiveData<List<Customer>> allCustomers;
+    private List<Customer> allCustomers;
 
     public CustomerViewModel (Application application) {
         super(application);
@@ -20,10 +20,10 @@ public class CustomerViewModel extends AndroidViewModel {
     }
 
     // Get all customers
-    LiveData<List<Customer>> getAllCustomers() {return allCustomers;}
+   List<Customer> getAllCustomers() {return allCustomers;}
 
     // Get all accounts from the user
-    LiveData<List<CustomerWithAccounts>> getCustomerWithAccounts(int id) {
+    Customer getCustomerWithAccounts(int id) {
         return customerRepository.getCustomerWithAccounts(id);}
     public void insert(Customer customer) {customerRepository.insert(customer);}
     public void update(Customer... customers) {customerRepository.update(customers);}

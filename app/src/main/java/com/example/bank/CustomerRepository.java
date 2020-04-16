@@ -9,7 +9,7 @@ import java.util.List;
 public class CustomerRepository {
 
     private CustomerDao mCustomerDao;
-    private LiveData<List<Customer>> mAllCustomers;
+    private List<Customer> mAllCustomers;
 
     /* Dependency injection*/
     CustomerRepository(Application application) {
@@ -19,9 +19,9 @@ public class CustomerRepository {
     }
 
     // Returns all the customers
-    LiveData<List<Customer>> getAllCustomers() { return mAllCustomers;}
+    List<Customer> getAllCustomers() { return mAllCustomers;}
     // Get all accounts from the customer
-    LiveData<List<CustomerWithAccounts>> getCustomerWithAccounts(int id) {
+    Customer getCustomerWithAccounts(int id) {
         return mCustomerDao.getCustomerWithAccounts(id);
     }
     // Get customer with the id

@@ -20,4 +20,6 @@
     <string name="invalid_credentials">Wrong name or password</string>
     <string name="welcome">Welcome to my humble bank application </string>
     <string name="button_profile">View profile</string>
+    <string name="add_account">Add new account</string>
+
 </resources>

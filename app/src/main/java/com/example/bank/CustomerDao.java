@@ -12,31 +12,50 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public interface CustomerDao {
+public abstract class CustomerDao {
 
     // On possible conflict do not Insert customer to db
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    long insert(Customer customer);
+    public abstract long insert(Customer customer);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    public abstract void insertAccountList(List<Account> accounts);
+
     // Update the customers, can be one or many
     @Update
-    void updateCustomers(Customer... customers);
+    public abstract void updateCustomers(Customer... customers);
     // Delete the customers, can be one or many
     @Delete
-    void deleteCustomers(Customer... customers);
+    public abstract void deleteCustomers(Customer... customers);
     // Delete all customers
     @Query("DELETE FROM customers")
-    void deleteAllCustomers();
+    public abstract void deleteAllCustomers();
     // Get all customers from db
     @Query("SELECT * FROM customers")
-    LiveData<List<Customer>> loadAllCustomers();
+    public abstract List<Customer> loadAllCustomers();
     // Get customer with primary key
     @Query("SELECT * FROM customers WHERE id = :id LIMIT 1")
-    Customer getCustomer(int id);
+    public abstract Customer getCustomer(int id);
     // Get customer with credentials, used for login // TODO implement proper auth
     @Query("SELECT * FROM customers WHERE name =:name AND password=:password")
-    Customer getCustomerWithCred(String name, String password);
+    public abstract Customer getCustomerWithCred(String name, String password);
     // Get the customer and her/his accounts
-    @Transaction
-    @Query("SELECT * FROM customers WHERE id = :id")
-    LiveData<List<CustomerWithAccounts>> getCustomerWithAccounts(int id);
+
+    @Query("SELECT * FROM accounts WHERE customerId = :customerId")
+     public abstract List<Account> getAccountsList(int customerId);
+
+    public void insertAccounts(Customer customer) {
+        List<Account> accounts = customer.getAccounts();
+        for (int i = 0; i < accounts.size(); i++) {
+            accounts.get(i).setCustomerId(customer.getId());
+        }
+        insertAccountList(accounts);
+    }
+
+    public Customer getCustomerWithAccounts(int id) {
+        Customer customer = getCustomer(id);
+        List<Account> accounts = getAccountsList(id);
+        customer.setAccounts(accounts);
+        return customer;
+    }
 }

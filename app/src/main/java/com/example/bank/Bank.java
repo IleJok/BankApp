@@ -82,36 +82,36 @@ public class Bank {
     /* Add customer to arrayList if it is not there already, return true if added
         and return false if not.
          */
-    public boolean addCustomer(Customer customer) {
+/*    public boolean addCustomer(Customer customer) {
         if (!this.customers.contains(customer)) {
             this.customers.add(customer);
             return true;
         } else {
             return false;
         }
-    }
+    }*/
 
     /* Add account to arrayList if it is not there already, return true if added
     and return false if not.
      */
-    public boolean addAccount(Account account) {
+/*    public boolean addAccount(Account account) {
         if (!this.accounts.contains(account)) {
             this.accounts.add(account);
             return true;
         } else {
             return false;
         }
-    }
+    }*/
 
-    /*Get all the customers in the bank*/
+ /*   *//*Get all the customers in the bank*//*
     public ArrayList<Customer> getCustomers() {
         return this.customers;
     }
 
-    /*Get all the accounts in the bank*/
+    *//*Get all the accounts in the bank*//*
     public ArrayList<Account> getAccounts() {
         return this.accounts;
-    }
+    }*/
     /*equals function compares two objects if they are identical or not. I use the UUID
     * as "main" source for comparison, because it should be unique*/
     @Override
