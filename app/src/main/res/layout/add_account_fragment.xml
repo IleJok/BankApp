@@ -5,10 +5,38 @@
     android:layout_height="match_parent"
     tools:context=".AddAccountFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="@string/add_account" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Spinner
+            android:id="@+id/account_types_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/big_padding"
+            />
+        <CheckBox android:id="@+id/transfers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/transfers"
+            android:layout_margin="@dimen/big_padding"
+            />
+        <CheckBox android:id="@+id/card_payments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/card_payments"
+            android:layout_margin="@dimen/big_padding"
+            />
+        <Button android:id="@+id/button_save_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_save"
+            android:layout_margin="@dimen/big_padding"
+            />
+    </LinearLayout>
 
 </FrameLayout>

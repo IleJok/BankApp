@@ -25,7 +25,16 @@
         android:label="ProfileFragment" >
         <action
             android:id="@+id/action_profile_fragment_to_add_Account_Fragment"
-            app:destination="@id/add_Account_Fragment" />
+            app:destination="@id/add_Account_Fragment" >
+            <argument
+                android:name="customerId"
+                app:argType="integer"
+                android:defaultValue="1" />
+            <argument
+                android:name="bankId"
+                app:argType="integer"
+                android:defaultValue="1" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/add_Account_Fragment"

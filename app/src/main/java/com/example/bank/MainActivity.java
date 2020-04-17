@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.example.bank.BankListAdapter;
@@ -26,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
-        System.out.println("authsatte" + loginViewModel.authstate.toString());
 
 
         /*RecyclerView recyclerView = findViewById(R.id.recyclerview);
@@ -73,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
     }
+
 
 /*    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

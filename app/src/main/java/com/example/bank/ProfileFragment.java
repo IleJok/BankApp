@@ -17,13 +17,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
+import static com.example.bank.ProfileFragmentDirections.actionProfileFragmentToAddAccountFragment;
 
 
 /* Inspiration and guide for this code is from the docs:
@@ -41,12 +44,21 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final NavController controller = Navigation.findNavController(view);
         loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
         welcomeText = this.view.findViewById(R.id.profileText);
         RecyclerView recyclerView = this.view.findViewById(R.id.recyclerview);
+        FloatingActionButton button = this.view.findViewById(R.id.account_fab);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("customerId", loginViewModel.customer.getId());
+                bundle.putInt("bankId", loginViewModel.customer.getBankId());
+                controller.navigate(R.id.action_profile_fragment_to_add_Account_Fragment, bundle);
+            }
+        });
 
-
-        final NavController controller = Navigation.findNavController(view);
         loginViewModel.authstate.observe(getViewLifecycleOwner(),
                 authState -> {
                     switch (authState){
