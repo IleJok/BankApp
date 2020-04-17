@@ -12,25 +12,25 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public interface BankDao {
+public abstract class BankDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    long insert(Bank bank);
+    public abstract long insert(Bank bank);
 
     @Update
-    void updateBanks(Bank... banks);
+    public abstract void updateBanks(Bank... banks);
 
     @Delete
-    void deleteBanks(Bank... banks);
+    public abstract void deleteBanks(Bank... banks);
 
     @Query("DELETE FROM banks")
-    void deleteAllBanks();
+    public abstract void deleteAllBanks();
 
     @Query("SELECT * FROM banks")
-    LiveData<List<Bank>> loadAllBanks();
+    public abstract List<Bank> loadAllBanks();
 
     @Query("SELECT * FROM banks WHERE id = :id")
-    Bank getBank(int id);
+    public abstract Bank getBank(int id);
 
     /*@Transaction
     @Query("SELECT * FROM banks WHERE id = :id")

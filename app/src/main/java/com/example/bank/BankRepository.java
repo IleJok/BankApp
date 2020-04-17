@@ -9,9 +9,9 @@ import java.util.List;
 public class BankRepository {
 
     private BankDao mBankDao;
-    private LiveData<List<Bank>> mAllBanks;
+    private List<Bank> mAllBanks;
 
-    /* Dependency injection */
+/* Dependency injection */
     BankRepository(Application application) {
         BankRoomDatabase db = BankRoomDatabase.getDatabase(application);
         mBankDao = db.bankDao();
@@ -19,7 +19,7 @@ public class BankRepository {
 
     }
 
-    LiveData<List<Bank>> getAllBanks() {
+    List<Bank> getAllBanks() {
         return mAllBanks;
     }
 
@@ -27,9 +27,10 @@ public class BankRepository {
         return mBankDao.getBank(id);
     }
 
-  /*  LiveData<List<BankWithCustomers>> getBankWithCustomers(int id) {
+  /*LiveData<List<BankWithCustomers>> getBankWithCustomers(int id) {
         return mBankDao.getBankWithCustomers(id);
-    }*/
+    }
+*/
 
     int insert(Bank bank) {
 

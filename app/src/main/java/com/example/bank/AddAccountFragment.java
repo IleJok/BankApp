@@ -33,6 +33,7 @@ public class AddAccountFragment extends Fragment {
     private AccountViewModel accountViewModel;
     private Button saveAccountButton;
     private int customerId, bankId;
+    private String bankBIC;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,8 +47,11 @@ public class AddAccountFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final NavController controller = Navigation.findNavController(view);
         System.out.println("Mitä tulee tänne profiilista: " + getArguments().getInt("customerId"));
+        System.out.println("Mitä tulee tänne profiilista bankin id: " + getArguments().getInt("bankId"));
+
         customerId = getArguments().getInt("customerId");
         bankId = getArguments().getInt("bankId");
+        bankBIC = getArguments().getString("bic");
         accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
         Spinner spinner = (Spinner) this.view.findViewById(R.id.account_types_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireActivity(),
@@ -60,7 +64,7 @@ public class AddAccountFragment extends Fragment {
         saveAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // accountViewModel.addAccount();
+                addAccount(bankId, customerId, spinner.getSelectedItem().toString(), bankBIC, 0.0, transfersAllowed, cardPaymentsAllowed);
             }
         });
 
@@ -89,8 +93,14 @@ public class AddAccountFragment extends Fragment {
         });
     }
 
-    public void addAccount() {
+    public int addAccount(int bankId, int customerId, String accountType, String bankBIC, double balance, boolean transfers, boolean cardPayments) {
 
+        return 0;
+    }
+
+    public void getBankBIC(int bankId) {
+        System.out.println("Fragmentin bankki id "+ bankId);
+       accountViewModel.getBankBIC(bankId);
 
     }
 

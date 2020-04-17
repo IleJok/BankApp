@@ -49,15 +49,6 @@ public class ProfileFragment extends Fragment {
         welcomeText = this.view.findViewById(R.id.profileText);
         RecyclerView recyclerView = this.view.findViewById(R.id.recyclerview);
         FloatingActionButton button = this.view.findViewById(R.id.account_fab);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("customerId", loginViewModel.customer.getId());
-                bundle.putInt("bankId", loginViewModel.customer.getBankId());
-                controller.navigate(R.id.action_profile_fragment_to_add_Account_Fragment, bundle);
-            }
-        });
 
         loginViewModel.authstate.observe(getViewLifecycleOwner(),
                 authState -> {
@@ -83,6 +74,17 @@ public class ProfileFragment extends Fragment {
 
                                 }
                             });
+                            button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("customerId", loginViewModel.customer.getId());
+                                    bundle.putInt("bankId", loginViewModel.customer.getBankId());
+                                    bundle.putString("bic", accounts.get(0).getBankBIC());
+                                    controller.navigate(R.id.action_profile_fragment_to_add_Account_Fragment, bundle);
+                                }
+                            });
+
                             break;
                         case UNAUTH:
                             controller.navigate(R.id.login_fragment);

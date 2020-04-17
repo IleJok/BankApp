@@ -11,7 +11,7 @@ public class BankViewModel extends AndroidViewModel {
 
     private BankRepository mRepository;
 
-    private LiveData<List<Bank>> mAllBanks;
+    private List<Bank> mAllBanks;
 
     public BankViewModel (Application application) {
         super(application);
@@ -19,7 +19,7 @@ public class BankViewModel extends AndroidViewModel {
         mAllBanks = mRepository.getAllBanks();
     }
 
-    LiveData<List<Bank>> getAllBanks() {return mAllBanks;}
+    List<Bank> getAllBanks() {return mAllBanks;}
     // TODO implement all the crud functions
     public void insert(Bank bank) {mRepository.insert(bank);}
 
