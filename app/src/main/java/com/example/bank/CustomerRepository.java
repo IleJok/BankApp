@@ -47,4 +47,8 @@ public class CustomerRepository {
             mCustomerDao.updateCustomers(customers);
         });
     }
+
+    Bank getCustomersBank(int bankID) {
+        return mCustomerDao.getCustomersBank(bankID);
+    }
 }

@@ -35,10 +35,18 @@
                 app:argType="integer"
                 android:defaultValue="1" />
         </action>
+        <action
+            android:id="@+id/action_profile_fragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
     </fragment>
     <fragment
         android:id="@+id/add_Account_Fragment"
         android:name="com.example.bank.AddAccountFragment"
         android:label="add_account_fragment"
         tools:layout="@layout/add_account_fragment" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.example.bank.AccountFragment"
+        android:label="account_fragment"
+        tools:layout="@layout/account_fragment" />
 </navigation>

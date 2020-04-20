@@ -1,28 +1,24 @@
 package com.example.bank;
 
-import android.app.Application;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapter.CustomerViewHolder> {
+public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.AccountViewHolder> {
     private List<Account> mCustomersAccounts;
     private static ClickListener clickListener;
 
-    class CustomerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+    class AccountViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         private final TextView customerItemView;
 
-        private CustomerViewHolder(View itemView) {
+        private AccountViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             itemView.setOnClickListener(this);
@@ -44,28 +40,29 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         }
     }
 
-    public CustomerListAdapter(List<Account> accounts) {
+    public AccountListAdapter(List<Account> accounts) {
         mCustomersAccounts = accounts;
     }
     public void setOnItemClickListener(ClickListener clickListener) {
-        CustomerListAdapter.clickListener = clickListener;
+        AccountListAdapter.clickListener = clickListener;
+    }
+
+    public Account getItem(int position) {
+        return mCustomersAccounts.get(position);
     }
 
     @Override
-    public CustomerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AccountViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, parent, false);
-        return new CustomerViewHolder(itemView);
+        return new AccountViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(CustomerViewHolder holder, int position) {
-        System.out.println("ONko mitään!!! " + mCustomersAccounts.size());
+    public void onBindViewHolder(AccountViewHolder holder, int position) {
         if (mCustomersAccounts != null) {
             Account account = mCustomersAccounts.get(position);
             holder.customerItemView.setText(account.toString());
-            System.out.println("Tullaanko koskaan tänne!?");
         } else {
-            System.out.println("Tullaanko koskaan tai edes tänne!?");
             // If no customer data is available
             holder.customerItemView.setText("No Accounts available");
         }

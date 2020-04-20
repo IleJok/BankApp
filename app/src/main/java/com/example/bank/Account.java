@@ -7,6 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 import static androidx.room.ForeignKey.CASCADE;
@@ -16,7 +17,7 @@ parentColumns = "id", childColumns = "bankId", onDelete = CASCADE), @ForeignKey(
         entity = Customer.class, parentColumns = "id", childColumns = "customerId",
         onDelete = CASCADE
 )})
-public class Account {
+public class Account implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -143,7 +144,7 @@ public class Account {
         }
     }
     /* Make own comparison method for account,
-    I'm using the uuid as the main source for comparison
+    I'm using the id as the main source for comparison
      */
     @Override
     public boolean equals(Object object) {

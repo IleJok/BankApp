@@ -5,8 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -17,16 +15,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
-import static com.example.bank.ProfileFragmentDirections.actionProfileFragmentToAddAccountFragment;
 
 
 /* Inspiration and guide for this code is from the docs:
@@ -56,22 +51,29 @@ public class ProfileFragment extends Fragment {
                         case AUTH: // If customer is authenticated show her/his accounts and welcome
                             int id = showWelcome();
                             List<Account> accounts = getAccounts(id);
+                            Bank bank = getCustomersBank(loginViewModel.customer.getBankId());
                             recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-                            final CustomerListAdapter adapter = new CustomerListAdapter(accounts);
+                            final AccountListAdapter adapter = new AccountListAdapter(accounts);
                             recyclerView.setAdapter(adapter);
-                            adapter.setOnItemClickListener(new CustomerListAdapter.ClickListener() {
+                            adapter.setOnItemClickListener(new AccountListAdapter.ClickListener() {
                                 @Override
                                 public void onItemClick(int position, View v) {
                                     Log.d(TAG, "onItemClick position: " + position);
-
-                                    /*Snackbar.make(v, R.string.invalid_credentials,
-                                            Snackbar.LENGTH_SHORT).show();*/
+                                    Account account = adapter.getItem(position);
+                                    Bundle bundle = new Bundle();
+                                    Account transferAcc = account;
+                                    bundle.putSerializable("account", transferAcc);
+                                    controller.navigate(R.id.action_profile_fragment_to_accountFragment, bundle);
                                 }
 
                                 @Override
                                 public void onItemLongClick(int position, View v) {
                                     Log.d(TAG, "onItemClick position: " + position);
-
+                                    Account account = accounts.get(position);
+                                    Bundle bundle = new Bundle();
+                                    Account transferAcc = account;
+                                    bundle.putSerializable("account", transferAcc);
+                                    controller.navigate(R.id.action_profile_fragment_to_accountFragment, bundle);
                                 }
                             });
                             button.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +82,7 @@ public class ProfileFragment extends Fragment {
                                     Bundle bundle = new Bundle();
                                     bundle.putInt("customerId", loginViewModel.customer.getId());
                                     bundle.putInt("bankId", loginViewModel.customer.getBankId());
-                                    bundle.putString("bic", accounts.get(0).getBankBIC());
+                                    bundle.putString("bic", bank.getBIC());
                                     controller.navigate(R.id.action_profile_fragment_to_add_Account_Fragment, bundle);
                                 }
                             });
@@ -97,14 +99,18 @@ public class ProfileFragment extends Fragment {
     public int showWelcome() {
         String welcome = getString(R.string.welcome);
         this.welcomeText.setText(welcome + " " + loginViewModel.customer.getName());
-
         return loginViewModel.customer.getId();
-
     }
+
     /*Returns all accounts that this customer has based on his id*/
     public List<Account> getAccounts(int customerId) {
         Customer customer = loginViewModel.getCustomersAccounts(customerId);
         return customer.getAccounts();
+    }
+
+    public Bank getCustomersBank(int bankId) {
+        Bank bank = loginViewModel.getCustomersBank(bankId);
+        return bank;
     }
 
 }

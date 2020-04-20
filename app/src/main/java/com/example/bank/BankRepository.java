@@ -32,12 +32,11 @@ public class BankRepository {
     }
 */
 
-    int insert(Bank bank) {
+    void insert(Bank bank) {
 
         BankRoomDatabase.databaseWriteExecutor.execute(() -> {
             mBankDao.insert(bank);
         });
-        return bank.getId();
     }
 
     void delete(Bank... banks) {

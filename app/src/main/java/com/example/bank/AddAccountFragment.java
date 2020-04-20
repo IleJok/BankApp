@@ -20,6 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,9 +48,6 @@ public class AddAccountFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final NavController controller = Navigation.findNavController(view);
-        System.out.println("Mitä tulee tänne profiilista: " + getArguments().getInt("customerId"));
-        System.out.println("Mitä tulee tänne profiilista bankin id: " + getArguments().getInt("bankId"));
-
         customerId = getArguments().getInt("customerId");
         bankId = getArguments().getInt("bankId");
         bankBIC = getArguments().getString("bic");
@@ -65,6 +64,9 @@ public class AddAccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 addAccount(bankId, customerId, spinner.getSelectedItem().toString(), bankBIC, 0.0, transfersAllowed, cardPaymentsAllowed);
+                Snackbar.make(v, "Account created!",
+                        Snackbar.LENGTH_SHORT).show();
+                controller.navigate(R.id.profile_fragment);
             }
         });
 
@@ -93,15 +95,9 @@ public class AddAccountFragment extends Fragment {
         });
     }
 
-    public int addAccount(int bankId, int customerId, String accountType, String bankBIC, double balance, boolean transfers, boolean cardPayments) {
-
-        return 0;
-    }
-
-    public void getBankBIC(int bankId) {
-        System.out.println("Fragmentin bankki id "+ bankId);
-       accountViewModel.getBankBIC(bankId);
-
+    /* Creates an account for the customer*/
+    public void addAccount(int bankId, int customerId, String accountType, String bankBIC, double balance, boolean transfers, boolean cardPayments) {
+        accountViewModel.addAccount(bankId, customerId, accountType, bankBIC, balance, transfers, cardPayments);
     }
 
 }

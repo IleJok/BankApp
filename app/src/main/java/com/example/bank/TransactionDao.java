@@ -12,27 +12,27 @@ import java.util.Date;
 import java.util.List;
 
 @Dao
-public interface TransactionDao {
+public abstract class TransactionDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Transaction transaction);
+    public abstract void insert(Transaction transaction);
 
     @Update
-    void updateTransactions(Transaction... transactions);
+    public abstract void updateTransactions(Transaction... transactions);
 
     @Delete
-    void deleteTransactions(Transaction... transactions);
+    public abstract void deleteTransactions(Transaction... transactions);
 
     @Query("DELETE FROM transactions")
-    void deleteAllTransactions();
+    public abstract void deleteAllTransactions();
 
     @Query("SELECT * FROM transactions")
-    LiveData<List<Transaction>> loadAllTransactions();
+    public abstract List<Transaction> loadAllTransactions();
 
     @Query("SELECT * FROM transactions WHERE id =:id AND transactionDate BETWEEN :someDate AND :anotherDate")
-    LiveData<List<Transaction>> loadTransactionsBetweenDates(int id, String someDate, String anotherDate);
+    public abstract List<Transaction> loadTransactionsBetweenDates(int id, String someDate, String anotherDate);
 
     @Query("SELECT * FROM transactions WHERE id =:id")
-    Transaction getTransaction(int id);
+    public abstract Transaction getTransaction(int id);
 
 }

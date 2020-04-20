@@ -9,7 +9,7 @@ import java.util.List;
 public class TransactionRepository {
 
     private TransactionDao transactionDao;
-    private LiveData<List<Transaction>> allTransactions;
+    private List<Transaction> allTransactions;
 
     /* Dependency injection */
     TransactionRepository(Application application) {
@@ -18,7 +18,7 @@ public class TransactionRepository {
         allTransactions = transactionDao.loadAllTransactions();
     }
 
-    LiveData<List<Transaction>> getAllTransactions() {return allTransactions;}
+    List<Transaction> getAllTransactions() {return allTransactions;}
 
     Transaction getTransaction(int id) {return transactionDao.getTransaction(id);}
 

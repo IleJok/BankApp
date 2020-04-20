@@ -20,9 +20,11 @@
     <string name="invalid_credentials">Wrong name or password</string>
     <string name="welcome">Welcome to my humble bank application </string>
     <string name="button_profile">View profile</string>
-    <string name="add_account">Add new account</string>
+    <string name="add_account"><b>Add new account</b></string>
     <string name="transfers">Allow transfers on this account</string>
     <string name="card_payments">Allow card payments on this account</string>
+    <string name="account_type">Select account type: </string>
+
     <string-array name="account_types">
         <item>Current account</item>
         <item>Credit account</item>

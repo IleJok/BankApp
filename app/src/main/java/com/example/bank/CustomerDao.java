@@ -41,8 +41,11 @@ public abstract class CustomerDao {
     public abstract Customer getCustomerWithCred(String name, String password);
     // Get the customer and her/his accounts
 
-    @Query("SELECT * FROM accounts WHERE customerId = :customerId")
+    @Query("SELECT * FROM accounts WHERE customerId =:customerId")
      public abstract List<Account> getAccountsList(int customerId);
+
+    @Query("SELECT * FROM banks WHERE id =:bankId")
+    public abstract Bank getCustomersBank(int bankId);
 
     public void insertAccounts(Customer customer) {
         List<Account> accounts = customer.getAccounts();

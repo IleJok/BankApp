@@ -75,4 +75,6 @@ public class LoginViewModel extends AndroidViewModel {
     Customer getCustomersAccounts(int id) {
         return customerRepository.getCustomerWithAccounts(id);
     }
+
+    Bank getCustomersBank(int bankId) {return customerRepository.getCustomersBank(bankId);}
 }
