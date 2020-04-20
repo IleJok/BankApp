@@ -10,8 +10,9 @@ public class AccountRepository {
 
     private AccountDao accountDao;
     private List<Account> allAccounts;
+    private List<Transaction> transactions;
 
-    /* Dependency injection*/
+        /* Dependency injection*/
     AccountRepository(Application application) {
         BankRoomDatabase db = BankRoomDatabase.getDatabase(application);
         accountDao = db.accountDao();
@@ -26,7 +27,15 @@ public class AccountRepository {
     }
 
     Account getAccount(int id) {return accountDao.getAccount(id);}
+    List<Transaction> getTransactionsList(int id) {
 
+        try {
+           this.transactions = accountDao.getTransactionsList(id);
+        } catch (Exception e) {
+            System.out.println("ERRORRRI " + e.toString());
+        }
+        return this.transactions;
+    }
     void insert(Account account) {
         BankRoomDatabase.databaseWriteExecutor.execute(()-> {
             accountDao.insert(account);
@@ -39,6 +48,12 @@ public class AccountRepository {
             accountDao.deleteAccounts(accounts);
         });
     }
+    void insertTransactions(Account account) {
+        BankRoomDatabase.databaseWriteExecutor.execute(()-> {
+            accountDao.insertTransactions(account);
+        });
+    }
+
 
     void update(Account... accounts) {
         BankRoomDatabase.databaseWriteExecutor.execute(()-> {

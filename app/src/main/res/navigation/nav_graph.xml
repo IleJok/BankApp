@@ -37,7 +37,7 @@
         </action>
         <action
             android:id="@+id/action_profile_fragment_to_accountFragment"
-            app:destination="@id/accountFragment" />
+            app:destination="@id/account_fragment" />
     </fragment>
     <fragment
         android:id="@+id/add_Account_Fragment"
@@ -45,8 +45,17 @@
         android:label="add_account_fragment"
         tools:layout="@layout/add_account_fragment" />
     <fragment
-        android:id="@+id/accountFragment"
+        android:id="@+id/account_fragment"
         android:name="com.example.bank.AccountFragment"
         android:label="account_fragment"
-        tools:layout="@layout/account_fragment" />
+        tools:layout="@layout/account_fragment" >
+        <action
+            android:id="@+id/action_accountFragment_to_modifyAccountFragment"
+            app:destination="@id/modify_account_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modify_account_fragment"
+        android:name="com.example.bank.ModifyAccountFragment"
+        android:label="modify_account_fragment"
+        tools:layout="@layout/modify_account_fragment" />
 </navigation>

@@ -33,9 +33,11 @@ public abstract class AccountDao {
 
     @Query("SELECT * FROM accounts WHERE id =:id")
     public abstract Account getAccount(int id);
+    /* Get all the transactions for this account either sender or receiver */
 
-    @Query("SELECT * FROM transactions WHERE accountId =:accountId")
-    public abstract List<Transaction> getTransactionsList(int accountId);
+    @Query("SELECT * FROM transactions WHERE accountId =:accountId OR receivingId =:accountId")
+    public abstract List<Transaction> getTransactionsList(int accountId) throws Exception;
+
 
     public void insertTransactions(Account account) {
         List<Transaction> transactions = account.getTransactionList();
@@ -47,8 +49,13 @@ public abstract class AccountDao {
 
     public Account getAccountWithTransactions(int id) {
         Account account = getAccount(id);
-        List<Transaction> transactions = getTransactionsList(id);
-        account.setTransactionList(transactions);
+        try {
+            List<Transaction> transactions = getTransactionsList(id);
+            account.setTransactionList(transactions);
+        } catch (Exception e) {
+            System.out.println("EEEERROR" + e);
+        }
+
         return account;
     }
 

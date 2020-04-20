@@ -7,6 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import static androidx.room.ForeignKey.CASCADE;
 /* This class is named as customer, could be named as user instead also*/
 @Entity(tableName = "customers", foreignKeys = @ForeignKey(entity = Bank.class,
 parentColumns = "id", childColumns = "bankId", onDelete = CASCADE))
-public class Customer {
+public class Customer implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;

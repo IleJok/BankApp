@@ -10,19 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
-
+/* Custom LIST adapter to show accounts in recyclerview */
 public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.AccountViewHolder> {
     private List<Account> mCustomersAccounts;
     private static ClickListener clickListener;
 
     class AccountViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
-        private final TextView customerItemView;
+        private final TextView accountItemView;
 
         private AccountViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             itemView.setOnClickListener(this);
-            customerItemView = itemView.findViewById(R.id.textView);
+            accountItemView = itemView.findViewById(R.id.textView);
         }
 
         @Override
@@ -61,20 +61,20 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
     public void onBindViewHolder(AccountViewHolder holder, int position) {
         if (mCustomersAccounts != null) {
             Account account = mCustomersAccounts.get(position);
-            holder.customerItemView.setText(account.toString());
+            holder.accountItemView.setText(account.toString());
         } else {
             // If no customer data is available
-            holder.customerItemView.setText("No Accounts available");
+            holder.accountItemView.setText("No Accounts available");
         }
     }
 
-/*
-    void setAccounts(LiveData<List<Account>> customersAccounts) {
+
+    void setAccounts(List<Account> customersAccounts) {
         System.out.println("Tullaaaaaaaaaaaaaaaaaaanko");
         this.mCustomersAccounts = customersAccounts;
         notifyDataSetChanged();
     }
-*/
+
 
     public interface ClickListener {
         void onItemClick(int position, View v);

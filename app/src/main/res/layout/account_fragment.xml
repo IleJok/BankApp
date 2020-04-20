@@ -1,15 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
     tools:context=".AccountFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/accountViewText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment" />
+    <Button
+        android:id="@+id/button_edit_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_margin="@dimen/small_padding"
+        android:text="@string/modify_account" />
+    <TextView
+        android:id="@+id/deposit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/deposit_seekBar" />
+    <SeekBar
+        android:id="@+id/seekBarDeposit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="1000"
+        android:min="0"
+        android:progress="0"/>
+    <TextView
+        android:id="@+id/depositAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="0"/>
+    <Button
+        android:id="@+id/button_deposit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_margin="@dimen/small_padding"
+        android:text="@string/deposit_money" />
+    <TextView
+        android:id="@+id/withdraw_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/withdraw_seekBar" />
+    <SeekBar
+        android:id="@+id/seekBarWithdraw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="1000"
+        android:min="0"
+        android:progress="0"/>
+    <TextView
+        android:id="@+id/withdrawAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="0"/>
+    <Button
+        android:id="@+id/button_withdraw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_margin="@dimen/small_padding"
+        android:text="@string/withdraw_money" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/transaction_recyclerview"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/big_padding"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        tools:listitem="@layout/recyclerview_item" />
 
-</FrameLayout>
+</LinearLayout>

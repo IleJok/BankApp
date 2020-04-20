@@ -6,10 +6,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @Entity(tableName = "banks")
-public class Bank {
+public class Bank implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;

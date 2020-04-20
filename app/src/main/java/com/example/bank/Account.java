@@ -8,6 +8,10 @@ import androidx.room.PrimaryKey;
 
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static androidx.room.ForeignKey.CASCADE;
@@ -37,10 +41,10 @@ public class Account implements Serializable {
 
 
     @Ignore
-    private List<Transaction> transactionList;
+    private List<Transaction> transactionList = new ArrayList<>();
 
     // TODO add List of cards
-    // TODO add List of transactions
+
 
     Account() {
 
@@ -123,24 +127,45 @@ public class Account implements Serializable {
     }
 
     public List<Transaction> getTransactionList() {
-        return transactionList;
+        return this.transactionList;
     }
 
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
     }
-
+    public void addToTransactionList(Transaction transaction) {
+        if (this.transactionList != null) {
+            this.transactionList.add(transaction);
+        } else {
+            List<Transaction> transactions = new ArrayList<>();
+            transactions.add(transaction);
+            this.setTransactionList(transactions);
+        }
+    }
     /* Deposit money to account*/
     public void deposit(Double amount) {
+
         if (amount > 0) {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date date = new Date();
             this.balance += amount;
+            Transaction transaction = new Transaction(this.id, amount, "Deposit",
+                    df.format(date), this.bankBIC, this.id);
+            System.out.println("transaction " + transaction.toString());
+            this.addToTransactionList(transaction);
         }
     }
 
     /* Withdraw money from account */
     public void  withdraw(Double amount) {
         if (this.balance >= amount) {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date date = new Date();
             this.balance -= amount;
+            Transaction transaction = new Transaction(this.id, amount, "Withdraw",
+                    df.format(date), this.bankBIC, this.id);
+            System.out.println("transaction " + transaction.toString());
+            this.addToTransactionList(transaction);
         }
     }
     /* Make own comparison method for account,
