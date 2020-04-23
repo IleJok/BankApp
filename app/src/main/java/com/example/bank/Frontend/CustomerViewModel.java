@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.example.bank.Models.Customer;
-import com.example.bank.Daos_repositories.CustomerRepository;
+import com.example.bank.Repositories.CustomerRepository;
 
 import java.util.List;
 

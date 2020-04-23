@@ -6,8 +6,8 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.example.bank.Models.Account;
 import com.example.bank.Models.Transaction;
-import com.example.bank.Daos_repositories.AccountRepository;
-import com.example.bank.Daos_repositories.TransactionRepository;
+import com.example.bank.Repositories.AccountRepository;
+import com.example.bank.Repositories.TransactionRepository;
 
 import java.util.List;
 

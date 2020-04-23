@@ -1,4 +1,4 @@
-package com.example.bank.Daos_repositories;
+package com.example.bank.Repositories;
 
 import android.app.Application;
 

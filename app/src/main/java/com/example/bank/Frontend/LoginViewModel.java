@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.bank.Models.Account;
 import com.example.bank.Models.Bank;
 import com.example.bank.Models.Customer;
-import com.example.bank.Daos_repositories.CustomerRepository;
+import com.example.bank.Repositories.CustomerRepository;
 
 import java.util.List;
 

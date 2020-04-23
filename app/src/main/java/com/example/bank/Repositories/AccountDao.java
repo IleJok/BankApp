@@ -1,4 +1,4 @@
-package com.example.bank.Daos_repositories;
+package com.example.bank.Repositories;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
