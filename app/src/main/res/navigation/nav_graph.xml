@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/login_fragment"
-        android:name="com.example.bank.LoginFragment"
+        android:name="com.example.bank.Frontend.LoginFragment"
         android:label="fragment_login_fragment"
         tools:layout="@layout/login_fragment" />
     <fragment
         android:id="@+id/main_fragment"
-        android:name="com.example.bank.MainFragment"
+        android:name="com.example.bank.Frontend.MainFragment"
         android:label="fragment_main_fragment"
         tools:layout="@layout/main_fragment">
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/profile_fragment"
-        android:name="com.example.bank.ProfileFragment"
+        android:name="com.example.bank.Frontend.ProfileFragment"
         android:label="ProfileFragment" >
         <action
             android:id="@+id/action_profile_fragment_to_add_Account_Fragment"
@@ -41,21 +41,53 @@
     </fragment>
     <fragment
         android:id="@+id/add_Account_Fragment"
-        android:name="com.example.bank.AddAccountFragment"
+        android:name="com.example.bank.Frontend.AddAccountFragment"
         android:label="add_account_fragment"
         tools:layout="@layout/add_account_fragment" />
     <fragment
         android:id="@+id/account_fragment"
-        android:name="com.example.bank.AccountFragment"
+        android:name="com.example.bank.Frontend.AccountFragment"
         android:label="account_fragment"
         tools:layout="@layout/account_fragment" >
         <action
             android:id="@+id/action_accountFragment_to_modifyAccountFragment"
             app:destination="@id/modify_account_fragment" />
+        <action
+            android:id="@+id/action_account_fragment_to_deposit_fragment"
+            app:destination="@id/deposit_fragment" />
+        <action
+            android:id="@+id/action_account_fragment_to_addCardFragment"
+            app:destination="@id/add_card_ragment" />
+        <action
+            android:id="@+id/action_account_fragment_to_withdraw_fragment"
+            app:destination="@id/withdraw_fragment" />
     </fragment>
     <fragment
         android:id="@+id/modify_account_fragment"
-        android:name="com.example.bank.ModifyAccountFragment"
+        android:name="com.example.bank.Frontend.ModifyAccountFragment"
         android:label="modify_account_fragment"
         tools:layout="@layout/modify_account_fragment" />
+    <fragment
+        android:id="@+id/deposit_fragment"
+        android:name="com.example.bank.Frontend.DepositFragment"
+        android:label="deposit_fragment"
+        tools:layout="@layout/deposit_fragment" >
+        <action
+            android:id="@+id/action_deposit_fragment_to_account_fragment"
+            app:destination="@id/account_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/add_card_ragment"
+        android:name="com.example.bank.Frontend.AddCardFragment"
+        android:label="add_card_fragment"
+        tools:layout="@layout/add_card_fragment" />
+    <fragment
+        android:id="@+id/withdraw_fragment"
+        android:name="com.example.bank.Frontend.WithdrawFragment"
+        android:label="withdraw_fragment"
+        tools:layout="@layout/withdraw_fragment">
+        <action
+            android:id="@+id/action_withdraw_fragment_to_account_fragment"
+            app:destination="@id/account_fragment" />
+    </fragment>
 </navigation>

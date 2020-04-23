@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical"
-    tools:context=".AccountFragment">
+    tools:context=".Frontend.AccountFragment">
 
     <TextView
         android:id="@+id/accountViewText"
@@ -26,63 +26,19 @@
         android:background="@color/colorPrimary"
         android:layout_marginTop="80dp"
         android:text="@string/modify_account" />
-    <TextView
-        android:id="@+id/deposit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:textAlignment="center"
-        android:text="@string/deposit_seekBar" />
-    <SeekBar
-        android:id="@+id/seekBarDeposit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="175dp"
-        android:max="1000"
-        android:min="0"
-        android:progress="0"/>
-    <TextView
-        android:id="@+id/depositAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:textAlignment="center"
-        android:text="0"/>
     <Button
         android:id="@+id/button_deposit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="225dp"
+        android:layout_marginTop="135dp"
         android:background="@color/colorPrimary"
         android:text="@string/deposit_money" />
-    <TextView
-        android:id="@+id/withdraw_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="275dp"
-        android:textAlignment="center"
-        android:text="@string/withdraw_seekBar" />
-    <SeekBar
-        android:id="@+id/seekBarWithdraw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:max="1000"
-        android:min="0"
-        android:progress="0"/>
-    <TextView
-        android:id="@+id/withdrawAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="325dp"
-        android:textAlignment="center"
-        android:text="0"/>
     <Button
         android:id="@+id/button_withdraw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="190dp"
         android:text="@string/withdraw_money" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transaction_recyclerview"
@@ -90,6 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/big_padding"
+        tools:listitem="@layout/recyclerview_item"
         android:layout_marginTop="400dp" />
 
 </FrameLayout>

@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@drawable/background"
     android:layout_height="match_parent"
-    tools:context=".ModifyAccountFragment">
+    tools:context=".Frontend.ModifyAccountFragment">
 
     <TextView
         android:id="@+id/edit_account_text"
