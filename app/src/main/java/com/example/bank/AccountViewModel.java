@@ -1,6 +1,7 @@
 package com.example.bank;
 
 import android.app.Application;
+import android.provider.ContactsContract;
 
 import androidx.lifecycle.AndroidViewModel;
 
@@ -9,12 +10,13 @@ import java.util.List;
 public class AccountViewModel extends AndroidViewModel {
 
     private AccountRepository accountRepository;
-
+    private TransactionRepository transactionRepository;
 
 
     public AccountViewModel(Application application) {
         super(application);
         accountRepository = new AccountRepository(application);
+        transactionRepository = new TransactionRepository(application);
     }
 
     public void addAccount(int bankId, int customerId, String accountType, String bankBIC, Double balance, Boolean transfers, Boolean cardPayments) {
@@ -32,7 +34,9 @@ public class AccountViewModel extends AndroidViewModel {
     public Account getAccountWithTransactions(int id) {
         return accountRepository.getAccountWithTransactions(id);
     }
-
+    public void insertTransaction(Transaction transaction) {
+        transactionRepository.insert(transaction);
+    }
     public void updateAccount(Account account) {
         accountRepository.update(account);
     }

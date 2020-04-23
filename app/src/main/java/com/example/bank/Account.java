@@ -45,7 +45,7 @@ public class Account implements Serializable {
 
     // TODO add List of cards
 
-
+    @Ignore
     Account() {
 
     }
@@ -143,29 +143,33 @@ public class Account implements Serializable {
         }
     }
     /* Deposit money to account*/
-    public void deposit(Double amount) {
-
+    public Transaction deposit(Double amount) {
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
         if (amount > 0) {
-            DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Date date = new Date();
             this.balance += amount;
             Transaction transaction = new Transaction(this.id, amount, "Deposit",
                     df.format(date), this.bankBIC, this.id);
             System.out.println("transaction " + transaction.toString());
-            this.addToTransactionList(transaction);
+            //this.addToTransactionList(transaction);
+            return transaction;
+        } else {
+            return null;
         }
     }
 
     /* Withdraw money from account */
-    public void  withdraw(Double amount) {
+    public Transaction withdraw(Double amount) {
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
         if (this.balance >= amount) {
-            DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Date date = new Date();
             this.balance -= amount;
             Transaction transaction = new Transaction(this.id, amount, "Withdraw",
                     df.format(date), this.bankBIC, this.id);
             System.out.println("transaction " + transaction.toString());
-            this.addToTransactionList(transaction);
+            return transaction;
+        } else {
+            return null;
         }
     }
     /* Make own comparison method for account,

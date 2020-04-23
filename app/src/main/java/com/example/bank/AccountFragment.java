@@ -6,6 +6,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,7 +39,9 @@ public class AccountFragment extends Fragment {
     double balance = 0.0;
     int value = 0;
     private AccountViewModel accountViewModel;
-
+    Transaction transaction;
+    Account account;
+    List<Transaction> transactions;
     public AccountFragment() {
         // Required empty public constructor
     }
@@ -56,6 +59,7 @@ public class AccountFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final NavController controller = Navigation.findNavController(view);
+        accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
         welcomeText = this.view.findViewById(R.id.accountViewText);
         depositAmount = this.view.findViewById(R.id.depositAmount);
         withdrawAmount = this.view.findViewById(R.id.withdrawAmount);
@@ -67,19 +71,17 @@ public class AccountFragment extends Fragment {
         deposit = this.view.findViewById(R.id.button_deposit);
         withdraw = this.view.findViewById(R.id.button_withdraw);
         Bundle bundle = getArguments();
-        Account account = (Account) bundle.getSerializable("account");
+        this.account = (Account) bundle.getSerializable("account");
         assert account != null;
         System.out.println("Account id " + account.getId());
-        List<Transaction> transactions = getTransactions(account.getId());
-
-        account.setTransactionList(transactions);
+        this.transactions = getTransactions(account.getId());
         welcomeText.setText(account.toString());
         balance = account.getBalance();
         value = (int) balance;
         withdrawSeekBar.setMax(value);
         RecyclerView recyclerView = this.view.findViewById(R.id.transaction_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        final TransactionListAdapter transactionListAdapter = new TransactionListAdapter(account.getTransactionList());
+        final TransactionListAdapter transactionListAdapter = new TransactionListAdapter(this.transactions);
         recyclerView.setAdapter(transactionListAdapter);
         transactionListAdapter.setOnItemClickListener(new TransactionListAdapter.ClickListener() {
             @Override
@@ -105,7 +107,13 @@ public class AccountFragment extends Fragment {
         deposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                account.deposit(Double.parseDouble(depositAmount.getText().toString()));
+                List<Transaction> newTransactions = deposit(Double.parseDouble(depositAmount.getText().toString()));
+                /*getTransactions(account.getId());*/
+                transactions.addAll(newTransactions);
+                transactionListAdapter.setTransactions(newTransactions);
+                int count = transactionListAdapter.getItemCount();
+                System.out.println("Paljon countti on" + count);
+                transactionListAdapter.notifyItemChanged(count);
                 welcomeText.setText(account.toString());
                 Snackbar.make(v,depositAmount.getText().toString() + " added to account",
                         Snackbar.LENGTH_SHORT).show();
@@ -113,15 +121,16 @@ public class AccountFragment extends Fragment {
                 value = (int) balance;
                 withdrawSeekBar.setMax(value);
                 depositSeekBar.setProgress(0);
-                transactionListAdapter.setTransactions(account.getTransactionList());
-                insertTransactions(account);
+
+
+
             }
         });
 
         withdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                account.withdraw(Double.parseDouble(withdrawAmount.getText().toString()));
+                List<Transaction> transactions = withdraw(Double.parseDouble(withdrawAmount.getText().toString()));
                 welcomeText.setText(account.toString());
                 Snackbar.make(v,withdrawAmount.getText().toString() + " withdrawn from account",
                         Snackbar.LENGTH_SHORT).show();
@@ -129,8 +138,7 @@ public class AccountFragment extends Fragment {
                 value = (int) balance;
                 withdrawSeekBar.setMax(value);
                 withdrawSeekBar.setProgress(0);
-                transactionListAdapter.setTransactions(account.getTransactionList());
-                insertTransactions(account);
+                transactionListAdapter.setTransactions(transactions);
             }
         });
 
@@ -187,15 +195,49 @@ public class AccountFragment extends Fragment {
 
     public List<Transaction> getTransactions(int id) {
         try {
-            List<Transaction> transactions = accountViewModel.getTransactionsList(id);
-            return transactions;
-
+            this.transactions = accountViewModel.getTransactionsList(id);
+            account.setTransactionList(this.transactions);
+            return account.getTransactionList();
         } catch (Exception e) {
             System.out.println("Erroro " + e);
-            List<Transaction> transactions = new ArrayList<>();
-            return transactions;
         }
+        return this.transactions;
+    }
 
+    public List<Transaction> deposit(Double amount) {
+        System.out.println("Deposit account" + account.toString());
+        if (amount > 0) {
+            try {
+                this.transaction = this.account.deposit(amount);
+                //this.account.addToTransactionList(transaction);
+                accountViewModel.insertTransaction(this.transaction);
+                List<Transaction> newTransactions = accountViewModel.getTransactionsList(this.account.getId());
+                account.setTransactionList(newTransactions);
+                return newTransactions;
+            } catch (Exception e) {
+                throw e;
+            }
+
+        }
+        return account.getTransactionList();
+    }
+
+    public List<Transaction> withdraw(Double amount) {
+        System.out.println("Deposit account" + account.toString());
+        if (amount < this.account.getBalance()) {
+            try {
+                this.transaction = this.account.withdraw(amount);
+                //this.account.addToTransactionList(transaction);
+                accountViewModel.insertTransaction(this.transaction);
+                List<Transaction> newTransactions = accountViewModel.getTransactionsList(this.account.getId());
+                account.setTransactionList(newTransactions);
+                return  newTransactions;
+            } catch (Exception e) {
+                throw e;
+            }
+
+        }
+        return account.getTransactionList();
     }
 
 }

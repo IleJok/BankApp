@@ -23,6 +23,7 @@
     <string name="button_profile">View profile</string>
     <string name="add_account"><b>Add new account</b></string>
     <string name="modify_account"><b>Modify your account</b></string>
+    <string name="add_card"><b>Add card</b></string>
     <string name="transfers">Allow transfers on this account</string>
     <string name="card_payments">Allow card payments on this account</string>
     <string name="account_type">Select account type: </string>

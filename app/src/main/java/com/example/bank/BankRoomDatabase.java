@@ -88,7 +88,7 @@ public abstract class BankRoomDatabase extends RoomDatabase {
 
                 Account account = new Account(id, custId, "Current Account", bank.getBIC(), (double) 10.0, true, true);
                 int accountId = (int)  accountDao.insert(account);
-                System.out.println("Accountin id: " + accountId);
+
 
             });
         }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /* Custom LIST adapter to show transactions in recyclerview */
@@ -40,7 +41,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         }
     }
     public TransactionListAdapter(List<Transaction> transactions) {
-        mAccountsTransactions = transactions;
+        this.mAccountsTransactions = transactions;
     }
     public void setOnItemClickListener(ClickListener transactionClickListener) {
         TransactionListAdapter.transactionClickListener = transactionClickListener;
@@ -69,7 +70,8 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
 
 
     void setTransactions(List<Transaction> accountsTransactions) {
-        System.out.println("Tullaaaaaaaaaaaaaaaaaaanko");
+        if (this.mAccountsTransactions.size() > 0)
+            this.mAccountsTransactions.clear();
         this.mAccountsTransactions = accountsTransactions;
         notifyDataSetChanged();
     }

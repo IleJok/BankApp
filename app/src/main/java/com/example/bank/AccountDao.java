@@ -17,7 +17,7 @@ public abstract class AccountDao {
     public abstract long insert(Account account);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    public abstract void insertTransactionList(List<Transaction>transactions);
+    public abstract void insertTransactionList(List<Transaction> transactions);
 
     @Update
     public abstract void updateAccounts(Account... accounts);
@@ -41,9 +41,6 @@ public abstract class AccountDao {
 
     public void insertTransactions(Account account) {
         List<Transaction> transactions = account.getTransactionList();
-        for (int i = 0; i < transactions.size(); i++) {
-            transactions.get(i).setAccountId(account.getId());
-        }
         insertTransactionList(transactions);
     }
 
