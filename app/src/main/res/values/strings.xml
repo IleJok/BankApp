@@ -29,6 +29,9 @@
     <string name="account_type">Select account type: </string>
     <string name="withdraw_money">Withdraw</string>
     <string name="deposit_money">Deposit</string>
+    <string name="deposit_fragment">Deposit money to your account</string>
+    <string name="withdraw_fragment">Withdraw money from your account</string>
+
     <string name="deposit_seekBar">Select amount to deposit: </string>
     <string name="withdraw_seekBar">Select amount to withdraw: </string>
 
