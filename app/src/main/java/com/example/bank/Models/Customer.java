@@ -1,28 +1,48 @@
-package com.example.bank;
+package com.example.bank.Models;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import java.io.Serializable;
+import java.util.List;
+
+import static androidx.room.ForeignKey.CASCADE;
 
 /* This class is named as customer, could be named as user instead also*/
-public class Customer {
-    private UUID id;
+@Entity(tableName = "customers", foreignKeys = @ForeignKey(entity = Bank.class,
+parentColumns = "id", childColumns = "bankId", onDelete = CASCADE))
+public class Customer implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    private int id;
+
+    private int bankId;
     private String name;
     private String address;
-    // UUID password; // TODO implement password for user/customer
+    private String password; // TODO implement proper password for user/customer
     private String country;
     private String phone;
     private String email;
 
+    @Ignore
+    private List<Account> accounts;
 
-    Customer(String cName, String cAddress, String cCountry, String cPhone, String cEmail) {
-        this.id = UUID.randomUUID(); // generate random uuid as id for customer
-        this.name = cName;
-        this.address = cAddress;
-        this.country = cCountry;
-        this.phone = cPhone;
-        this.email = cEmail;
+    @Ignore
+    Customer() {
+
+    }
+
+    public Customer(int bankId, String name, String address, String country, String phone, String email, String password) {
+        this.bankId = bankId;
+        this.name = name;
+        this.address = address;
+        this.country = country;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
     }
 
     public String getName() {
@@ -65,13 +85,38 @@ public class Customer {
         this.phone = phone;
     }
 
-    public UUID getId() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getId() {
         return id;
     }
-    /* List accounts owned by customer */
-    /*public ArrayList<Account> listAccounts() {
 
-    }*/
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getBankId() {
+        return bankId;
+    }
+
+    public void setBankId(int bankId) {
+        this.bankId = bankId;
+    }
+
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
 
     /* Make own comparison method for customer,
     I'm using the uuid as the main source for comparison

@@ -1,36 +1,46 @@
-package com.example.bank;
+package com.example.bank.Models;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.UUID;
 
-public class Bank {
-    private UUID id;
+@Entity(tableName = "banks")
+public class Bank implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    private int id;
+
     private String name;
     private String address;
     private String country;
     private String BIC;
     // Customers in this bank
+    @Ignore
     private ArrayList<Customer> customers;
     // Accounts in this bank
+    @Ignore
     private ArrayList<Account> accounts;
+    @Ignore
+    Bank() {
+
+    }
 
     /*Simple constructor for Bank class. Could use Singleton pattern, but I want to
     * have multiple banks in the future*/
-    Bank(String bankName, String bankAddress, String bankCountry, String bicB) {
+    public Bank(String name, String address, String country, String BIC) {
 
-        this.id = UUID.randomUUID(); // generate random unique id for the bank
-        this.name = bankName;
-        this.address = bankAddress;
-        this.country = bankCountry;
-        this.BIC = bicB;
-        this.customers = new ArrayList<>();
-        this.accounts = new ArrayList<>();
+        this.name = name;
+        this.address = address;
+        this.country = country;
+        this.BIC = BIC;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -38,7 +48,7 @@ public class Bank {
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
@@ -46,7 +56,7 @@ public class Bank {
     }
 
     public String getCountry() {
-        return country;
+        return this.country;
     }
 
     public void setCountry(String country) {
@@ -54,50 +64,54 @@ public class Bank {
     }
 
     public String getBIC() {
-        return BIC;
+        return this.BIC;
     }
 
     public void setBIC(String BIC) {
         this.BIC = BIC;
     }
 
-    public UUID getId() {
-        return id;
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /* Add customer to arrayList if it is not there already, return true if added
-    and return false if not.
-     */
-    public boolean addCustomer(Customer customer) {
+        and return false if not.
+         */
+/*    public boolean addCustomer(Customer customer) {
         if (!this.customers.contains(customer)) {
             this.customers.add(customer);
             return true;
         } else {
             return false;
         }
-    }
+    }*/
 
     /* Add account to arrayList if it is not there already, return true if added
     and return false if not.
      */
-    public boolean addAccount(Account account) {
+/*    public boolean addAccount(Account account) {
         if (!this.accounts.contains(account)) {
             this.accounts.add(account);
             return true;
         } else {
             return false;
         }
-    }
+    }*/
 
-    /*Get all the customers in the bank*/
+ /*   *//*Get all the customers in the bank*//*
     public ArrayList<Customer> getCustomers() {
         return this.customers;
     }
 
-    /*Get all the accounts in the bank*/
+    *//*Get all the accounts in the bank*//*
     public ArrayList<Account> getAccounts() {
         return this.accounts;
-    }
+    }*/
     /*equals function compares two objects if they are identical or not. I use the UUID
     * as "main" source for comparison, because it should be unique*/
     @Override

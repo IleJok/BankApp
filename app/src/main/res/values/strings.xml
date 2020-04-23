@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">Bank</string>
+    <string name="add_bank">Add Bank</string>
+    <string name="hint_bankName">Name of the Bank</string>
+    <string name="hint_bankAddress">Address of the Bank</string>
+    <string name="hint_bankCountry">Country of the Bank</string>
+    <string name="hint_bankBIC">BIC of the Bank</string>
+    <string name="button_save">Save</string>
+    <string name="button_create_account">Create account</string>
+    <string name="button_login">Log In</string>
+    <string name="empty_not_saved">Not saved because it (or some of it) is empty.</string>
+    <string name="hint_cName">Name</string>
+    <string name="hint_cAddress">Enter your address</string>
+    <string name="hint_cCountry">Enter your Country</string>
+    <string name="hint_cPhone">Enter your phone number</string>
+    <string name="hint_cEmail">Enter your email</string>
+    <string name="hint_cPass">Password</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="invalid_credentials">Wrong name or password</string>
+    <string name="welcome">Welcome to my humble bank application </string>
+    <string name="button_profile">View profile</string>
+    <string name="add_account"><b>Add new account</b></string>
+    <string name="modify_account"><b>Modify your account</b></string>
+    <string name="add_card"><b>Add card</b></string>
+    <string name="transfers">Allow transfers on this account</string>
+    <string name="card_payments">Allow card payments on this account</string>
+    <string name="account_type">Select account type: </string>
+    <string name="withdraw_money">Withdraw</string>
+    <string name="deposit_money">Deposit</string>
+    <string name="deposit_fragment">Deposit money to your account</string>
+    <string name="withdraw_fragment">Withdraw money from your account</string>
+
+    <string name="deposit_seekBar">Select amount to deposit: </string>
+    <string name="withdraw_seekBar">Select amount to withdraw: </string>
+
+    <string-array name="account_types">
+        <item>Current account</item>
+        <item>Credit account</item>
+        <item>Savings account</item>
+    </string-array>
+
 </resources>
