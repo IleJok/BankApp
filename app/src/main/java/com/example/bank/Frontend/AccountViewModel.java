@@ -3,6 +3,7 @@ package com.example.bank.Frontend;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.example.bank.Models.Account;
 import com.example.bank.Models.Card;
@@ -11,6 +12,7 @@ import com.example.bank.Repositories.AccountRepository;
 import com.example.bank.Repositories.CardRepository;
 import com.example.bank.Repositories.TransactionRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 public class AccountViewModel extends AndroidViewModel {
@@ -23,6 +25,7 @@ public class AccountViewModel extends AndroidViewModel {
         super(application);
         accountRepository = new AccountRepository(application);
         transactionRepository = new TransactionRepository(application);
+        cardRepository = new CardRepository(application);
     }
 
     public void addAccount(int bankId, int customerId, String accountType, String bankBIC, Double balance, Boolean transfers, Boolean cardPayments) {
@@ -48,4 +51,8 @@ public class AccountViewModel extends AndroidViewModel {
     }
 
     public void insertCard(Card card) {cardRepository.insert(card);}
+
+    public List<Card> getCardsForAccount(int accountId) {
+        return cardRepository.getCardsForAccount(accountId);
+    }
 }

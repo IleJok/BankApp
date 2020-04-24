@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.bank.Models.Account;
@@ -50,7 +51,9 @@ public class ProfileFragment extends Fragment {
         loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
         welcomeText = this.view.findViewById(R.id.profileText);
         RecyclerView recyclerView = this.view.findViewById(R.id.recyclerview);
-        FloatingActionButton button = this.view.findViewById(R.id.account_fab);
+        Button button = this.view.findViewById(R.id.account_fab);
+        Button profileButton = this.view.findViewById(R.id.edit_details);
+
         loginViewModel.authstate.observe(getViewLifecycleOwner(),
                 authState -> {
                     switch (authState){
@@ -98,6 +101,15 @@ public class ProfileFragment extends Fragment {
                                     bundle.putInt("bankId", loginViewModel.customer.getBankId());
                                     bundle.putString("bic", bank.getBIC());
                                     controller.navigate(R.id.action_profile_fragment_to_add_Account_Fragment, bundle);
+                                }
+                            });
+
+                            profileButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("customer", loginViewModel.customer);
+                                    controller.navigate(R.id.action_profile_fragment_to_editCustomerFragment, bundle);
                                 }
                             });
 

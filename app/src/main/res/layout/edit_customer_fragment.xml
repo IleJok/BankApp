@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Frontend.EditCustomerFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/profile" />
+    <EditText
+        android:id="@+id/edit_Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_cName"
+        android:inputType="textAutoComplete"
+        android:layout_marginTop="50dp"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/edit_Address"
+        android:layout_width="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_cAddress"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/edit_Country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/hint_cCountry"
+        android:inputType="textAutoComplete"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/edit_Phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_cPhone"
+        android:layout_marginTop="200dp"
+        android:inputType="phone"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/edit_Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_cEmail"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="250dp"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/edit_Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_cPass"
+        android:inputType="textPassword"
+        android:layout_marginTop="300dp"
+        android:textSize="18sp" />
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="375dp"
+        android:text="@string/button_save" />
+
+</FrameLayout>

@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_profile_fragment_to_accountFragment"
             app:destination="@id/account_fragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_editCustomerFragment"
+            app:destination="@id/edit_customer_fragment" />
     </fragment>
     <fragment
         android:id="@+id/add_Account_Fragment"
@@ -80,7 +83,11 @@
         android:id="@+id/add_card_ragment"
         android:name="com.example.bank.Frontend.AddCardFragment"
         android:label="add_card_fragment"
-        tools:layout="@layout/add_card_fragment" />
+        tools:layout="@layout/add_card_fragment" >
+        <action
+            android:id="@+id/action_add_card_ragment_to_account_fragment"
+            app:destination="@id/account_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/withdraw_fragment"
         android:name="com.example.bank.Frontend.WithdrawFragment"
@@ -89,5 +96,14 @@
         <action
             android:id="@+id/action_withdraw_fragment_to_account_fragment"
             app:destination="@id/account_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/edit_customer_fragment"
+        android:name="com.example.bank.Frontend.EditCustomerFragment"
+        android:label="edit_customer_fragment"
+        tools:layout="@layout/edit_customer_fragment" >
+        <action
+            android:id="@+id/action_edit_customer_fragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
     </fragment>
 </navigation>

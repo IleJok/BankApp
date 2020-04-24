@@ -38,6 +38,6 @@ public abstract class CardDao {
     @Query("SELECT * FROM cards WHERE accountId =:accountId")
     public abstract List<Card> getCardsForAccount(int accountId);
 
-    @Query("SELECT * FROM transactions WHERE cardId =: cardId")
+    @Query("SELECT * FROM transactions WHERE cardId =:cardId")
     public abstract LiveData<List<Transaction>> getTransactionsForCard(int cardId);
 }

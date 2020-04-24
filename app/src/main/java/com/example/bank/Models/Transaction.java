@@ -12,9 +12,8 @@ import java.io.Serializable;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(tableName = "transactions", foreignKeys = { @ForeignKey(entity = Account.class,
-parentColumns = "id", childColumns = "accountId", onDelete = CASCADE), @ForeignKey(entity = Card.class,
-parentColumns = "id", childColumns = "cardId", onDelete = CASCADE)})
+@Entity(tableName = "transactions", foreignKeys = @ForeignKey(entity = Account.class,
+parentColumns = "id", childColumns = "accountId", onDelete = CASCADE))
 public class Transaction implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -22,7 +21,7 @@ public class Transaction implements Serializable {
 
     private int accountId; // FK to Account entity
 
-    private int cardId; // FK to Card entity
+    private int cardId;
 
     private double amount;
 
@@ -39,6 +38,7 @@ public class Transaction implements Serializable {
 
     }
     /*Constructor without card id */
+    @Ignore
     public Transaction(int accountId, double amount, String transactionType, String transactionDate, String bic, int receivingId) {
         this.accountId = accountId;
         this.amount = amount;

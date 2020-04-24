@@ -34,7 +34,6 @@ public class LoginViewModel extends AndroidViewModel {
      public LoginViewModel(Application application){
          super(application);
          authstate.setValue(AuthState.UNAUTH);
-         customer = null;
          customerRepository = new CustomerRepository(application);
 
      }
@@ -78,6 +77,7 @@ public class LoginViewModel extends AndroidViewModel {
         return customerRepository.getCustomerWithAccounts(id);
     }
 */
+    public void update(Customer customer) {customerRepository.update(customer);}
     LiveData<List<Account>> getAccountsList(int customerId) {return customerRepository.getAccountsList(customerId);}
     Bank getCustomersBank(int bankId) {return customerRepository.getCustomersBank(bankId);}
 }

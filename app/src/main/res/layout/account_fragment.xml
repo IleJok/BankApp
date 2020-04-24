@@ -40,6 +40,11 @@
         android:background="@color/colorPrimary"
         android:layout_marginTop="190dp"
         android:text="@string/withdraw_money" />
+    <Spinner
+        android:id="@+id/cards_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transaction_recyclerview"
         android:scrollbars="vertical"

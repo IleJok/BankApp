@@ -10,6 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.bank.Models.Account;
 import com.example.bank.Models.Bank;
+import com.example.bank.Models.Card;
 import com.example.bank.Models.Customer;
 import com.example.bank.Models.Transaction;
 
@@ -27,7 +28,8 @@ import java.util.concurrent.Executors;
 *     also make sure to add abstract interfaces for the entities
 *       check BankDao for reference
 * */
-@Database(entities = {Bank.class, Customer.class, Account.class, Transaction.class}, version = 9, exportSchema = false)
+@Database(entities = {Bank.class, Customer.class, Account.class, Transaction.class, Card.class},
+        version = 11, exportSchema = false)
 public abstract class BankRoomDatabase extends RoomDatabase {
 
     public abstract BankDao bankDao();

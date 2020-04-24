@@ -6,11 +6,15 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.Contract;
+
+import java.io.Serializable;
+
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "cards", foreignKeys = @ForeignKey(entity = Account.class,
 parentColumns = "id", childColumns = "accountId", onDelete = CASCADE))
-public class Card {
+public class Card implements Serializable {
     @PrimaryKey
     @NonNull
     private int id;
@@ -106,8 +110,28 @@ public class Card {
         return creditLimit;
     }
 
+    /*Checks if the card is credit card and max credit limit is 10000 */
     public void setCreditLimit(double creditLimit) {
-        this.creditLimit = creditLimit;
+        if (this.cardType.equals("Credit card")) {
+            if (creditLimit >= 10000.0) {
+                this.creditLimit = 10000.0;
+            } else if (creditLimit > 0) {
+                this.creditLimit = creditLimit;
+            } else {
+                this.creditLimit = 0.0;
+            }
+        } else {
+            this.creditLimit = 0;
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "accountId=" + accountId +
+                ", cardType='" + cardType + '\'' +
+                '}';
     }
 
     /*Returns the length of our card pin*/

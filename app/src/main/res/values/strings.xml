@@ -7,6 +7,8 @@
     <string name="hint_bankBIC">BIC of the Bank</string>
     <string name="button_save">Save</string>
     <string name="button_create_account">Create account</string>
+    <string name="button_add_account">Add account</string>
+
     <string name="button_login">Log In</string>
     <string name="empty_not_saved">Not saved because it (or some of it) is empty.</string>
     <string name="hint_cName">Name</string>
@@ -15,6 +17,12 @@
     <string name="hint_cPhone">Enter your phone number</string>
     <string name="hint_cEmail">Enter your email</string>
     <string name="hint_cPass">Password</string>
+    <string name="hint_pin">Enter Pin for the card (4 digits)</string>
+    <string name="hint_limit">Enter credit limit (max 10 000)</string>
+    <string name="hint_withdraw">Enter withdraw limit (optional)</string>
+    <string name="limit">Limit card usage to one country</string>
+    <string name="accounts">Your accounts, click to see details: </string>
+    <string name="profile">Edit your information</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -29,16 +37,26 @@
     <string name="account_type">Select account type: </string>
     <string name="withdraw_money">Withdraw</string>
     <string name="deposit_money">Deposit</string>
+
     <string name="deposit_fragment">Deposit money to your account</string>
     <string name="withdraw_fragment">Withdraw money from your account</string>
+    <string name="add_card_fragment">Add card to your account</string>
+    <string name="card_type">Select card type: </string>
 
+    <string name="country_limit">Select country: </string>
+    <string name="credit_limit">Select credit limit (optional): </string>
     <string name="deposit_seekBar">Select amount to deposit: </string>
     <string name="withdraw_seekBar">Select amount to withdraw: </string>
+
 
     <string-array name="account_types">
         <item>Current account</item>
         <item>Credit account</item>
         <item>Savings account</item>
+    </string-array>
+    <string-array name="card_types">
+        <item>Debit card</item>
+        <item>Credit card</item>
     </string-array>
 
 </resources>

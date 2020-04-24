@@ -12,6 +12,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/welcome" />
+    <Button
+        android:id="@+id/edit_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/big_padding"
+        android:layout_marginTop="50dp"
+        android:text="@string/profile"/>
+    <Button
+        android:id="@+id/account_fab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/big_padding"
+        android:layout_marginTop="105dp"
+        android:text="@string/button_add_account"/>
+    <TextView
+        android:id="@+id/profile_accounts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:text="@string/accounts" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
@@ -19,15 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/big_padding"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="225dp"
         tools:listitem="@layout/recyclerview_item" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/account_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|right"
-        android:contentDescription="@string/add_account"
-        android:src="@drawable/ic_add_black_24dp"/>
+
 </FrameLayout>
