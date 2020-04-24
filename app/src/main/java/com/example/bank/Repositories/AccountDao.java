@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.bank.Models.Account;
+import com.example.bank.Models.Card;
 import com.example.bank.Models.Transaction;
 
 import java.util.List;
@@ -35,17 +36,22 @@ public abstract class AccountDao {
 
     @Query("SELECT * FROM accounts WHERE id =:id")
     public abstract Account getAccount(int id);
-    /* Get all the transactions for this account either sender or receiver */
 
+    /* Get all the transactions for this account either sender or receiver */
     @Query("SELECT * FROM transactions WHERE accountId =:accountId OR receivingId =:accountId")
     public abstract List<Transaction> getTransactionsList(int accountId) throws Exception;
 
+    /*Gets the cards for given account based on the account id*/
+    @Query("SELECT * FROM cards WHERE accountId =:accountId")
+    public abstract List<Card> getCardsForAccount(int accountId);
 
+    /*Inserts transactions from account to db*/
     public void insertTransactions(Account account) {
         List<Transaction> transactions = account.getTransactionList();
         insertTransactionList(transactions);
     }
 
+    /*Returns the account with related transactions*/
     public Account getAccountWithTransactions(int id) {
         Account account = getAccount(id);
         try {

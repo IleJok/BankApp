@@ -12,14 +12,17 @@ import java.io.Serializable;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(tableName = "transactions", foreignKeys = @ForeignKey(entity = Account.class,
-parentColumns = "id", childColumns = "accountId", onDelete = CASCADE))
+@Entity(tableName = "transactions", foreignKeys = { @ForeignKey(entity = Account.class,
+parentColumns = "id", childColumns = "accountId", onDelete = CASCADE), @ForeignKey(entity = Card.class,
+parentColumns = "id", childColumns = "cardId", onDelete = CASCADE)})
 public class Transaction implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;
 
-    private int accountId;
+    private int accountId; // FK to Account entity
+
+    private int cardId; // FK to Card entity
 
     private double amount;
 
@@ -29,14 +32,25 @@ public class Transaction implements Serializable {
 
     private int receivingId; // id for the account which is receiving the transaction
 
-    private String bic;
+    private String bic; // Banks bic
+
     @Ignore
     Transaction() {
 
     }
-
+    /*Constructor without card id */
     public Transaction(int accountId, double amount, String transactionType, String transactionDate, String bic, int receivingId) {
         this.accountId = accountId;
+        this.amount = amount;
+        this.transactionType = transactionType;
+        this.transactionDate = transactionDate;
+        this.bic = bic;
+        this.receivingId = receivingId;
+    }
+    /*Constructor with card id */
+    public Transaction(int accountId, int cardId, double amount, String transactionType, String transactionDate, String bic, int receivingId) {
+        this.accountId = accountId;
+        this.cardId = cardId;
         this.amount = amount;
         this.transactionType = transactionType;
         this.transactionDate = transactionDate;
@@ -59,6 +73,14 @@ public class Transaction implements Serializable {
 
     public void setAccountId(int accountId) {
         this.accountId = accountId;
+    }
+
+    public int getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(int cardId) {
+        this.cardId = cardId;
     }
 
     public double getAmount() {

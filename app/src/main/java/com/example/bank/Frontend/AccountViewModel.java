@@ -5,8 +5,10 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.example.bank.Models.Account;
+import com.example.bank.Models.Card;
 import com.example.bank.Models.Transaction;
 import com.example.bank.Repositories.AccountRepository;
+import com.example.bank.Repositories.CardRepository;
 import com.example.bank.Repositories.TransactionRepository;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public class AccountViewModel extends AndroidViewModel {
 
     private AccountRepository accountRepository;
     private TransactionRepository transactionRepository;
-
+    private CardRepository cardRepository;
 
     public AccountViewModel(Application application) {
         super(application);
@@ -44,4 +46,6 @@ public class AccountViewModel extends AndroidViewModel {
     public void updateAccount(Account account) {
         accountRepository.update(account);
     }
+
+    public void insertCard(Card card) {cardRepository.insert(card);}
 }

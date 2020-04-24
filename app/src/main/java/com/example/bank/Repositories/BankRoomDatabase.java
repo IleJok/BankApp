@@ -27,13 +27,14 @@ import java.util.concurrent.Executors;
 *     also make sure to add abstract interfaces for the entities
 *       check BankDao for reference
 * */
-@Database(entities = {Bank.class, Customer.class, Account.class, Transaction.class}, version = 8, exportSchema = false)
+@Database(entities = {Bank.class, Customer.class, Account.class, Transaction.class}, version = 9, exportSchema = false)
 public abstract class BankRoomDatabase extends RoomDatabase {
 
     public abstract BankDao bankDao();
     public abstract CustomerDao customerDao();
     public abstract AccountDao accountDao();
     public abstract TransactionDao transactionDao();
+    public abstract CardDao cardDao();
 
     private static volatile BankRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -70,12 +71,14 @@ public abstract class BankRoomDatabase extends RoomDatabase {
                 CustomerDao customerDao = INSTANCE.customerDao();
                 AccountDao accountDao = INSTANCE.accountDao();
                 TransactionDao transactionDao = INSTANCE.transactionDao();
+                CardDao cardDao = INSTANCE.cardDao();
 
                 // When the app starts again, it wipes all the banks
                 dao.deleteAllBanks();
                 customerDao.deleteAllCustomers();
                 accountDao.deleteAccounts();
                 transactionDao.deleteAllTransactions();
+                cardDao.deleteAllCards();
 
                 Bank bank = new Bank("Nordea", "Pankkikatu 1",
                         "Suomi", "NDEAFIHH");

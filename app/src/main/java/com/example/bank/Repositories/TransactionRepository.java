@@ -11,7 +11,7 @@ public class TransactionRepository {
     private TransactionDao transactionDao;
     private List<Transaction> allTransactions;
 
-    /* Dependency injection */
+    /* Dependency injection / Constructor for Repo */
     public TransactionRepository(Application application) {
         BankRoomDatabase db = BankRoomDatabase.getDatabase(application);
         transactionDao = db.transactionDao();
