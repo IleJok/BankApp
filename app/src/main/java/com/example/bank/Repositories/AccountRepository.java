@@ -39,7 +39,7 @@ public class AccountRepository {
         /*Iterate through the list of transactions, and if the account is not the receiver
         *of the transaction in transfer, make the amount negative */
         Iterator<Transaction> iterator = this.transactions.iterator();
-        if (iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Transaction transaction = iterator.next();
             if (transaction.getTransactionType().equals("Transfer")) {
                 if (transaction.getReceivingId() != id) {
