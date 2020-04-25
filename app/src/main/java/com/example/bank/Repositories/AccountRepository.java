@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.bank.Models.Account;
 import com.example.bank.Models.Transaction;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class AccountRepository {
@@ -35,6 +36,18 @@ public class AccountRepository {
         } catch (Exception e) {
             System.out.println("ERRORRRI " + e.toString());
         }
+        /*Iterate through the list of transactions, and if the account is not the receiver
+        *of the transaction in transfer, make the amount negative */
+        Iterator<Transaction> iterator = this.transactions.iterator();
+        if (iterator.hasNext()) {
+            Transaction transaction = iterator.next();
+            if (transaction.getTransactionType().equals("Transfer")) {
+                if (transaction.getReceivingId() != id) {
+                    transaction.setAmount(transaction.getAmount()*-1);
+                }
+            }
+        }
+
         return this.transactions;
     }
     public void insert(Account account) {

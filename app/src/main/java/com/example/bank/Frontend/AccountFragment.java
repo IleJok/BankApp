@@ -38,9 +38,9 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
  */
 public class AccountFragment extends Fragment {
     View view;
-    TextView welcomeText;
+    TextView welcomeText, cardsText, transactionsText;
     Spinner cardSpinner;
-    Button addCard, editAccount, deposit, withdraw;
+    Button addCard, editAccount, deposit, withdraw, transfer;
     double balance = 0.0;
     int value = 0;
     private AccountViewModel accountViewModel;
@@ -67,10 +67,15 @@ public class AccountFragment extends Fragment {
         final NavController controller = Navigation.findNavController(view);
         accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
         welcomeText = this.view.findViewById(R.id.accountViewText);
+        cardsText = this.view.findViewById(R.id.cards_text);
+        transactionsText = this.view.findViewById(R.id.transactions_text);
+
         addCard = this.view.findViewById(R.id.button_add_card);
         editAccount = this.view.findViewById(R.id.button_edit_account);
         deposit = this.view.findViewById(R.id.button_deposit);
         withdraw = this.view.findViewById(R.id.button_withdraw);
+        transfer = this.view.findViewById(R.id.button_transfer);
+
         Bundle bundle = getArguments();
         this.account = (Account) bundle.getSerializable("account");
         assert account != null;
@@ -139,6 +144,16 @@ public class AccountFragment extends Fragment {
                 Account transferAcc = account;
                 bundle3.putSerializable("account", transferAcc);
                 controller.navigate(R.id.action_account_fragment_to_withdraw_fragment, bundle3);
+            }
+        });
+
+        transfer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle5 = new Bundle();
+                Account transferAcc = account;
+                bundle5.putSerializable("account", transferAcc);
+                controller.navigate(R.id.action_account_fragment_to_transfer_fragment, bundle5);
             }
         });
 

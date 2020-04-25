@@ -109,6 +109,8 @@ public class Account implements Serializable {
         this.balance = balance;
     }
 
+    public void addToBalance(Double amount) {this.balance += amount;}
+
     public Boolean getTransfers() {
         return transfers;
     }
@@ -160,7 +162,6 @@ public class Account implements Serializable {
         }
     }
 
-
     /* Deposit money to account*/
     public Transaction deposit(Double amount) {
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -177,6 +178,26 @@ public class Account implements Serializable {
         }
     }
 
+    /* Transfer money from account to another account TODO implement transfers for future dates*/
+    public Transaction transfer(Double amount, Account account) {
+        if (this.getTransfers()) {
+            DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            if (this.balance >= amount) {
+                this.balance -= amount;
+                Transaction transaction = new Transaction(this.id, amount, "Transfer",
+                        df.format(date), this.bankBIC, account.getId());
+                account.addToBalance(amount); // Increment the balance of receiving account
+                System.out.println("transaction " + transaction.toString());
+                //this.addToTransactionList(transaction);
+                return transaction;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
     /* Withdraw money from account */
     public Transaction withdraw(Double amount) {
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

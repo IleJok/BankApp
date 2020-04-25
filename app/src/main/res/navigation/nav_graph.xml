@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_account_fragment_to_withdraw_fragment"
             app:destination="@id/withdraw_fragment" />
+        <action
+            android:id="@+id/action_account_fragment_to_transfer_fragment"
+            app:destination="@id/transfer_fragment" />
     </fragment>
     <fragment
         android:id="@+id/modify_account_fragment"
@@ -105,5 +108,14 @@
         <action
             android:id="@+id/action_edit_customer_fragment_to_profile_fragment"
             app:destination="@id/profile_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transfer_fragment"
+        android:name="com.example.bank.Frontend.TransferFragment"
+        android:label="transfer_fragment"
+        tools:layout="@layout/transfer_fragment" >
+        <action
+            android:id="@+id/action_transfer_fragment_to_account_fragment"
+            app:destination="@id/account_fragment" />
     </fragment>
 </navigation>
