@@ -38,12 +38,11 @@ public class Account implements Serializable {
     // if cardPayments are allowed or not
     private Boolean cardPayments;
 
-
-
     @Ignore
     private List<Transaction> transactionList = new ArrayList<>();
 
-    // TODO add List of cards
+    @Ignore
+    private List<Card> cardList = new ArrayList<>();
 
     @Ignore
     Account() {
@@ -110,6 +109,8 @@ public class Account implements Serializable {
         this.balance = balance;
     }
 
+    public void addToBalance(Double amount) {this.balance += amount;}
+
     public Boolean getTransfers() {
         return transfers;
     }
@@ -142,6 +143,25 @@ public class Account implements Serializable {
             this.setTransactionList(transactions);
         }
     }
+
+    public List<Card> getCardList() {
+        return cardList;
+    }
+
+    public void setCardList(List<Card> cardList) {
+        this.cardList = cardList;
+    }
+
+    public void addToCardList(Card card) {
+        if (this.cardList != null) {
+            this.cardList.add(card);
+        } else {
+            List<Card> cards = new ArrayList<>();
+            cards.add(card);
+            this.setCardList(cards);
+        }
+    }
+
     /* Deposit money to account*/
     public Transaction deposit(Double amount) {
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -158,13 +178,33 @@ public class Account implements Serializable {
         }
     }
 
+    /* Transfer money from account to another account TODO implement transfers for future dates*/
+    public Transaction transfer(Double amount, Account account) {
+        if (this.getTransfers()) {
+            DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            if (this.balance >= amount) {
+                this.balance -= amount;
+                Transaction transaction = new Transaction(this.id, amount, "Transfer",
+                        df.format(date), this.bankBIC, account.getId());
+                account.addToBalance(amount); // Increment the balance of receiving account
+                System.out.println("transaction " + transaction.toString());
+                //this.addToTransactionList(transaction);
+                return transaction;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
     /* Withdraw money from account */
     public Transaction withdraw(Double amount) {
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         if (this.balance >= amount) {
             this.balance -= amount;
-            Transaction transaction = new Transaction(this.id, amount, "Withdraw",
+            Transaction transaction = new Transaction(this.id, amount * -1, "Withdraw",
                     df.format(date), this.bankBIC, this.id);
             System.out.println("transaction " + transaction.toString());
             return transaction;

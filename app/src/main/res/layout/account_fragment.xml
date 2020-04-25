@@ -40,6 +40,30 @@
         android:background="@color/colorPrimary"
         android:layout_marginTop="190dp"
         android:text="@string/withdraw_money" />
+    <Button
+        android:id="@+id/button_transfer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="245dp"
+        android:text="@string/transfer_money" />
+    <TextView
+        android:id="@+id/cards_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:text="@string/your_cards" />
+    <Spinner
+        android:id="@+id/cards_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="325dp" />
+    <TextView
+        android:id="@+id/transactions_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="375dp"
+        android:text="@string/your_transactions" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transaction_recyclerview"
         android:scrollbars="vertical"

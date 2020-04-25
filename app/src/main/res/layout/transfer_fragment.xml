@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Frontend.TransferFragment">
+
+    <TextView
+        android:id="@+id/transfer_welcome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/transfer_fragment" />
+    <TextView
+        android:id="@+id/transfer_balance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/transfer_balance" />
+    <EditText
+        android:id="@+id/account_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/hint_account_number"
+        android:inputType="number"
+        android:layout_marginTop="75dp"
+        android:textSize="18sp" />
+    <TextView
+        android:id="@+id/transfer_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:textAlignment="center"
+        android:text="@string/transfer_seekBar" />
+    <SeekBar
+        android:id="@+id/seekBarTransfer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="175dp"
+        android:max="1000"
+        android:min="0"
+        android:progress="0"/>
+    <TextView
+        android:id="@+id/transferAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:textAlignment="center"
+        android:text="0"/>
+    <Button
+        android:id="@+id/button_transfer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="225dp"
+        android:text="@string/transfer_money" />
+
+</FrameLayout>
