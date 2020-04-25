@@ -22,6 +22,8 @@ import android.widget.Spinner;
 import com.example.bank.R;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,7 +65,11 @@ public class AddAccountFragment extends Fragment {
         saveAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addAccount(bankId, customerId, spinner.getSelectedItem().toString(), bankBIC, 0.0, transfersAllowed, cardPaymentsAllowed);
+                try {
+                    addAccount(bankId, customerId, spinner.getSelectedItem().toString(), bankBIC, 0.0, transfersAllowed, cardPaymentsAllowed);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Snackbar.make(v, "Account created!",
                         Snackbar.LENGTH_SHORT).show();
                 controller.navigate(R.id.profile_fragment);
@@ -96,7 +102,7 @@ public class AddAccountFragment extends Fragment {
     }
 
     /* Creates an account for the customer*/
-    public void addAccount(int bankId, int customerId, String accountType, String bankBIC, double balance, boolean transfers, boolean cardPayments) {
+    public void addAccount(int bankId, int customerId, String accountType, String bankBIC, double balance, boolean transfers, boolean cardPayments) throws IOException {
         accountViewModel.addAccount(bankId, customerId, accountType, bankBIC, balance, transfers, cardPayments);
     }
 

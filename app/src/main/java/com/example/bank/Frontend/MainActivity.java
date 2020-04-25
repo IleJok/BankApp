@@ -3,6 +3,7 @@ package com.example.bank.Frontend;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.example.bank.R;
@@ -10,6 +11,7 @@ import com.example.bank.R;
 public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private LoginViewModel loginViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

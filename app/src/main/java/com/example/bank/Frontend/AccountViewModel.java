@@ -12,6 +12,7 @@ import com.example.bank.Repositories.AccountRepository;
 import com.example.bank.Repositories.CardRepository;
 import com.example.bank.Repositories.TransactionRepository;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class AccountViewModel extends AndroidViewModel {
         cardRepository = new CardRepository(application);
     }
 
-    public void addAccount(int bankId, int customerId, String accountType, String bankBIC, Double balance, Boolean transfers, Boolean cardPayments) {
+    public void addAccount(int bankId, int customerId, String accountType, String bankBIC, Double balance, Boolean transfers, Boolean cardPayments) throws IOException {
         Account account = new Account(bankId, customerId, accountType, bankBIC, balance, transfers, cardPayments);
         accountRepository.insert(account);
     }

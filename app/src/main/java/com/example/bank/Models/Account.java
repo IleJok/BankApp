@@ -239,4 +239,13 @@ public class Account implements Serializable {
         return "Account number: " + id
                 + ", Balance : " + getBalance();
     }
+
+    public String toCSV() {
+        return this.id + ";" + this.customerId + ";" + this.accountType + ";" + this.bankBIC +";" +
+                this.balance + ";" + this.transfers + ";" + this.cardPayments + ";";
+    }
+
+    public String headersCSV(){
+        return "id;customerId;accountType;bankBIC;balance;transfers;cardPayments;";
+    }
 }

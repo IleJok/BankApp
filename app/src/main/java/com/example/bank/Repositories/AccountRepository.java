@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.bank.Models.Account;
 import com.example.bank.Models.Transaction;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -50,11 +51,14 @@ public class AccountRepository {
 
         return this.transactions;
     }
-    public void insert(Account account) {
+
+    public void insert(Account account) throws IOException {
         BankRoomDatabase.databaseWriteExecutor.execute(()-> {
             accountDao.insert(account);
         });
-
+        CSVWriter csvWriter = CSVWriter.getInstance();
+        boolean write = csvWriter.writeAccount(account);
+        System.out.println("Account written to csv: " + write);
     }
 
     void delete(Account... accounts) {
