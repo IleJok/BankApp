@@ -1,11 +1,13 @@
 package com.example.bank.Repositories;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.example.bank.Models.Account;
 import com.example.bank.Models.Transaction;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,7 +16,6 @@ public class AccountRepository {
     private AccountDao accountDao;
     private List<Account> allAccounts;
     private List<Transaction> transactions;
-
         /* Dependency injection*/
         public AccountRepository(Application application) {
         BankRoomDatabase db = BankRoomDatabase.getDatabase(application);
@@ -29,7 +30,16 @@ public class AccountRepository {
         return accountDao.getAccountWithTransactions(id);
     }
 
+
+
     Account getAccount(int id) {return accountDao.getAccount(id);}
+
+    /*Return the latest account for customer*/
+    public Account getLatestAccount(int customerId) {
+        return accountDao.getLatestAccount(customerId);
+    }
+    /*Gets transactions for given account, also returns them in latest first. Also apply some
+    * logic to transfer explained in the method*/
     public List<Transaction> getTransactionsList(int id) {
 
         try {
@@ -56,9 +66,6 @@ public class AccountRepository {
         BankRoomDatabase.databaseWriteExecutor.execute(()-> {
             accountDao.insert(account);
         });
-        CSVWriter csvWriter = CSVWriter.getInstance();
-        boolean write = csvWriter.writeAccount(account);
-        System.out.println("Account written to csv: " + write);
     }
 
     void delete(Account... accounts) {

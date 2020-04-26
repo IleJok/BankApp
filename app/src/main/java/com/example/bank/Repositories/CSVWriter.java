@@ -23,31 +23,33 @@ public class CSVWriter {
 
     }
 
-    static CSVWriter getInstance() {
+    public static CSVWriter getInstance() {
         if (csvWriter == null) {
             csvWriter = new CSVWriter();
         }
         return csvWriter;
     }
 
-    boolean writeAccount(Account account) throws IOException {
-        boolean fileExists;
+    public boolean writeAccount(Account account, Context context) throws IOException {
+        String fileName = "accounts.txt";
+
         try {
-            File file = new File(Environment.getExternalStorageDirectory().getPath() + "/accounts.txt");
-            if (file.exists())
-                fileExists = true;
-            else
-                fileExists= false;
-                file.createNewFile();
+            File file = context.getFileStreamPath(fileName);
+            if (!file.exists()) {
+                OutputStreamWriter ows = new OutputStreamWriter(
+                        context.openFileOutput(fileName, Context.MODE_PRIVATE));
+                ows.write(account.headersCSV());
+                ows.write(account.toCSV());
+                ows.close();
+                return true;
+            } else {
+                OutputStreamWriter ows = new OutputStreamWriter(
+                        context.openFileOutput(fileName, Context.MODE_APPEND));
+                ows.write(account.toCSV());
+                ows.close();
+                return true;
+            }
 
-            FileWriter fileWriter = new FileWriter(file, true);
-            BufferedWriter out = new BufferedWriter(fileWriter, Context.MODE_PRIVATE);
-            if (!fileExists)
-                out.write(account.headersCSV());
-
-            out.write(account.toCSV());
-            out.close();
-            return true;
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
             return false;

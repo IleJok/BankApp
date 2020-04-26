@@ -24,6 +24,7 @@ parentColumns = "id", childColumns = "bankId", onDelete = CASCADE), @ForeignKey(
 public class Account implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     private int id;
 
     private int bankId; // FK to a bank
@@ -241,11 +242,11 @@ public class Account implements Serializable {
     }
 
     public String toCSV() {
-        return this.id + ";" + this.customerId + ";" + this.accountType + ";" + this.bankBIC +";" +
-                this.balance + ";" + this.transfers + ";" + this.cardPayments + ";";
+        return this.id + ";" + this.bankId + ";" + this.customerId + ";" + this.accountType + ";" + this.bankBIC +";" +
+                this.balance + ";" + this.transfers + ";" + this.cardPayments + ";" + "\n";
     }
 
     public String headersCSV(){
-        return "id;customerId;accountType;bankBIC;balance;transfers;cardPayments;";
+        return "id;bankId;customerId;accountType;bankBIC;balance;transfers;cardPayments;\n";
     }
 }

@@ -1,6 +1,7 @@
 package com.example.bank.Frontend;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -9,6 +10,7 @@ import com.example.bank.Models.Account;
 import com.example.bank.Models.Card;
 import com.example.bank.Models.Transaction;
 import com.example.bank.Repositories.AccountRepository;
+import com.example.bank.Repositories.CSVWriter;
 import com.example.bank.Repositories.CardRepository;
 import com.example.bank.Repositories.TransactionRepository;
 
@@ -21,17 +23,24 @@ public class AccountViewModel extends AndroidViewModel {
     private AccountRepository accountRepository;
     private TransactionRepository transactionRepository;
     private CardRepository cardRepository;
+    Context context;
 
     public AccountViewModel(Application application) {
         super(application);
         accountRepository = new AccountRepository(application);
         transactionRepository = new TransactionRepository(application);
         cardRepository = new CardRepository(application);
+        this.context = application.getApplicationContext();
+
     }
 
     public void addAccount(int bankId, int customerId, String accountType, String bankBIC, Double balance, Boolean transfers, Boolean cardPayments) throws IOException {
         Account account = new Account(bankId, customerId, accountType, bankBIC, balance, transfers, cardPayments);
         accountRepository.insert(account);
+
+        CSVWriter csvWriter = CSVWriter.getInstance();
+        boolean writer = csvWriter.writeAccount(account, this.context);
+        System.out.println("Tulostuksen onnistuminen: "+ writer);
     }
     public void insertTransactions(Account account) {
         accountRepository.insertTransactions(account);
@@ -56,4 +65,9 @@ public class AccountViewModel extends AndroidViewModel {
     public List<Card> getCardsForAccount(int accountId) {
         return cardRepository.getCardsForAccount(accountId);
     }
+    /*Return the latest account for customer*/
+    public Account getLatestAccount( int customerId) {
+        return accountRepository.getLatestAccount(customerId);
+    }
+
 }
