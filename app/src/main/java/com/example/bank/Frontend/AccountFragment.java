@@ -26,6 +26,7 @@ import com.example.bank.Models.Account;
 import com.example.bank.Models.Card;
 import com.example.bank.Models.Transaction;
 import com.example.bank.R;
+import com.example.bank.Repositories.CSVWriter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -170,15 +171,21 @@ public class AccountFragment extends Fragment {
 
     /*Returns transactions for this account. TODO implement with LiveData*/
     public List<Transaction> getTransactions(int id) {
+        boolean writer = false;
         try {
             this.transactions = accountViewModel.getTransactionsList(id);
             account.setTransactionList(this.transactions);
+            CSVWriter csvWriter = CSVWriter.getInstance();
+            writer = csvWriter.writeTransactions(this.transactions, getActivity().getApplicationContext());
             return account.getTransactionList();
         } catch (Exception e) {
-            System.out.println("Erroro " + e);
+            e.printStackTrace();
         }
+        System.out.println("Tulostuksen transactions onnistuminen: "+ writer);
+
         return this.transactions;
     }
+
     /*Returns cards for this account. TODO implement with LiveData*/
     public List<Card> getCards(int id) {
         try {

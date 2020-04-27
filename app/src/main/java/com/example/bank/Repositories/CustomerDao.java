@@ -58,10 +58,13 @@ public abstract class CustomerDao {
         insertAccountList(accounts);
     }
 
-    /*public Customer getCustomerWithAccounts(int id) {
+    @Query("SELECT * FROM accounts WHERE customerId =:customerId")
+    public abstract List<Account> getAccountsListNotLive(int customerId);
+
+    public Customer getCustomerWithAccounts(int id) {
         Customer customer = getCustomer(id);
-        List<Account> accounts = getAccountsList(id);
+        List<Account> accounts = getAccountsListNotLive(id);
         customer.setAccounts(accounts);
         return customer;
-    }*/
+    }
 }

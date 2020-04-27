@@ -25,10 +25,7 @@ public class LoginViewModel extends AndroidViewModel {
     }
     private CustomerRepository customerRepository;
     final MutableLiveData<AuthState> authstate = new MutableLiveData<>();
-    private LiveData<List<Account>> customersAccounts;
     Customer customer;
-
-
 
 
      public LoginViewModel(Application application){
@@ -73,10 +70,9 @@ public class LoginViewModel extends AndroidViewModel {
         return customerRepository.getCustomerWithCred(name, password);
     }
     // Gets the customer with accounts
-    /*Customer getCustomersAccounts(int id) {
+    Customer getCustomersAccounts(int id) {
         return customerRepository.getCustomerWithAccounts(id);
     }
-*/
     public void update(Customer customer) {customerRepository.update(customer);}
     LiveData<List<Account>> getAccountsList(int customerId) {return customerRepository.getAccountsList(customerId);}
     Bank getCustomersBank(int bankId) {return customerRepository.getCustomersBank(bankId);}

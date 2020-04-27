@@ -187,7 +187,7 @@ public class Account implements Serializable {
             if (this.balance >= amount) {
                 this.balance -= amount;
                 Transaction transaction = new Transaction(this.id, amount, "Transfer",
-                        df.format(date), this.bankBIC, account.getId());
+                        df.format(date), this.bankBIC, account.getId(), account.getBankBIC());
                 account.addToBalance(amount); // Increment the balance of receiving account
                 System.out.println("transaction " + transaction.toString());
                 //this.addToTransactionList(transaction);
@@ -240,12 +240,12 @@ public class Account implements Serializable {
         return "Account number: " + id
                 + ", Balance : " + getBalance();
     }
-
+    /*Returns String which is stored to accounts.txt file*/
     public String toCSV() {
         return this.id + ";" + this.bankId + ";" + this.customerId + ";" + this.accountType + ";" + this.bankBIC +";" +
                 this.balance + ";" + this.transfers + ";" + this.cardPayments + ";" + "\n";
     }
-
+    /*Returns String which is stored to accounts.txt as a header*/
     public String headersCSV(){
         return "id;bankId;customerId;accountType;bankBIC;balance;transfers;cardPayments;\n";
     }

@@ -25,9 +25,9 @@ public class CustomerRepository {
     // Returns all the customers
     public List<Customer> getAllCustomers() { return mAllCustomers;}
     // Get all accounts from the customer
-    /*public Customer getCustomerWithAccounts(int id) {
+    public Customer getCustomerWithAccounts(int id) {
         return mCustomerDao.getCustomerWithAccounts(id);
-    }*/
+    }
     public LiveData<List<Account>> getAccountsList(int customerId){return mCustomerDao.getAccountsList(customerId);}
     // Get customer with the id
     public Customer getCustomer(int id) {return mCustomerDao.getCustomer(id);}
