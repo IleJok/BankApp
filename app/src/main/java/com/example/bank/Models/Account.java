@@ -135,6 +135,7 @@ public class Account implements Serializable {
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
     }
+    /*Add a transaction to this accounts cards list*/
     public void addToTransactionList(Transaction transaction) {
         if (this.transactionList != null) {
             this.transactionList.add(transaction);
@@ -153,6 +154,7 @@ public class Account implements Serializable {
         this.cardList = cardList;
     }
 
+    /*Add a card to this accounts cards list*/
     public void addToCardList(Card card) {
         if (this.cardList != null) {
             this.cardList.add(card);
