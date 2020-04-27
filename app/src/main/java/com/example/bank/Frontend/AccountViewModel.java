@@ -57,8 +57,12 @@ public class AccountViewModel extends AndroidViewModel {
 
     public void insertCard(Card card) {cardRepository.insert(card);}
 
-    public List<Card> getCardsForAccount(int accountId) {
+    public LiveData<List<Card>> getCardsForAccount(int accountId) {
         return cardRepository.getCardsForAccount(accountId);
+    }
+
+    public List<Card> getCardsForAccountNoLive(int accountId) {
+        return cardRepository.getCardsForAccountNoLive(accountId);
     }
     /*Return the latest account for customer*/
     public Account getLatestAccount( int customerId) {

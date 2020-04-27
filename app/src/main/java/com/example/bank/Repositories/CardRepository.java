@@ -24,8 +24,12 @@ public class CardRepository {
     /*Get a card based on its id*/
     Card getCard(int id) {return cardDao.getCard(id);}
     /*Get all the cards for this account*/
-    public List<Card> getCardsForAccount(int accountId) {
+    public LiveData<List<Card>> getCardsForAccount(int accountId) {
         return cardDao.getCardsForAccount(accountId);
+    }
+
+    public List<Card> getCardsForAccountNoLive(int accountId) {
+        return cardDao.getCardsForAccountNoLive(accountId);
     }
 
     public void insert(Card card) {

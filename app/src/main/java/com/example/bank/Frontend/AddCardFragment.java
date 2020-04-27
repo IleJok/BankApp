@@ -41,7 +41,7 @@ public class AddCardFragment extends Fragment {
     Spinner cardTypeSpinner, countrySpinner;
     CheckBox country;
     Button saveButton;
-    Boolean limitCountry;
+    Boolean limitCountry = false;
     Account account;
     private AccountViewModel accountViewModel;
 
@@ -127,10 +127,15 @@ public class AddCardFragment extends Fragment {
         card.setCardPin(Integer.parseInt(cardPin.getText().toString()));
         card.setAccountId(this.account.getId());
         card.setCardType(cardTypeSpinner.getSelectedItem().toString());
-        card.setCreditLimit(Integer.parseInt(creditLimit.getText().toString()));
-        card.setWithdrawLimit(Integer.parseInt(withdrawLimit.getText().toString()));
+        if (!TextUtils.isEmpty(creditLimit.getText().toString()))
+            card.setCreditLimit(Double.parseDouble(creditLimit.getText().toString()));
+        else
+            card.setCreditLimit(0.0);
+        if (!TextUtils.isEmpty(withdrawLimit.getText().toString()))
+            card.setWithdrawLimit(Double.parseDouble(withdrawLimit.getText().toString()));
         if (this.limitCountry)
             card.setCountryLimit(countrySpinner.getSelectedItem().toString());
+
         accountViewModel.insertCard(card);
         this.account.addToCardList(card);
     }

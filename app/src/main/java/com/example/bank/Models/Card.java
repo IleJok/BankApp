@@ -15,7 +15,7 @@ import static androidx.room.ForeignKey.CASCADE;
 @Entity(tableName = "cards", foreignKeys = @ForeignKey(entity = Account.class,
 parentColumns = "id", childColumns = "accountId", onDelete = CASCADE))
 public class Card implements Serializable {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;
 
@@ -126,12 +126,21 @@ public class Card implements Serializable {
 
     }
 
+    /*Validate the given pin*/
+    public boolean validatePin(int pin) {
+        if (this.cardPin == pin){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public String toString() {
-        return "Card{" +
-                "accountId=" + accountId +
-                ", cardType='" + cardType + '\'' +
-                '}';
+        if (this.cardType.equals("Credit card"))
+            return "Card: " + this.id + ", Card type: " + this.cardType + ", Credit limit: " + this.creditLimit;
+        else
+            return "Card: " + this.id + ", Card type: " + this.cardType;
     }
 
     /*Returns the length of our card pin*/

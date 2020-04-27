@@ -29,7 +29,7 @@ import java.util.concurrent.Executors;
 *       check BankDao for reference
 * */
 @Database(entities = {Bank.class, Customer.class, Account.class, Transaction.class, Card.class},
-        version = 12, exportSchema = false)
+        version = 13, exportSchema = false)
 public abstract class BankRoomDatabase extends RoomDatabase {
 
     public abstract BankDao bankDao();

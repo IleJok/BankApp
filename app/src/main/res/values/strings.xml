@@ -45,10 +45,18 @@
     <string name="deposit_fragment">Deposit money to your account</string>
     <string name="withdraw_fragment">Withdraw money from your account</string>
     <string name="transfer_fragment">Transfer money to another account</string>
+    <string name="card_fragment">Edit card settings</string>
+    <string name="save_card">Save changes</string>
+    <string name="changes">You can modify your card below: </string>
+    <string name="select_card">Select card to be used: </string>
+    <string name="no_card">If you have no cards, then withdraw is the same if you would walk to the bank
+    to collect the money</string>
+
     <string name="transfer_balance">Your accounts balance: </string>
 
     <string name="add_card_fragment">Add card to your account</string>
     <string name="card_type">Select card type: </string>
+    <string name="use_card">Card Details</string>
     <string name="your_cards">Your cards: </string>
     <string name="your_transactions">Your transactions: </string>
     <string name="country_limit">Select country: </string>
@@ -56,6 +64,7 @@
     <string name="deposit_seekBar">Select amount to deposit: </string>
     <string name="withdraw_seekBar">Select amount to withdraw: </string>
     <string name="transfer_seekBar">Select amount to transfer: </string>
+    <string name="location">Select the country you are located: </string>
 
     <string-array name="account_types">
         <item>Current account</item>

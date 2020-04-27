@@ -199,7 +199,7 @@ public class Account implements Serializable {
             return null;
         }
     }
-    /* Withdraw money from account */
+    /* Withdraw money from account, this is the same if you would walk in to bank to withdraw */
     public Transaction withdraw(Double amount) {
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
@@ -212,6 +212,37 @@ public class Account implements Serializable {
         } else {
             return null;
         }
+    }
+
+    /* Withdraw money from account with card*/
+    public Transaction withdrawWithCard(Double amount, Card card) {
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        switch (card.getCardType()) {
+            case "Credit card":
+                if (this.balance + card.getCreditLimit() >= amount && card.getWithdrawLimit()
+                >= amount) {
+                    this.balance -= amount;
+                    Transaction transaction = new Transaction(this.id, card.getId(), amount * -1, "Withdraw",
+                            df.format(date), this.bankBIC);
+                    System.out.println("transaction " + transaction.toString());
+                    return transaction;
+                } else {
+                    return null;
+                }
+            case "Debit card":
+                if (this.balance >= amount && card.getWithdrawLimit() >= amount) {
+                    this.balance -= amount;
+                    Transaction transaction = new Transaction(this.id, card.getId(),amount * -1, "Withdraw",
+                            df.format(date), this.bankBIC);
+                    System.out.println("transaction " + transaction.toString());
+                    return transaction;
+                } else {
+                    return null;
+                }
+
+        }
+        return null;
     }
     /* Make own comparison method for account,
     I'm using the id as the main source for comparison

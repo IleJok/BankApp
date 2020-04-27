@@ -51,15 +51,13 @@ public class Transaction implements Serializable {
     }
     /*Constructor with card id */
     @Ignore
-    public Transaction(int accountId, int cardId, double amount, String transactionType, String transactionDate, String bic, int receivingId) {
+    public Transaction(int accountId, int cardId, double amount, String transactionType, String transactionDate, String bic) {
         this.accountId = accountId;
         this.cardId = cardId;
         this.amount = amount;
         this.transactionType = transactionType;
         this.transactionDate = transactionDate;
         this.bic = bic;
-        this.receivingId = receivingId;
-
     }
     /*Constructor with receivers BIC, but without card id*/
     @Ignore
