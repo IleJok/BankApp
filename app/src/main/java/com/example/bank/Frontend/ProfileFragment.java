@@ -39,6 +39,7 @@ public class ProfileFragment extends Fragment {
     private LoginViewModel loginViewModel;
     TextView welcomeText;
     View view;
+    Bank bank;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class ProfileFragment extends Fragment {
         RecyclerView recyclerView = this.view.findViewById(R.id.recyclerview);
         Button button = this.view.findViewById(R.id.account_fab);
         Button profileButton = this.view.findViewById(R.id.edit_details);
+        Button logOut = this.view.findViewById(R.id.log_out);
 
         loginViewModel.authstate.observe(getViewLifecycleOwner(),
                 authState -> {
@@ -71,7 +73,7 @@ public class ProfileFragment extends Fragment {
                                     adapter.setAccounts(accounts1);
                                 }
                             });
-                            Bank bank = getCustomersBank(loginViewModel.customer.getBankId());
+                            bank = getCustomersBank(loginViewModel.customer.getBankId());
 
                             recyclerView.setAdapter(adapter);
                             adapter.setOnItemClickListener(new AccountListAdapter.ClickListener() {
@@ -115,9 +117,18 @@ public class ProfileFragment extends Fragment {
                                 }
                             });
 
+                            logOut.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    controller.navigate(R.id.main_fragment);
+                                    loginViewModel.refuse();
+                                }
+                            });
+
                             break;
                         case UNAUTH:
-                            controller.navigate(R.id.login_fragment);
+                            Bundle bundle1 = getArguments();
+                            controller.navigate(R.id.login_fragment, bundle1);
                             break;
                     }
                 });

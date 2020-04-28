@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -107,14 +108,22 @@ public class WithdrawFragment extends Fragment {
         withdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // TODO make this mess a couple of function with proper error handling and validation
                 Card card = (Card) cardSpinner.getSelectedItem();
                 List<Transaction> newTransactions = new ArrayList<>();
                 if (card == null) {
                     newTransactions = withdraw(Double.parseDouble(
                             withdrawAmount.getText().toString()));
                 } else {
-                    if (card.validatePin(Integer.parseInt(cardPin.getText().toString()))) {
+                    int pinToTest = 0;
+                    try {
+                        pinToTest = Integer.parseInt(cardPin.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        Snackbar.make(v,"Pin is incorrect",
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                    if (card.validatePin(pinToTest)) {
                         newTransactions = withdrawWithCard(Double.parseDouble(
                                 withdrawAmount.getText().toString()), card);
                     } else {
@@ -143,6 +152,20 @@ public class WithdrawFragment extends Fragment {
                     Snackbar.make(v,"Withdraw failed",
                             Snackbar.LENGTH_SHORT).show();
                 }
+
+            }
+        });
+
+        cardSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Card card = (Card) cardSpinner.getItemAtPosition(position);
+                value += (int)card.getCreditLimit();
+                withdrawSeekBar.setMax(value);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -176,23 +199,26 @@ public class WithdrawFragment extends Fragment {
     /*Withdraw from account without a card*/
     public List<Transaction> withdraw(Double amount) {
         System.out.println("transfer account" + account.toString());
-        try {
-            this.transaction = this.account.withdraw(amount);
-            //this.account.addToTransactionList(transaction);
-            accountViewModel.insertTransaction(this.transaction);
-            List<Transaction> newTransactions = accountViewModel.getTransactionsList(this.account.getId());
-            account.setTransactionList(newTransactions);
-            return  newTransactions;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        if (amount > 0) {
+            try {
+                this.transaction = this.account.withdraw(amount);
+                //this.account.addToTransactionList(transaction);
+                accountViewModel.insertTransaction(this.transaction);
+                List<Transaction> newTransactions = accountViewModel.getTransactionsList(this.account.getId());
+                account.setTransactionList(newTransactions);
+                return newTransactions;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
+        return null;
     }
 
     /*Withdraw from account with a card*/
     public List<Transaction> withdrawWithCard(Double amount, Card card) {
         System.out.println("transfer account" + account.toString());
-
+        if (amount > 0) {
             try {
                 this.transaction = this.account.withdrawWithCard(amount, card);
                 //this.account.addToTransactionList(transaction);
@@ -200,7 +226,7 @@ public class WithdrawFragment extends Fragment {
                     accountViewModel.insertTransaction(this.transaction);
                     List<Transaction> newTransactions = accountViewModel.getTransactionsList(this.account.getId());
                     account.setTransactionList(newTransactions);
-                    return  newTransactions;
+                    return newTransactions;
                 } else {
                     return null;
                 }
@@ -209,6 +235,8 @@ public class WithdrawFragment extends Fragment {
                 e.printStackTrace();
                 return account.getTransactionList();
             }
+        }
+        return account.getTransactionList();
     }
 
     public List<Transaction> getTransactions(int id) {

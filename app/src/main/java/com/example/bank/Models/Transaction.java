@@ -163,6 +163,9 @@ public class Transaction implements Serializable {
             case "Withdraw":
                 return "Account: "+ this.getAccountId() + "; BIC:"+this.getBic() +"; Date: " + this.getTransactionDate() + "; Type: " + this.getTransactionType()
                         + "; Amount: " + this.getAmount();
+            case "Card Withdraw":
+                return "Account: "+ this.getAccountId() + "; BIC:"+this.getBic() +"; Date: " + this.getTransactionDate() + "; Type: " + this.getTransactionType()
+                        + "; Amount: " + this.getAmount() + "; Card id: " + this.cardId;
             default:
                 return "Account: "+ this.getAccountId() + "; BIC:"+this.getBic() +"; Date: " + this.getTransactionDate() + "; Type: " + this.getTransactionType()
                         + "; Amount: " + this.getAmount() + ", Receiver: " + this.getReceivingId() + ", Receivers BIC: " + this.getReceivingBIC();

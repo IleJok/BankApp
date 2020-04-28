@@ -177,8 +177,13 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Card card = (Card) cardSpinner.getSelectedItem();
+                Bundle bundle5 = new Bundle();
+                Account transferAcc = account;
+                bundle5.putSerializable("account", transferAcc);
+                bundle5.putSerializable("card", card);
                 Snackbar.make(v, card.toString(),
                         Snackbar.LENGTH_SHORT).show();
+                controller.navigate(R.id.action_account_fragment_to_card_fragment, bundle5);
             }
         });
 

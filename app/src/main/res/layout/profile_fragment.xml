@@ -28,11 +28,19 @@
         android:padding="@dimen/big_padding"
         android:layout_marginTop="105dp"
         android:text="@string/button_add_account"/>
+    <Button
+        android:id="@+id/log_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/big_padding"
+        android:layout_marginTop="160dp"
+        android:text="@string/button_logout"/>
     <TextView
         android:id="@+id/profile_accounts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="250dp"
         android:text="@string/accounts" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -41,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/big_padding"
-        android:layout_marginTop="225dp"
+        android:layout_marginTop="275dp"
         tools:listitem="@layout/recyclerview_item" />
 
 

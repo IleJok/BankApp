@@ -26,17 +26,13 @@ public class Account implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;
-
     private int bankId; // FK to a bank
-
     private int customerId; // FK to a customer
-
     private String accountType; // Let the customer change her/his account type
     private String bankBIC;
     private Double balance;
-    // if transfers are allowed or not
-    private Boolean transfers;
-    // if cardPayments are allowed or not
+    private Boolean transfers; // if transfers are allowed or not
+    // if cardPayments are allowed or not TODO implement some effect on card payments
     private Boolean cardPayments;
 
     @Ignore
@@ -209,7 +205,6 @@ public class Account implements Serializable {
             this.balance -= amount;
             Transaction transaction = new Transaction(this.id, amount * -1, "Withdraw",
                     df.format(date), this.bankBIC, this.id);
-            System.out.println("transaction " + transaction.toString());
             return transaction;
         } else {
             return null;
@@ -225,7 +220,7 @@ public class Account implements Serializable {
                 if (this.balance + card.getCreditLimit() >= amount && card.getWithdrawLimit()
                 >= amount) {
                     this.balance -= amount;
-                    Transaction transaction = new Transaction(this.id, card.getId(), amount * -1, "Withdraw",
+                    Transaction transaction = new Transaction(this.id, card.getId(), amount * -1, "Card Withdraw",
                             df.format(date), this.bankBIC);
                     System.out.println("transaction " + transaction.toString());
                     return transaction;
@@ -235,14 +230,13 @@ public class Account implements Serializable {
             case "Debit card":
                 if (this.balance >= amount && card.getWithdrawLimit() >= amount) {
                     this.balance -= amount;
-                    Transaction transaction = new Transaction(this.id, card.getId(),amount * -1, "Withdraw",
+                    Transaction transaction = new Transaction(this.id, card.getId(),amount * -1, "Card Withdraw",
                             df.format(date), this.bankBIC);
                     System.out.println("transaction " + transaction.toString());
                     return transaction;
                 } else {
                     return null;
                 }
-
         }
         return null;
     }

@@ -7,9 +7,16 @@
     tools:context=".Frontend.CardFragment">
 
     <TextView
+        android:id="@+id/card_edit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/card_fragment" />
+    <TextView
+        android:id="@+id/card_details"
+        android:layout_width="match_parent"
+        android:layout_marginTop="25dp"
+        android:layout_height="match_parent"
+        android:text="@string/card_details" />
     <TextView
         android:id="@+id/card_type"
         android:layout_width="match_parent"

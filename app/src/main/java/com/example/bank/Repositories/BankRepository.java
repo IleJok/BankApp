@@ -27,6 +27,9 @@ public class BankRepository {
         return mBankDao.getBank(id);
     }
 
+    public Bank getBankWithName(String bankName) {
+        return mBankDao.getBankWithName(bankName);
+    }
   /*LiveData<List<BankWithCustomers>> getBankWithCustomers(int id) {
         return mBankDao.getBankWithCustomers(id);
     }

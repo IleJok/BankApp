@@ -9,7 +9,30 @@
         android:id="@+id/login_fragment"
         android:name="com.example.bank.Frontend.LoginFragment"
         android:label="fragment_login_fragment"
-        tools:layout="@layout/login_fragment" />
+        tools:layout="@layout/login_fragment">
+         <action android:id="@+id/action_login_fragment_to_register_fragment"
+        app:destination="@id/registration_graph" />
+    </fragment>
+    <navigation android:id="@+id/registration_graph"
+        app:startDestination="@id/enter_user_profile_fragment">
+
+        <fragment android:id="@+id/enter_user_profile_fragment"
+            android:name="com.example.bank.Frontend.ProfileDataFragment"
+            android:label="Enter Profile Data"
+            tools:layout="@layout/profile_info_fragment">
+
+            <action android:id="@+id/move_to_choose_user_password"
+                app:destination="@id/choose_user_password_fragment" />
+
+        </fragment>
+
+        <fragment android:id="@+id/choose_user_password_fragment"
+            android:name="com.example.bank.Frontend.PasswordFragment"
+            android:label="Choose User + Password"
+            tools:layout="@layout/choose_password_fragment" />
+
+    </navigation>
+
     <fragment
         android:id="@+id/main_fragment"
         android:name="com.example.bank.Frontend.MainFragment"
@@ -60,7 +83,7 @@
             app:destination="@id/deposit_fragment" />
         <action
             android:id="@+id/action_account_fragment_to_addCardFragment"
-            app:destination="@id/add_card_ragment" />
+            app:destination="@id/add_card_fragment" />
         <action
             android:id="@+id/action_account_fragment_to_withdraw_fragment"
             app:destination="@id/withdraw_fragment" />
@@ -86,12 +109,12 @@
             app:destination="@id/account_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/add_card_ragment"
+        android:id="@+id/add_card_fragment"
         android:name="com.example.bank.Frontend.AddCardFragment"
         android:label="add_card_fragment"
         tools:layout="@layout/add_card_fragment" >
         <action
-            android:id="@+id/action_add_card_ragment_to_account_fragment"
+            android:id="@+id/action_add_card_fragment_to_account_fragment"
             app:destination="@id/account_fragment" />
     </fragment>
     <fragment
@@ -125,5 +148,10 @@
         android:id="@+id/card_fragment"
         android:name="com.example.bank.Frontend.CardFragment"
         android:label="card_fragment"
-        tools:layout="@layout/card_fragment" />
+        tools:layout="@layout/card_fragment" >
+        <action
+            android:id="@+id/action_card_fragment_to_account_fragment"
+            app:destination="@id/account_fragment" />
+    </fragment>
+
 </navigation>

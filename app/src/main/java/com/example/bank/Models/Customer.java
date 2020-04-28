@@ -31,7 +31,7 @@ public class Customer implements Serializable {
     private List<Account> accounts;
 
     @Ignore
-    Customer() {
+    public Customer() {
 
     }
 
@@ -89,6 +89,7 @@ public class Customer implements Serializable {
         return password;
     }
 
+    // TODO implement proper password and authentication
     public void setPassword(String password) {
         this.password = password;
     }

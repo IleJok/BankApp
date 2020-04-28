@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.example.bank.Models.Account;
 import com.example.bank.Models.Card;
 import com.example.bank.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Locale;
 import java.util.SortedSet;
@@ -94,11 +95,11 @@ public class AddCardFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addCard();
+                addCard(v);
                 Bundle bundle4 = new Bundle();
                 Account transferAcc = account;
                 bundle4.putSerializable("account", transferAcc);
-                controller.navigate(R.id.action_add_card_ragment_to_account_fragment, bundle4);
+                controller.navigate(R.id.action_add_card_fragment_to_account_fragment, bundle4);
             }
         });
 
@@ -122,25 +123,38 @@ public class AddCardFragment extends Fragment {
     }
 
 
-    public void addCard() {
+    public void addCard(View view) {
         Card card = new Card();
-        card.setCardPin(Integer.parseInt(cardPin.getText().toString()));
-        card.setAccountId(this.account.getId());
-        card.setCardType(cardTypeSpinner.getSelectedItem().toString());
-        if (!TextUtils.isEmpty(creditLimit.getText().toString()))
-            card.setCreditLimit(Double.parseDouble(creditLimit.getText().toString()));
-        else
-            card.setCreditLimit(0.0);
-        if (!TextUtils.isEmpty(withdrawLimit.getText().toString()))
-            card.setWithdrawLimit(Double.parseDouble(withdrawLimit.getText().toString()));
-        if (this.limitCountry)
-            card.setCountryLimit(countrySpinner.getSelectedItem().toString());
+        int pinWanted = 0;
+        try {
+            pinWanted = Integer.parseInt(cardPin.getText().toString());
 
-        accountViewModel.insertCard(card);
-        this.account.addToCardList(card);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            Snackbar.make(view,"Pin is incorrect",
+                    Snackbar.LENGTH_SHORT).show();
+        }
+        String ok =  card.setCardPin(pinWanted);
+        if (ok.equals("Pin ok")) {
+            card.setAccountId(this.account.getId());
+            card.setCardType(cardTypeSpinner.getSelectedItem().toString());
+            if (!TextUtils.isEmpty(creditLimit.getText().toString()) && card.getCardType().equals("Credit card"))
+                card.setCreditLimit(Double.parseDouble(creditLimit.getText().toString()));
+            else
+                card.setCreditLimit(0.0);
+            if (!TextUtils.isEmpty(withdrawLimit.getText().toString()))
+                card.setWithdrawLimit(Double.parseDouble(withdrawLimit.getText().toString()));
+            else
+                card.setWithdrawLimit(10000.0);
+            if (this.limitCountry)
+                card.setCountryLimit(countrySpinner.getSelectedItem().toString());
+            accountViewModel.insertCard(card);
+            this.account.addToCardList(card);
+        }
     }
 
-    /*Gets a list of all countries to be used in country limit selection*/
+    /*Gets a list of all countries to be used in country limit selection
+     * TODO make utils file and put this in there, is already used in two views*/
     public SortedSet<String> getAllCountries() {
         SortedSet<String> allCountries = new TreeSet<>();
         for (Locale locale : Locale.getAvailableLocales()) {

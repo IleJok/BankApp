@@ -69,4 +69,8 @@ public class AccountViewModel extends AndroidViewModel {
         return accountRepository.getLatestAccount(customerId);
     }
 
+    public void updateCard(Card card) {
+        cardRepository.update(card);
+    }
+
 }

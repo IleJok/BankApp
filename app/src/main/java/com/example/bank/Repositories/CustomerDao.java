@@ -35,7 +35,7 @@ public abstract class CustomerDao {
     public abstract void deleteAllCustomers();
     // Get all customers from db
     @Query("SELECT * FROM customers")
-    public abstract List<Customer> loadAllCustomers();
+    public abstract LiveData<List<Customer>> loadAllCustomers();
     // Get customer with primary key
     @Query("SELECT * FROM customers WHERE id = :id LIMIT 1")
     public abstract Customer getCustomer(int id);
@@ -43,7 +43,6 @@ public abstract class CustomerDao {
     @Query("SELECT * FROM customers WHERE name =:name AND password=:password")
     public abstract Customer getCustomerWithCred(String name, String password);
     // Get the customer and her/his accounts
-
     @Query("SELECT * FROM accounts WHERE customerId =:customerId")
      public abstract LiveData<List<Account>> getAccountsList(int customerId);
 

@@ -3,6 +3,7 @@ package com.example.bank.Frontend;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.example.bank.Models.Customer;
 import com.example.bank.Repositories.CustomerRepository;
@@ -13,7 +14,7 @@ public class CustomerViewModel extends AndroidViewModel {
 
     private CustomerRepository customerRepository;
 
-    private List<Customer> allCustomers;
+    private LiveData<List<Customer>> allCustomers;
 
     public CustomerViewModel (Application application) {
         super(application);
@@ -22,7 +23,7 @@ public class CustomerViewModel extends AndroidViewModel {
     }
 
     // Get all customers
-   List<Customer> getAllCustomers() {return allCustomers;}
+   LiveData<List<Customer>> getAllCustomers() {return allCustomers;}
 
     // Get all accounts from the user
 /*    Customer getCustomerWithAccounts(int id) {

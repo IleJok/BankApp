@@ -8,7 +8,7 @@
     <string name="button_save">Save</string>
     <string name="button_create_account">Create account</string>
     <string name="button_add_account">Add account</string>
-
+    <string name="button_logout">Log out</string>
     <string name="button_login">Log In</string>
     <string name="empty_not_saved">Not saved because it (or some of it) is empty.</string>
     <string name="hint_cName">Name</string>
@@ -17,9 +17,11 @@
     <string name="hint_cPhone">Enter your phone number</string>
     <string name="hint_cEmail">Enter your email</string>
     <string name="hint_cPass">Password</string>
+    <string name="hint_cPass2">Enter the same password</string>
+
     <string name="hint_pin">Enter Pin for the card (4 digits)</string>
     <string name="hint_limit">Enter credit limit (max 10 000)</string>
-    <string name="hint_withdraw">Enter withdraw limit (optional)</string>
+    <string name="hint_withdraw">Enter withdraw limit (default 10 000)</string>
     <string name="limit">Limit card usage to one country</string>
     <string name="hint_recipient">Name of the recipient (optional)</string>
     <string name="hint_account_number">Account number for the recipient</string>
@@ -27,12 +29,19 @@
 
     <string name="accounts">Your accounts, click to see details: </string>
     <string name="profile">Edit your information</string>
+    <string name="add_profile">Add your information</string>
+    <string name="add_password">Add your password</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_bank">Select your bank: </string>
+
+
+    <string name="hello_blank_fragment">Welcome to my humble bank application</string>
     <string name="invalid_credentials">Wrong name or password</string>
     <string name="welcome">Welcome to my humble bank application </string>
-    <string name="button_profile">View profile</string>
+    <string name="button_profile">Open the selected bank</string>
+    <string name="button_register">Register</string>
+    <string name="button_next">Set password</string>
+
     <string name="add_account"><b>Add new account</b></string>
     <string name="modify_account"><b>Modify your account</b></string>
     <string name="add_card"><b>Add card</b></string>
@@ -51,6 +60,7 @@
     <string name="select_card">Select card to be used: </string>
     <string name="no_card">If you have no cards, then withdraw is the same if you would walk to the bank
     to collect the money</string>
+    <string name="card_details">Your card details</string>
 
     <string name="transfer_balance">Your accounts balance: </string>
 
