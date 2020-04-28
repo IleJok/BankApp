@@ -31,7 +31,9 @@ public class Transaction implements Serializable {
 
     private int receivingId; // id for the account which is receiving the transaction
 
-    private String bic; // Banks bic
+    private String receivingBIC; // BIC for the receiver
+
+    private String bic; // Banks BIC
 
     @Ignore
     Transaction() {
@@ -48,7 +50,28 @@ public class Transaction implements Serializable {
         this.receivingId = receivingId;
     }
     /*Constructor with card id */
-    public Transaction(int accountId, int cardId, double amount, String transactionType, String transactionDate, String bic, int receivingId) {
+    @Ignore
+    public Transaction(int accountId, int cardId, double amount, String transactionType, String transactionDate, String bic) {
+        this.accountId = accountId;
+        this.cardId = cardId;
+        this.amount = amount;
+        this.transactionType = transactionType;
+        this.transactionDate = transactionDate;
+        this.bic = bic;
+    }
+    /*Constructor with receivers BIC, but without card id*/
+    @Ignore
+    public Transaction(int accountId, double amount, String transactionType, String transactionDate, String bic, int receivingId, String receivingBIC) {
+        this.accountId = accountId;
+        this.amount = amount;
+        this.transactionType = transactionType;
+        this.transactionDate = transactionDate;
+        this.bic = bic;
+        this.receivingId = receivingId;
+        this.receivingBIC = receivingBIC;
+    }
+    /*Constructor with receivers BIC*/
+    public Transaction(int accountId, int cardId, double amount, String transactionType, String transactionDate, String bic, int receivingId, String receivingBIC) {
         this.accountId = accountId;
         this.cardId = cardId;
         this.amount = amount;
@@ -56,6 +79,7 @@ public class Transaction implements Serializable {
         this.transactionDate = transactionDate;
         this.bic = bic;
         this.receivingId = receivingId;
+        this.receivingBIC = receivingBIC;
     }
 
 
@@ -115,6 +139,14 @@ public class Transaction implements Serializable {
         this.receivingId = receivingId;
     }
 
+    public String getReceivingBIC() {
+        return receivingBIC;
+    }
+
+    public void setReceivingBIC(String receivingBIC) {
+        this.receivingBIC = receivingBIC;
+    }
+
     public String getBic() {
         return bic;
     }
@@ -126,7 +158,27 @@ public class Transaction implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return "Account: "+ this.getAccountId() + "; BIC:"+this.getBic() +"; Date: " + this.getTransactionDate() + "; Type: " + this.getTransactionType()
-                + "; Amount: " + this.getAmount() + ", Receiver: " + this.getReceivingId();
+        switch (this.transactionType) {
+            case "Deposit":
+            case "Withdraw":
+                return "Account: "+ this.getAccountId() + "; BIC:"+this.getBic() +"; Date: " + this.getTransactionDate() + "; Type: " + this.getTransactionType()
+                        + "; Amount: " + this.getAmount();
+            case "Card Withdraw":
+                return "Account: "+ this.getAccountId() + "; BIC:"+this.getBic() +"; Date: " + this.getTransactionDate() + "; Type: " + this.getTransactionType()
+                        + "; Amount: " + this.getAmount() + "; Card id: " + this.cardId;
+            default:
+                return "Account: "+ this.getAccountId() + "; BIC:"+this.getBic() +"; Date: " + this.getTransactionDate() + "; Type: " + this.getTransactionType()
+                        + "; Amount: " + this.getAmount() + ", Receiver: " + this.getReceivingId() + ", Receivers BIC: " + this.getReceivingBIC();
+        }
+    }
+
+    public String toCSV() {
+        return this.id + ";" +this.accountId + ";" +this.cardId + ";" +this.amount + ";"
+                +this.transactionType + ";" +this.transactionDate + ";" +this.bic + ";"
+                +this.receivingId +";" +this.receivingBIC + "\n";
+    }
+
+    public String headersCSV(){
+        return "id;accountId;cardId;amount;transactionType;transactionDate;BIC;receiverId;receiverBIC;\n";
     }
 }

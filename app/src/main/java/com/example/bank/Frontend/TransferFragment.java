@@ -80,23 +80,42 @@ public class TransferFragment extends Fragment {
         transfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Transaction> newTransactions = transfer(Double.parseDouble(
-                        transferAmount.getText().toString()), Integer.parseInt(
-                                accountNumber.getText().toString()
-                ));
-                transactions.addAll(newTransactions);
-                account.setTransactionList(transactions);
-                accountViewModel.updateAccount(account);
-                Snackbar.make(v,transferAmount.getText().toString() + "transferred from account",
-                        Snackbar.LENGTH_SHORT).show();
-                balance = account.getBalance();
-                value = (int) balance;
-                transferSeekBar.setMax(value);
-                transferSeekBar.setProgress(0);
-                Bundle bundle = new Bundle();
-                Account transferAcc = account;
-                bundle.putSerializable("account", transferAcc);
-                controller.navigate(R.id.action_transfer_fragment_to_account_fragment, bundle);
+                // TODO make this onclick handler more robust and divide it into to several functions
+                int receiverId = 0;
+                double amount = 0;
+                try {
+                    amount = Double.parseDouble(
+                            transferAmount.getText().toString());
+                    receiverId = Integer.parseInt(
+                            accountNumber.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    Snackbar.make(v,"Give receivers account id/number",
+                            Snackbar.LENGTH_SHORT).show();
+                }
+
+                if (receiverId > 0 && amount > 0) {
+                    List<Transaction> newTransactions = transfer(amount, receiverId
+                    , view);
+                    if (newTransactions != null) {
+                        transactions.addAll(newTransactions);
+                        account.setTransactionList(transactions);
+                        accountViewModel.updateAccount(account);
+                        Snackbar.make(v, transferAmount.getText().toString() + "transferred from account",
+                                Snackbar.LENGTH_SHORT).show();
+                        balance = account.getBalance();
+                        value = (int) balance;
+                        transferSeekBar.setMax(value);
+                        transferSeekBar.setProgress(0);
+                        Bundle bundle = new Bundle();
+                        Account transferAcc = account;
+                        bundle.putSerializable("account", transferAcc);
+                        controller.navigate(R.id.action_transfer_fragment_to_account_fragment, bundle);
+                    }
+                } else {
+                    Snackbar.make(v, "Transfer failed",
+                            Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -128,34 +147,42 @@ public class TransferFragment extends Fragment {
         });
 
     }
-
-    public List<Transaction> transfer(Double amount, int receivingId) {
-        System.out.println("Deposit account" + account.toString());
+    /*Transfers money to given account, adds the new transaction to both receiver and sender*/
+    public List<Transaction> transfer(Double amount, int receivingId, View v) {
         Account receiver = accountViewModel.getAccountWithTransactions(receivingId);
-        if (amount < this.account.getBalance()) {
+        if (amount < this.account.getBalance() && amount > 0 && receiver != null) {
             try {
                 this.transaction = this.account.transfer(amount, receiver);
-                accountViewModel.insertTransaction(this.transaction);
-                List<Transaction> newTransactions = accountViewModel.getTransactionsList(this.account.getId());
-                account.setTransactionList(newTransactions);
-                receiver.addToTransactionList(transaction);
-                accountViewModel.updateAccount(receiver);
-                return  newTransactions;
+                if (this.transaction != null) {
+                    accountViewModel.insertTransaction(this.transaction);
+                    List<Transaction> newTransactions = accountViewModel.getTransactionsList(this.account.getId());
+                    account.setTransactionList(newTransactions);
+                    receiver.addToTransactionList(transaction);
+                    accountViewModel.updateAccount(receiver);
+                    return newTransactions;
+                } else {
+                    return null;
+                }
             } catch (Exception e) {
-                throw e;
+                e.printStackTrace();
+                return null;
             }
 
         }
-        return account.getTransactionList();
+        if (receiver == null) {
+            Snackbar.make(v, "Check receivers account number!",
+                    Snackbar.LENGTH_SHORT).show();
+        }
+        return null;
     }
-
+    /*Returns list of transactions for this account*/
     public List<Transaction> getTransactions(int id) {
         try {
             this.transactions = accountViewModel.getTransactionsList(id);
             account.setTransactionList(this.transactions);
             return account.getTransactionList();
         } catch (Exception e) {
-            System.out.println("Erroro " + e);
+            e.printStackTrace();
         }
         return this.transactions;
     }

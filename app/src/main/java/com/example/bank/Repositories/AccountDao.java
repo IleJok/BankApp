@@ -31,6 +31,9 @@ public abstract class AccountDao {
     @Query("DELETE FROM accounts")
     public abstract void deleteAllAccounts();
 
+    @Query("SELECT * FROM accounts WHERE customerId=:customerId ORDER BY id DESC LIMIT 1")
+    public abstract Account getLatestAccount(int customerId);
+
     @Query("SELECT * FROM accounts")
     public abstract List<Account> loadAllAccounts();
 

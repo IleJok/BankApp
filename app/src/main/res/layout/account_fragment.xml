@@ -58,11 +58,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="325dp" />
+    <Button
+        android:id="@+id/button_use_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="350dp"
+        android:text="@string/use_card" />
     <TextView
         android:id="@+id/transactions_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="375dp"
+        android:layout_marginTop="400dp"
         android:text="@string/your_transactions" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transaction_recyclerview"
@@ -71,6 +78,6 @@
         android:layout_height="match_parent"
         android:padding="@dimen/big_padding"
         tools:listitem="@layout/recyclerview_item"
-        android:layout_marginTop="400dp" />
+        android:layout_marginTop="425dp" />
 
 </FrameLayout>

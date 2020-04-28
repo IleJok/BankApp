@@ -6,24 +6,56 @@
     android:background="@drawable/background"
     tools:context=".Frontend.WithdrawFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/withdraw_welcome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/withdraw_fragment" />
     <TextView
+        android:id="@+id/select_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="25dp"
+        android:text="@string/select_card" />
+    <Spinner
+        android:id="@+id/cards_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp" />
+    <TextView
+        android:id="@+id/select_country"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="75dp"
+        android:text="@string/location" />
+    <Spinner
+        android:id="@+id/card_country_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        />
+    <EditText
+        android:id="@+id/card_pin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/min_height"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/hint_pin"
+        android:inputType="numberPassword"
+        android:layout_marginTop="125dp"
+        android:textSize="18sp" />
+    <TextView
         android:id="@+id/withdraw_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="175dp"
         android:textAlignment="center"
         android:text="@string/withdraw_seekBar" />
     <SeekBar
         android:id="@+id/seekBarWithdraw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="175dp"
+        android:layout_marginTop="200dp"
         android:max="1000"
         android:min="0"
         android:progress="0"/>
@@ -31,7 +63,7 @@
         android:id="@+id/withdrawAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="225dp"
         android:textAlignment="center"
         android:text="0"/>
     <Button
@@ -39,7 +71,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:layout_marginTop="225dp"
+        android:layout_marginTop="250dp"
         android:text="@string/withdraw_money" />
-
+    <TextView
+        android:id="@+id/no_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="300dp"
+        android:text="@string/no_card" />
 </FrameLayout>

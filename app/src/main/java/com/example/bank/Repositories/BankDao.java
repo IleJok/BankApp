@@ -32,6 +32,8 @@ public abstract class BankDao {
     @Query("SELECT * FROM banks WHERE id = :id")
     public abstract Bank getBank(int id);
 
+    @Query("SELECT * FROM banks WHERE name =:name")
+    public abstract Bank getBankWithName(String name);
     /*@Transaction
     @Query("SELECT * FROM banks WHERE id = :id")
     LiveData<List<BankWithCustomers>> getBankWithCustomers(int id);

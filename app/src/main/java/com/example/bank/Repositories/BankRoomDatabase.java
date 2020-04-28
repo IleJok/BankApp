@@ -29,7 +29,7 @@ import java.util.concurrent.Executors;
 *       check BankDao for reference
 * */
 @Database(entities = {Bank.class, Customer.class, Account.class, Transaction.class, Card.class},
-        version = 11, exportSchema = false)
+        version = 14, exportSchema = false)
 public abstract class BankRoomDatabase extends RoomDatabase {
 
     public abstract BankDao bankDao();
@@ -85,12 +85,14 @@ public abstract class BankRoomDatabase extends RoomDatabase {
                 Bank bank = new Bank("Nordea", "Pankkikatu 1",
                         "Suomi", "NDEAFIHH");
                 int id = (int) dao.insert(bank);
-                /*Bank bank2 = new Bank(2, "OP", "Teollisuuskatu 1",
-                        "Suomi", "OKOYFIHH ");
-                dao.insert(bank2);
+                Bank bank2 = new Bank("OP", "Teollisuuskatu", "Suomi",
+                         "OKOYFIHH ");
+                int id2 = (int) dao.insert(bank2);
+                /*
                 Bank bank3 = new Bank( 3, "S-Pankki", "Osuuskuntakatu 1",
                         "Suomi", "SBANFIHH ");
                 dao.insert(bank3);*/
+
                 Customer customer = new Customer(id, "Ilkka", "testikatu", "Suomi", "044",
                         "ilkka@testi.com", "ilkka");
                 int custId = (int) customerDao.insert(customer);

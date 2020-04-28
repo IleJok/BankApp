@@ -23,8 +23,9 @@ import com.example.bank.Models.Account;
 import com.example.bank.Models.Bank;
 import com.example.bank.Models.Customer;
 import com.example.bank.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.bank.Repositories.CSVWriter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,8 @@ public class ProfileFragment extends Fragment {
     private LoginViewModel loginViewModel;
     TextView welcomeText;
     View view;
-    Account account;
+    Bank bank;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.profile_fragment, container, false);
@@ -53,23 +55,25 @@ public class ProfileFragment extends Fragment {
         RecyclerView recyclerView = this.view.findViewById(R.id.recyclerview);
         Button button = this.view.findViewById(R.id.account_fab);
         Button profileButton = this.view.findViewById(R.id.edit_details);
+        Button logOut = this.view.findViewById(R.id.log_out);
 
         loginViewModel.authstate.observe(getViewLifecycleOwner(),
                 authState -> {
                     switch (authState){
                         case AUTH: // If customer is authenticated show her/his accounts and welcome
                             int id = showWelcome();
+                            getAccounts(id);
                             List<Account> accounts = new ArrayList<>();
                             recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
                             final AccountListAdapter adapter = new AccountListAdapter(accounts);
                             loginViewModel.getAccountsList(id).observe(requireActivity(), new Observer<List<Account>>() {
                                 @Override
                                 public void onChanged(@Nullable final List<Account> accounts1) {
-                                    // Update the cached copy of the words in the adapter.
+                                    // Update the cached copy of the accounts in the adapter.
                                     adapter.setAccounts(accounts1);
                                 }
                             });
-                            Bank bank = getCustomersBank(loginViewModel.customer.getBankId());
+                            bank = getCustomersBank(loginViewModel.customer.getBankId());
 
                             recyclerView.setAdapter(adapter);
                             adapter.setOnItemClickListener(new AccountListAdapter.ClickListener() {
@@ -113,9 +117,18 @@ public class ProfileFragment extends Fragment {
                                 }
                             });
 
+                            logOut.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    controller.navigate(R.id.main_fragment);
+                                    loginViewModel.refuse();
+                                }
+                            });
+
                             break;
                         case UNAUTH:
-                            controller.navigate(R.id.login_fragment);
+                            Bundle bundle1 = getArguments();
+                            controller.navigate(R.id.login_fragment, bundle1);
                             break;
                     }
                 });
@@ -124,18 +137,23 @@ public class ProfileFragment extends Fragment {
     /* Displays welcome text for the customer if succesfully logged in*/
     public int showWelcome() {
         String welcome = getString(R.string.welcome);
-        this.welcomeText.setText(welcome + " " + loginViewModel.customer.getName());
+        this.welcomeText.setText(String.format("%s %s", welcome, loginViewModel.customer.getName()));
         return loginViewModel.customer.getId();
     }
 
     /*Returns all accounts that this customer has based on his id*/
-/*
-    public List<Account> getAccounts(int customerId) {
+    public void getAccounts(int customerId) {
         Customer customer = loginViewModel.getCustomersAccounts(customerId);
-        return customer.getAccounts();
+        boolean writer = false;
+        try {
+            CSVWriter csvWriter = CSVWriter.getInstance();
+            writer = csvWriter.writeAccount(customer.getAccounts(), getActivity().getApplicationContext());
+        } catch (IndexOutOfBoundsException  | IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Tulostuksen accounts onnistuminen: "+ writer);
     }
-*/
-
+    /*Returs the bank where customer is customer*/
     public Bank getCustomersBank(int bankId) {
         Bank bank = loginViewModel.getCustomersBank(bankId);
         return bank;

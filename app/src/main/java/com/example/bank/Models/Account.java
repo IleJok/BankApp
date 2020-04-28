@@ -24,18 +24,15 @@ parentColumns = "id", childColumns = "bankId", onDelete = CASCADE), @ForeignKey(
 public class Account implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     private int id;
-
     private int bankId; // FK to a bank
-
     private int customerId; // FK to a customer
-
     private String accountType; // Let the customer change her/his account type
     private String bankBIC;
     private Double balance;
-    // if transfers are allowed or not
-    private Boolean transfers;
-    // if cardPayments are allowed or not
+    private Boolean transfers; // if transfers are allowed or not
+    // if cardPayments are allowed or not TODO implement some effect on card payments
     private Boolean cardPayments;
 
     @Ignore
@@ -134,6 +131,7 @@ public class Account implements Serializable {
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
     }
+    /*Add a transaction to this accounts cards list*/
     public void addToTransactionList(Transaction transaction) {
         if (this.transactionList != null) {
             this.transactionList.add(transaction);
@@ -152,6 +150,7 @@ public class Account implements Serializable {
         this.cardList = cardList;
     }
 
+    /*Add a card to this accounts cards list*/
     public void addToCardList(Card card) {
         if (this.cardList != null) {
             this.cardList.add(card);
@@ -186,7 +185,7 @@ public class Account implements Serializable {
             if (this.balance >= amount) {
                 this.balance -= amount;
                 Transaction transaction = new Transaction(this.id, amount, "Transfer",
-                        df.format(date), this.bankBIC, account.getId());
+                        df.format(date), this.bankBIC, account.getId(), account.getBankBIC());
                 account.addToBalance(amount); // Increment the balance of receiving account
                 System.out.println("transaction " + transaction.toString());
                 //this.addToTransactionList(transaction);
@@ -198,7 +197,7 @@ public class Account implements Serializable {
             return null;
         }
     }
-    /* Withdraw money from account */
+    /* Withdraw money from account, this is the same if you would walk in to bank to withdraw */
     public Transaction withdraw(Double amount) {
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
@@ -206,11 +205,40 @@ public class Account implements Serializable {
             this.balance -= amount;
             Transaction transaction = new Transaction(this.id, amount * -1, "Withdraw",
                     df.format(date), this.bankBIC, this.id);
-            System.out.println("transaction " + transaction.toString());
             return transaction;
         } else {
             return null;
         }
+    }
+
+    /* Withdraw money from account with card*/
+    public Transaction withdrawWithCard(Double amount, Card card) {
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        switch (card.getCardType()) {
+            case "Credit card":
+                if (this.balance + card.getCreditLimit() >= amount && card.getWithdrawLimit()
+                >= amount) {
+                    this.balance -= amount;
+                    Transaction transaction = new Transaction(this.id, card.getId(), amount * -1, "Card Withdraw",
+                            df.format(date), this.bankBIC);
+                    System.out.println("transaction " + transaction.toString());
+                    return transaction;
+                } else {
+                    return null;
+                }
+            case "Debit card":
+                if (this.balance >= amount && card.getWithdrawLimit() >= amount) {
+                    this.balance -= amount;
+                    Transaction transaction = new Transaction(this.id, card.getId(),amount * -1, "Card Withdraw",
+                            df.format(date), this.bankBIC);
+                    System.out.println("transaction " + transaction.toString());
+                    return transaction;
+                } else {
+                    return null;
+                }
+        }
+        return null;
     }
     /* Make own comparison method for account,
     I'm using the id as the main source for comparison
@@ -238,5 +266,14 @@ public class Account implements Serializable {
     public String toString() {
         return "Account number: " + id
                 + ", Balance : " + getBalance();
+    }
+    /*Returns String which is stored to accounts.txt file*/
+    public String toCSV() {
+        return this.id + ";" + this.bankId + ";" + this.customerId + ";" + this.accountType + ";" + this.bankBIC +";" +
+                this.balance + ";" + this.transfers + ";" + this.cardPayments + ";" + "\n";
+    }
+    /*Returns String which is stored to accounts.txt as a header*/
+    public String headersCSV(){
+        return "id;bankId;customerId;accountType;bankBIC;balance;transfers;cardPayments;\n";
     }
 }

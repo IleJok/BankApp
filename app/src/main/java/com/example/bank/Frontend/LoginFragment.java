@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.bank.Models.Bank;
 import com.example.bank.R;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -29,7 +30,9 @@ public class LoginFragment extends Fragment {
     private LoginViewModel loginViewModel;
     private EditText customerNameEdit;
     private EditText passwordEdit;
-    private Button loginButton;
+    private Button loginButton, registerButton;
+    private Bank bank;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.login_fragment, container, false);
@@ -37,21 +40,40 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final NavController controller = Navigation.findNavController(view);
+        final View root = view;
         loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
+        String bankName = "";
+        try {
+            Bundle bundle = getArguments();
+            bankName = bundle.getString("bankName");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         customerNameEdit = view.findViewById(R.id.user_name_input);
         passwordEdit = view.findViewById(R.id.user_password_input);
+
+        registerButton = view.findViewById(R.id.register_button);
+        String finalBankName = bankName;
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("bankName" , finalBankName);
+                controller.navigate(R.id.action_login_fragment_to_register_fragment, bundle1);
+            }
+        });
 
         loginButton = view.findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginViewModel.authenticate(customerNameEdit.getText().toString(), passwordEdit.getText().toString());
+                loginViewModel.authenticate(customerNameEdit.getText().toString(),
+                        passwordEdit.getText().toString());
             }
         });
 
-        final NavController controller = Navigation.findNavController(view);
-        final View root = view;
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
                 new OnBackPressedCallback(true) {

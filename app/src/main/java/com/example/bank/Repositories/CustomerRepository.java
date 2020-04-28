@@ -9,11 +9,12 @@ import com.example.bank.Models.Bank;
 import com.example.bank.Models.Customer;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 public class CustomerRepository {
 
     private CustomerDao mCustomerDao;
-    private List<Customer> mAllCustomers;
+    private LiveData<List<Customer>> mAllCustomers;
 
     /* Dependency injection*/
     public CustomerRepository(Application application) {
@@ -23,11 +24,11 @@ public class CustomerRepository {
     }
 
     // Returns all the customers
-    public List<Customer> getAllCustomers() { return mAllCustomers;}
+    public LiveData<List<Customer>> getAllCustomers() { return mAllCustomers;}
     // Get all accounts from the customer
-    /*public Customer getCustomerWithAccounts(int id) {
+    public Customer getCustomerWithAccounts(int id) {
         return mCustomerDao.getCustomerWithAccounts(id);
-    }*/
+    }
     public LiveData<List<Account>> getAccountsList(int customerId){return mCustomerDao.getAccountsList(customerId);}
     // Get customer with the id
     public Customer getCustomer(int id) {return mCustomerDao.getCustomer(id);}
@@ -35,10 +36,9 @@ public class CustomerRepository {
         return mCustomerDao.getCustomerWithCred(name, password);}
     // Insert customer to database
     public int insert(Customer customer) {
-        BankRoomDatabase.databaseWriteExecutor.execute(() -> {
-            mCustomerDao.insert(customer);
-        });
-        return customer.getId();
+        int joku = 0;
+        joku = (int)mCustomerDao.insert(customer);
+        return joku;
     }
     // Delete given customers from the db
     public void delete(Customer... customers) {

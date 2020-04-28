@@ -72,7 +72,6 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
 
 
     void setAccounts(List<Account> customersAccounts) {
-        System.out.println("Tullaaaaaaaaaaaaaaaaaaanko");
         this.mCustomersAccounts = customersAccounts;
         notifyDataSetChanged();
     }
