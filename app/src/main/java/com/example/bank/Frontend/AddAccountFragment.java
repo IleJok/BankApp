@@ -26,16 +26,16 @@ import java.io.IOException;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A view for account creation accessed from profile fragment
+ * add_account_fragment.xml is the layout file
  */
 public class AddAccountFragment extends Fragment {
 
-    View view;
-    boolean transfersAllowed = false;
-    boolean cardPaymentsAllowed = false;
-    CheckBox transfers, cardPayments;
+    private View view;
+    private boolean transfersAllowed = false;
+    private boolean cardPaymentsAllowed = false;
+    private CheckBox transfers, cardPayments;
     private AccountViewModel accountViewModel;
-    private Button saveAccountButton;
     private int customerId, bankId;
     private String bankBIC;
     @Override
@@ -50,29 +50,40 @@ public class AddAccountFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final NavController controller = Navigation.findNavController(view);
+        /* arguments should never be null, because there are placeholder values declared in the
+        action in the nav graph
+        */
+        assert getArguments() != null;
         customerId = getArguments().getInt("customerId");
         bankId = getArguments().getInt("bankId");
         bankBIC = getArguments().getString("bic");
         accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
-        Spinner spinner = (Spinner) this.view.findViewById(R.id.account_types_spinner);
+        /*Account types are redundant at the moment for the application
+        * Account types are declared in the strings resource  */
+        Spinner spinner = this.view.findViewById(R.id.account_types_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireActivity(),
                 R.array.account_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         transfers = this.view.findViewById(R.id.transfers);
         cardPayments = this.view.findViewById(R.id.card_payments);
-        saveAccountButton = this.view.findViewById(R.id.button_save_account);
+        Button saveAccountButton = this.view.findViewById(R.id.button_save_account);
+
+        /*Saves account to database. And if success, navigate to profile fragment*/
         saveAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    addAccount(bankId, customerId, spinner.getSelectedItem().toString(), bankBIC, 0.0, transfersAllowed, cardPaymentsAllowed);
+                    addAccount(bankId, customerId, spinner.getSelectedItem().toString(), bankBIC,
+                            0.0, transfersAllowed, cardPaymentsAllowed);
+                    Snackbar.make(v, "Account created!",
+                            Snackbar.LENGTH_SHORT).show();
+                    controller.navigate(R.id.profile_fragment);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Snackbar.make(v, "Account created!",
+                Snackbar.make(v, "Account was not created!",
                         Snackbar.LENGTH_SHORT).show();
-                controller.navigate(R.id.profile_fragment);
             }
         });
 
@@ -83,6 +94,7 @@ public class AddAccountFragment extends Fragment {
                         controller.popBackStack(R.id.profile_fragment, false);
                     }
                 });
+        /*Checkbox listener, nothing fancy here, if checked true...*/
         transfers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -91,6 +103,7 @@ public class AddAccountFragment extends Fragment {
                 }
             }
         });
+        /*Checkbox listener, nothing fancy here, if checked true...*/
         cardPayments.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

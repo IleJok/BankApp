@@ -26,18 +26,18 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to deposit money to an account. Fragment is accessed from AccountFragment.
+ * Layout file is deposit_fragment.xml
  */
 public class DepositFragment extends Fragment {
-    View view;
-    TextView welcomeText, depositAmount, depositText;
-    SeekBar depositSeekBar;
+    private View view;
+    private TextView welcomeText;
+    private TextView depositAmount;
+    private SeekBar depositSeekBar;
 
-    Button deposit;
     private AccountViewModel accountViewModel;
-    Transaction transaction;
-    Account account;
-    List<Transaction> transactions;
+    private Account account;
+    private List<Transaction> transactions;
 
     public DepositFragment() {
         // Required empty public constructor
@@ -59,15 +59,16 @@ public class DepositFragment extends Fragment {
         accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
         welcomeText = this.view.findViewById(R.id.deposit_welcome);
         depositAmount = this.view.findViewById(R.id.depositAmount);
-        depositText = this.view.findViewById(R.id.deposit_text);
+        TextView depositText = this.view.findViewById(R.id.deposit_text);
         depositSeekBar = this.view.findViewById(R.id.seekBarDeposit);
-        deposit = this.view.findViewById(R.id.button_deposit);
+        Button deposit = this.view.findViewById(R.id.button_deposit);
         Bundle bundle = getArguments();
+        assert bundle != null;
         account = (Account) bundle.getSerializable("account");
-        System.out.println("Deposit fragmentin account" + account.toString());
         assert account != null;
         this.transactions = getTransactions(account.getId());
-        welcomeText.setText("Deposit To: " + account.toString());
+        welcomeText.setText(String.format("Deposit To: %s", account.toString()));
+        /*Deposit money to an account and update the account with than new deposit transaction*/
         deposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +99,7 @@ public class DepositFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 amountToDeposit = progress;
-                depositAmount.setText(Integer.toString(amountToDeposit));
+                depositAmount.setText(String.valueOf(amountToDeposit));
             }
 
             @Override
@@ -108,38 +109,37 @@ public class DepositFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                depositAmount.setText(Integer.toString(amountToDeposit));
+                depositAmount.setText(String.valueOf(amountToDeposit));
             }
         });
 
 
     }
-
-    public List<Transaction> deposit(Double amount) {
-        System.out.println("Deposit account" + account.toString());
+    /*Deposit money to an account and return all the transactions for this account, also create
+    * a transaction from this deposit*/
+    private List<Transaction> deposit(Double amount) {
         if (amount > 0) {
             try {
-                this.transaction = this.account.deposit(amount);
+                Transaction transaction = this.account.deposit(amount);
                 //this.account.addToTransactionList(transaction);
-                accountViewModel.insertTransaction(this.transaction);
-                List<Transaction> newTransactions = accountViewModel.getTransactionsList(this.account.getId());
+                accountViewModel.insertTransaction(transaction);
+                List<Transaction> newTransactions = getTransactions(this.account.getId());
                 account.setTransactionList(newTransactions);
                 return newTransactions;
             } catch (Exception e) {
-                throw e;
+                e.printStackTrace();
             }
-
         }
         return account.getTransactionList();
     }
-
-    public List<Transaction> getTransactions(int id) {
+    /*Gets the transactions for this account. TODO proper error handling...*/
+    private List<Transaction> getTransactions(int id) {
         try {
             this.transactions = accountViewModel.getTransactionsList(id);
             account.setTransactionList(this.transactions);
             return account.getTransactionList();
         } catch (Exception e) {
-            System.out.println("Erroro " + e);
+            e.printStackTrace();
         }
         return this.transactions;
     }

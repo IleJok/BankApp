@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
+import com.example.bank.R;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,15 +15,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.example.bank.Models.Bank;
-import com.example.bank.R;
+
+
 
 import static com.example.bank.Frontend.RegistrationViewModel.RegistrationState.COLLECT_USER_PASSWORD;
 
-public class ProfileDataFragment extends Fragment {
+/* Inspiration and guide for this code is from the docs:
+https://developer.android.com/guide/navigation/navigation-conditional
+In this fragment the user(customer) add her/his details and moves to PasswordFragment for setting
+password. RegisterFragment is accessed from ProfileFragment if the user is not logged in
+Layout file profile_info_fragment.xml
+ */
+public class RegisterFragment extends Fragment {
     private RegistrationViewModel registrationViewModel;
     private EditText mEditName, mEditAddress, mEditCountry, mEditPhone, mEditEmail;
-    private Button saveCustomer;
     private String bankName;
 
     @Override
@@ -37,6 +42,7 @@ public class ProfileDataFragment extends Fragment {
                 requireActivity()).get(RegistrationViewModel.class);
         final NavController controller = Navigation.findNavController(view);
         Bundle bundle = getArguments();
+        assert bundle != null;
         String bankName =bundle.getString("bankName");
 
         mEditName = view.findViewById(R.id.edit_Name);
@@ -44,7 +50,7 @@ public class ProfileDataFragment extends Fragment {
         mEditCountry = view.findViewById(R.id.edit_Country);
         mEditPhone = view.findViewById(R.id.edit_Phone);
         mEditEmail = view.findViewById(R.id.edit_Email);
-        saveCustomer = view.findViewById(R.id.button_next);
+        Button saveCustomer = view.findViewById(R.id.button_next);
         /*Collect the input from the user and pass it to registrationViewModel*/
         saveCustomer.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -39,19 +39,19 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * This fragment could be described as the main view of this application. Through this view,
+ * customer can see transactions and navigate to different views like transfer money, withdraw,
+ * deposit, modify account and so on.
+ * Accessed from profile fragment through clicking one the accounts customer has.
+ * Layout file account_fragment.xml
  */
 public class AccountFragment extends Fragment {
-    View view;
-    TextView welcomeText, cardsText, transactionsText;
-    Spinner cardSpinner;
-    Button addCard, editAccount, deposit, withdraw, transfer, cardDetails;
-    double balance = 0.0;
-    int value = 0;
+    private View view;
+    private Spinner cardSpinner;
     private AccountViewModel accountViewModel;
-    Account account;
-    List<Transaction> transactions;
-    List<Card> cards;
+    private Account account;
+    private List<Transaction> transactions;
+    private List<Card> cards;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -71,26 +71,24 @@ public class AccountFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final NavController controller = Navigation.findNavController(view);
         accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
-        welcomeText = this.view.findViewById(R.id.accountViewText);
-        cardsText = this.view.findViewById(R.id.cards_text);
-        transactionsText = this.view.findViewById(R.id.transactions_text);
+        TextView welcomeText = this.view.findViewById(R.id.accountViewText);
 
-        addCard = this.view.findViewById(R.id.button_add_card);
-        editAccount = this.view.findViewById(R.id.button_edit_account);
-        deposit = this.view.findViewById(R.id.button_deposit);
-        withdraw = this.view.findViewById(R.id.button_withdraw);
-        transfer = this.view.findViewById(R.id.button_transfer);
-        cardDetails = this.view.findViewById(R.id.button_use_card);
+        Button addCard = this.view.findViewById(R.id.button_add_card);
+        Button editAccount = this.view.findViewById(R.id.button_edit_account);
+        Button deposit = this.view.findViewById(R.id.button_deposit);
+        Button withdraw = this.view.findViewById(R.id.button_withdraw);
+        Button transfer = this.view.findViewById(R.id.button_transfer);
+        Button cardDetails = this.view.findViewById(R.id.button_use_card);
 
         Bundle bundle = getArguments();
+        assert bundle != null;
         this.account = (Account) bundle.getSerializable("account");
         assert account != null;
         System.out.println("Account id " + account.getId());
         this.transactions = getTransactions(account.getId());
         this.cards = getCards(account.getId());
         welcomeText.setText(account.toString());
-        balance = account.getBalance();
-        value = (int) balance;
+
         if (this.cards== null)
             this.cards = new ArrayList<>();
         cardSpinner = this.view.findViewById(R.id.cards_spinner);
@@ -98,7 +96,7 @@ public class AccountFragment extends Fragment {
                 android.R.layout.simple_spinner_item, cards);
         cardArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cardSpinner.setAdapter(cardArrayAdapter);
-
+        /*Notify the adapter which holds the Customers cards for changes*/
         accountViewModel.getCardsForAccount(account.getId()).observe(requireActivity(), new Observer<List<Card>>() {
             @Override
             public void onChanged(@Nullable final List<Card> cardsList) {
@@ -110,6 +108,8 @@ public class AccountFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         final TransactionListAdapter transactionListAdapter = new TransactionListAdapter(this.transactions);
         recyclerView.setAdapter(transactionListAdapter);
+        /*Clicking individual transaction at moment only shows the details on the screen by
+        * snackbar which is configured in TransactionListAdapter*/
         transactionListAdapter.setOnItemClickListener(new TransactionListAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
@@ -120,7 +120,7 @@ public class AccountFragment extends Fragment {
                 Log.d(TAG, "onItemClick position: " + position);
             }
         });
-
+        /*Navigate to AddCardFragment where you can add a card to account*/
         addCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +130,7 @@ public class AccountFragment extends Fragment {
                 controller.navigate(R.id.action_account_fragment_to_addCardFragment, bundle4);
             }
         });
-
+        /*Navigate to ModifyAccountFragment where you can modify an account*/
         editAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +140,7 @@ public class AccountFragment extends Fragment {
                 controller.navigate(R.id.action_accountFragment_to_modifyAccountFragment, bundle1);
             }
         });
-
+        /*Navigate to DepositFragment where you can deposit money to an account*/
         deposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +150,7 @@ public class AccountFragment extends Fragment {
                 controller.navigate(R.id.action_account_fragment_to_deposit_fragment, bundle2);
             }
         });
-
+        /*Navigate to WithdrawFragment where you can withdraw money from an account with(out) card*/
         withdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,7 +162,8 @@ public class AccountFragment extends Fragment {
                 controller.navigate(R.id.action_account_fragment_to_withdraw_fragment, bundle3);
             }
         });
-
+        /*Navigate to TransferFragment where you can transfer money from an account to another
+        * account*/
         transfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +173,7 @@ public class AccountFragment extends Fragment {
                 controller.navigate(R.id.action_account_fragment_to_transfer_fragment, bundle5);
             }
         });
-
+        /*Display card details and modify them*/
         cardDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,18 +201,13 @@ public class AccountFragment extends Fragment {
 
     /*Returns transactions for this account. TODO implement with LiveData*/
     public List<Transaction> getTransactions(int id) {
-        boolean writer = false;
         try {
             this.transactions = accountViewModel.getTransactionsList(id);
             account.setTransactionList(this.transactions);
-            CSVWriter csvWriter = CSVWriter.getInstance();
-            writer = csvWriter.writeTransactions(this.transactions, getActivity().getApplicationContext());
             return account.getTransactionList();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Tulostuksen transactions onnistuminen: "+ writer);
-
         return this.transactions;
     }
 

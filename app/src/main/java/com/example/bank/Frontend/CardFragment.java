@@ -33,18 +33,18 @@ import java.util.TreeSet;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to modify a card in an account. Fragment is accessed from AccountFragment.
+ * Layout file is card_fragment.xml
  */
 public class CardFragment extends Fragment {
     private View view;
-    private TextView editCard, cardDetails, cardType, countryLimit;
     private Spinner cardTypes, countrySpinner;
     private EditText withdrawLimit, cardPin, creditLimit;
     private CheckBox countries;
     private Boolean limitCountry = false;
     private AccountViewModel accountViewModel;
-    Card card;
-    Account account;
+    private Card card;
+    private Account account;
     public CardFragment() {
         // Required empty public constructor
     }
@@ -63,13 +63,14 @@ public class CardFragment extends Fragment {
         final NavController controller = Navigation.findNavController(view);
         accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
         Bundle bundle = getArguments();
+        assert bundle != null;
         this.card = (Card) bundle.getSerializable("card");
         this.account = (Account) bundle.getSerializable("account");
 
-        editCard = this.view.findViewById(R.id.card_edit);
-        cardDetails = this.view.findViewById(R.id.card_details);
-        cardType = this.view.findViewById(R.id.card_type);
-        countryLimit = this.view.findViewById(R.id.country_limit);
+        TextView editCard = this.view.findViewById(R.id.card_edit);
+        TextView cardDetails = this.view.findViewById(R.id.card_details);
+        TextView cardType = this.view.findViewById(R.id.card_type);
+        TextView countryLimit = this.view.findViewById(R.id.country_limit);
         withdrawLimit =  this.view.findViewById(R.id.card_withdraw_limit);
         cardPin =  this.view.findViewById(R.id.card_pin);
         creditLimit =  this.view.findViewById(R.id.card_credit_limit);
@@ -90,7 +91,7 @@ public class CardFragment extends Fragment {
         countrySpinner.setSelection(countryAdapter.getPosition("Finland"));
 
         Button saveCard = this.view.findViewById(R.id.button_save_card);
-
+        /*Save card and return to account fragment*/
         saveCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +123,7 @@ public class CardFragment extends Fragment {
 
     /*Gets a list of all countries to be used in country limit selection
     * TODO make utils file and put this in there, is already used in two views*/
-    public SortedSet<String> getAllCountries() {
+    private SortedSet<String> getAllCountries() {
         SortedSet<String> allCountries = new TreeSet<>();
         for (Locale locale : Locale.getAvailableLocales()) {
             if (!TextUtils.isEmpty(locale.getDisplayCountry())) {
@@ -131,8 +132,8 @@ public class CardFragment extends Fragment {
         }
         return allCountries;
     }
-
-    public void updateCard(View view) {
+    /*Update the card object and store the changes to db*/
+    private void updateCard(View view) {
         int pinWanted = 0;
         try {
             pinWanted = Integer.parseInt(cardPin.getText().toString());
@@ -146,7 +147,8 @@ public class CardFragment extends Fragment {
         if (ok.equals("Pin ok")) {
             card.setAccountId(this.account.getId());
             card.setCardType(cardTypes.getSelectedItem().toString());
-            if (!TextUtils.isEmpty(creditLimit.getText().toString()) && card.getCardType().equals("Credit card"))
+            if (!TextUtils.isEmpty(creditLimit.getText().toString()) &&
+                    card.getCardType().equals("Credit card"))
                 card.setCreditLimit(Double.parseDouble(creditLimit.getText().toString()));
             else
                 card.setCreditLimit(0.0);

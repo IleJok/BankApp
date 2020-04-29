@@ -1,5 +1,7 @@
 package com.example.bank.Models;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -24,8 +26,8 @@ parentColumns = "id", childColumns = "bankId", onDelete = CASCADE), @ForeignKey(
 public class Account implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    @NonNull
     private int id;
+
     private int bankId; // FK to a bank
     private int customerId; // FK to a customer
     private String accountType; // Let the customer change her/his account type
@@ -163,15 +165,12 @@ public class Account implements Serializable {
 
     /* Deposit money to account*/
     public Transaction deposit(Double amount) {
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         if (amount > 0) {
             this.balance += amount;
-            Transaction transaction = new Transaction(this.id, amount, "Deposit",
+            return new Transaction(this.id, amount, "Deposit",
                     df.format(date), this.bankBIC, this.id);
-            System.out.println("transaction " + transaction.toString());
-            //this.addToTransactionList(transaction);
-            return transaction;
         } else {
             return null;
         }
@@ -180,7 +179,7 @@ public class Account implements Serializable {
     /* Transfer money from account to another account TODO implement transfers for future dates*/
     public Transaction transfer(Double amount, Account account) {
         if (this.getTransfers()) {
-            DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             if (this.balance >= amount) {
                 this.balance -= amount;
@@ -188,7 +187,6 @@ public class Account implements Serializable {
                         df.format(date), this.bankBIC, account.getId(), account.getBankBIC());
                 account.addToBalance(amount); // Increment the balance of receiving account
                 System.out.println("transaction " + transaction.toString());
-                //this.addToTransactionList(transaction);
                 return transaction;
             } else {
                 return null;
@@ -199,13 +197,12 @@ public class Account implements Serializable {
     }
     /* Withdraw money from account, this is the same if you would walk in to bank to withdraw */
     public Transaction withdraw(Double amount) {
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         if (this.balance >= amount) {
             this.balance -= amount;
-            Transaction transaction = new Transaction(this.id, amount * -1, "Withdraw",
+            return new Transaction(this.id, amount * -1, "Withdraw",
                     df.format(date), this.bankBIC, this.id);
-            return transaction;
         } else {
             return null;
         }
@@ -213,7 +210,7 @@ public class Account implements Serializable {
 
     /* Withdraw money from account with card*/
     public Transaction withdrawWithCard(Double amount, Card card) {
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         switch (card.getCardType()) {
             case "Credit card":

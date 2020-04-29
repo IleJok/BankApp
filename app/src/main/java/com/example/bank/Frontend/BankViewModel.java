@@ -8,7 +8,8 @@ import com.example.bank.Models.Bank;
 import com.example.bank.Repositories.BankRepository;
 
 import java.util.List;
-
+/*Currently not used, could be later implemented for admin or maybe could be used in the landing
+* page*/
 public class BankViewModel extends AndroidViewModel {
 
     private BankRepository mRepository;

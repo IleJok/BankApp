@@ -11,19 +11,12 @@ import java.util.ArrayList;
 @Entity(tableName = "banks")
 public class Bank implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    @NonNull
     private int id;
 
     private String name;
     private String address;
     private String country;
     private String BIC;
-    // Customers in this bank
-    @Ignore
-    private ArrayList<Customer> customers;
-    // Accounts in this bank
-    @Ignore
-    private ArrayList<Account> accounts;
     @Ignore
     Bank() {
 
@@ -79,39 +72,6 @@ public class Bank implements Serializable {
         this.id = id;
     }
 
-    /* Add customer to arrayList if it is not there already, return true if added
-        and return false if not.
-         */
-/*    public boolean addCustomer(Customer customer) {
-        if (!this.customers.contains(customer)) {
-            this.customers.add(customer);
-            return true;
-        } else {
-            return false;
-        }
-    }*/
-
-    /* Add account to arrayList if it is not there already, return true if added
-    and return false if not.
-     */
-/*    public boolean addAccount(Account account) {
-        if (!this.accounts.contains(account)) {
-            this.accounts.add(account);
-            return true;
-        } else {
-            return false;
-        }
-    }*/
-
- /*   *//*Get all the customers in the bank*//*
-    public ArrayList<Customer> getCustomers() {
-        return this.customers;
-    }
-
-    *//*Get all the accounts in the bank*//*
-    public ArrayList<Account> getAccounts() {
-        return this.accounts;
-    }*/
     /*equals function compares two objects if they are identical or not. I use the UUID
     * as "main" source for comparison, because it should be unique*/
     @Override
@@ -128,11 +88,7 @@ public class Bank implements Serializable {
         }
 
         final Bank bank = (Bank) obj;
-        if (this.id != bank.id) {
-            return false;
-        } else {
-            return true;
-        }
+        return this.id == bank.id;
 
     }
 
@@ -140,6 +96,17 @@ public class Bank implements Serializable {
     @Override
     public String toString() { // overriding the toString() method
         return name + " " + address + " " + country + " " + BIC;
+    }
+
+    /*Returns String which is stored to banks.txt file*/
+    public String toCSV() {
+        return this.id + ";"  + this.name + ";" + this.address +
+                ";" + this.country + ";" + this.BIC + ";"+"\n";
+    }
+
+    /*Returns String which is stored to banks.txt as a header*/
+    public String headersCSV(){
+        return "id;name;address;country;phone;email;BIC;\n";
     }
 
 

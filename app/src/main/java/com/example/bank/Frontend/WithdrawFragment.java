@@ -36,22 +36,22 @@ import java.util.TreeSet;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to withdraw money from an account. Fragment is accessed from AccountFragment.
+ * Layout file is withdraw_fragment.xml
  */
 public class WithdrawFragment extends Fragment {
-    View view;
-    TextView welcomeText, withdrawAmount, withdrawText, selectCard, selectCountry, noCard;
-    SeekBar withdrawSeekBar;
-    Button withdraw;
-    Spinner cardSpinner, countrySpinner;
-    EditText cardPin;
+    private View view;
+    private TextView welcomeText;
+    private TextView withdrawAmount;
+    private SeekBar withdrawSeekBar;
+    private Spinner cardSpinner;
+    private EditText cardPin;
     private AccountViewModel accountViewModel;
-    Transaction transaction;
-    Account account;
-    List<Transaction> transactions;
-    List<Card> cards;
-    double balance = 0.0;
-    int value = 0;
+    private Transaction transaction;
+    private Account account;
+    private List<Transaction> transactions;
+    private double balance = 0.0;
+    private int value = 0;
     public WithdrawFragment() {
         // Required empty public constructor
     }
@@ -69,20 +69,21 @@ public class WithdrawFragment extends Fragment {
         final NavController controller = Navigation.findNavController(view);
         accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
         welcomeText = this.view.findViewById(R.id.withdraw_welcome);
-        selectCard = this.view.findViewById(R.id.select_card);
-        selectCountry = this.view.findViewById(R.id.select_country);
-        noCard = this.view.findViewById(R.id.no_card);
+        TextView selectCard = this.view.findViewById(R.id.select_card);
+        TextView selectCountry = this.view.findViewById(R.id.select_country);
+        TextView noCard = this.view.findViewById(R.id.no_card);
         cardPin = this.view.findViewById(R.id.card_pin);
 
         withdrawAmount = this.view.findViewById(R.id.withdrawAmount);
-        withdrawText = this.view.findViewById(R.id.withdraw_text);
+        TextView withdrawText = this.view.findViewById(R.id.withdraw_text);
         withdrawSeekBar = this.view.findViewById(R.id.seekBarWithdraw);
-        withdraw = this.view.findViewById(R.id.button_withdraw);
+        Button withdraw = this.view.findViewById(R.id.button_withdraw);
         SortedSet<String> allCountries = getAllCountries();
 
         Bundle bundle = getArguments();
+        assert bundle != null;
         this.account = (Account) bundle.getSerializable("account");
-        this.cards = (List<Card>) bundle.getSerializable("cards");
+        List<Card> cards = (List<Card>) bundle.getSerializable("cards");
         assert account != null;
         assert cards != null;
         welcomeText.setText(account.toString());
@@ -90,7 +91,7 @@ public class WithdrawFragment extends Fragment {
         value = (int) balance;
         withdrawSeekBar.setMax(value);
 
-        countrySpinner = this.view.findViewById(R.id.card_country_spinner);
+        Spinner countrySpinner = this.view.findViewById(R.id.card_country_spinner);
         ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(requireActivity(),
                 android.R.layout.simple_spinner_item, allCountries.toArray(new String[0]));
         countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -105,6 +106,9 @@ public class WithdrawFragment extends Fragment {
         cardSpinner.setAdapter(cardArrayAdapter);
 
         this.transactions = getTransactions(account.getId());
+        /*Withdraw money from the account. If user has no cards, then the withdraw simulates
+        * trip to bank and collecting the money from there. Else "use" the selected card and
+        * check its limits*/
         withdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,12 +201,10 @@ public class WithdrawFragment extends Fragment {
     }
 
     /*Withdraw from account without a card*/
-    public List<Transaction> withdraw(Double amount) {
-        System.out.println("transfer account" + account.toString());
+    private List<Transaction> withdraw(Double amount) {
         if (amount > 0) {
             try {
                 this.transaction = this.account.withdraw(amount);
-                //this.account.addToTransactionList(transaction);
                 accountViewModel.insertTransaction(this.transaction);
                 List<Transaction> newTransactions = accountViewModel.getTransactionsList(this.account.getId());
                 account.setTransactionList(newTransactions);
@@ -216,8 +218,7 @@ public class WithdrawFragment extends Fragment {
     }
 
     /*Withdraw from account with a card*/
-    public List<Transaction> withdrawWithCard(Double amount, Card card) {
-        System.out.println("transfer account" + account.toString());
+    private List<Transaction> withdrawWithCard(Double amount, Card card) {
         if (amount > 0) {
             try {
                 this.transaction = this.account.withdrawWithCard(amount, card);
@@ -238,20 +239,20 @@ public class WithdrawFragment extends Fragment {
         }
         return account.getTransactionList();
     }
-
-    public List<Transaction> getTransactions(int id) {
+    /*Gets all the transactions for this account. TODO proper error handling*/
+    private List<Transaction> getTransactions(int id) {
         try {
             this.transactions = accountViewModel.getTransactionsList(id);
             account.setTransactionList(this.transactions);
             return account.getTransactionList();
         } catch (Exception e) {
-            System.out.println("Erroro " + e);
+            e.printStackTrace();
         }
         return this.transactions;
     }
 
-    /*Gets a list of all countries to be used in country limit selection*/
-    public SortedSet<String> getAllCountries() {
+    /*Gets a list of all countries to be used in country limit selection TODO make utils file*/
+    private SortedSet<String> getAllCountries() {
         SortedSet<String> allCountries = new TreeSet<>();
         for (Locale locale : Locale.getAvailableLocales()) {
             if (!TextUtils.isEmpty(locale.getDisplayCountry())) {

@@ -75,6 +75,8 @@
     <string name="withdraw_seekBar">Select amount to withdraw: </string>
     <string name="transfer_seekBar">Select amount to transfer: </string>
     <string name="location">Select the country you are located: </string>
+    <string name="no_accounts">No Accounts available</string>
+    <string name="no_transactions">No transactions available!</string>
 
     <string-array name="account_types">
         <item>Current account</item>

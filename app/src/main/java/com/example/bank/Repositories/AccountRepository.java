@@ -10,18 +10,25 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
+/*A Repository class abstracts access to multiple data sources. The Repository is not part of the
+Architecture Components libraries, but is a suggested best practice for code separation and
+ architecture. A Repository class provides a clean API for data access to the rest of
+ the application. https://codelabs.developers.google.com/codelabs/android-room-with-a-view/#7*/
 public class AccountRepository {
 
     private AccountDao accountDao;
     private List<Account> allAccounts;
     private List<Transaction> transactions;
+    private Application application;
         /* Dependency injection*/
         public AccountRepository(Application application) {
         BankRoomDatabase db = BankRoomDatabase.getDatabase(application);
         accountDao = db.accountDao();
         allAccounts = accountDao.loadAllAccounts();
-    }
+        this.application = application;
+        }
 
     List<Account> getAllAccounts() {return allAccounts;}
 
@@ -45,7 +52,7 @@ public class AccountRepository {
         try {
            this.transactions = accountDao.getTransactionsList(id);
         } catch (Exception e) {
-            System.out.println("ERRORRRI " + e.toString());
+            e.printStackTrace();
         }
         /*Iterate through the list of transactions, and if the account is not the receiver
         *of the transaction in transfer, make the amount negative */
@@ -63,6 +70,14 @@ public class AccountRepository {
     }
 
     public void insert(Account account) throws IOException {
+        boolean writer = false;
+        try {
+            CSVWriter csvWriter = CSVWriter.getInstance();
+            writer = csvWriter.writeAccount(account, application);
+        } catch (IndexOutOfBoundsException  | IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Writing accounts to csv file succeeded: "+ writer);
         BankRoomDatabase.databaseWriteExecutor.execute(()-> {
             accountDao.insert(account);
         });
@@ -78,9 +93,15 @@ public class AccountRepository {
             accountDao.insertTransactions(account);
         });
     }
-
-
     public void update(Account... accounts) {
+        boolean writer = false;
+        try {
+            CSVWriter csvWriter = CSVWriter.getInstance();
+            writer = csvWriter.writeAccount(accounts[0], application);
+        } catch (IndexOutOfBoundsException  | IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Writing accounts to csv file succeeded: "+ writer);
         BankRoomDatabase.databaseWriteExecutor.execute(()-> {
             accountDao.updateAccounts(accounts);
         });

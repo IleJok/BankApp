@@ -24,18 +24,18 @@ import com.example.bank.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to modify customers account. Fragment is accessed from AccountFragment.
+ * Layout file is modify_account_fragment.xml
  */
 public class ModifyAccountFragment extends Fragment {
 
     public ModifyAccountFragment() {
         // Required empty public constructor
     }
-    View view;
-    Button saveButton;
-    CheckBox transfers, cardPayments;
-    boolean transfersAllowed;
-    boolean cardPaymentsAllowed;
+    private View view;
+    private CheckBox transfers, cardPayments;
+    private boolean transfersAllowed;
+    private boolean cardPaymentsAllowed;
     private AccountViewModel accountViewModel;
 
     @Override
@@ -51,11 +51,12 @@ public class ModifyAccountFragment extends Fragment {
         final NavController controller = Navigation.findNavController(view);
         accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
         Bundle bundle = getArguments();
+        assert bundle != null;
         Account account = (Account) bundle.getSerializable("account");
 
         transfers = this.view.findViewById(R.id.transfers);
         cardPayments = this.view.findViewById(R.id.card_payments);
-        saveButton = this.view.findViewById(R.id.button_save);
+        Button saveButton = this.view.findViewById(R.id.button_save);
         assert account != null;
         transfers.setChecked(account.getTransfers());
         cardPayments.setChecked(account.getCardPayments());
@@ -95,6 +96,8 @@ public class ModifyAccountFragment extends Fragment {
                         controller.popBackStack(R.id.account_fragment, false);
                     }
                 });
+
+        /*Update the account to db*/
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,15 +106,14 @@ public class ModifyAccountFragment extends Fragment {
                 account.setAccountType(spinner.getSelectedItem().toString());
                 updateAccount(account);
                 Bundle bundle1 = new Bundle();
-                Account transferAcc = account;
-                bundle1.putSerializable("account", transferAcc);
+                bundle1.putSerializable("account", account);
                 controller.navigate(R.id.account_fragment, bundle1);
             }
         });
     }
 
     /* updates the modified account to db */
-    public void updateAccount(Account account) {
+    private void updateAccount(Account account) {
         accountViewModel.updateAccount(account);
     }
 

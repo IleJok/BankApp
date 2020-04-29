@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,17 +14,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
-import com.example.bank.Models.Bank;
 import com.example.bank.R;
 import com.google.android.material.snackbar.Snackbar;
 
 import static com.example.bank.Frontend.RegistrationViewModel.RegistrationState.REGISTRATION_COMPLETED;
 
+/* Inspiration and guide for this code is from the docs:
+https://developer.android.com/guide/navigation/navigation-conditional
+In this fragment the user(customer) sets a password. This fragment is accessed from RegisterFragment
+If the registration goes well, customer is redirected to ProfileFragment
+Layout file choose_password_fragment.xml
+ */
 public class PasswordFragment extends Fragment {
     private LoginViewModel loginViewModel;
     private RegistrationViewModel registrationViewModel;
-    private Button registerButton;
     private EditText password, password2;
 
     @Override
@@ -39,10 +41,11 @@ public class PasswordFragment extends Fragment {
                 requireActivity()).get(RegistrationViewModel.class);
         loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
         final NavController controller = Navigation.findNavController(view);
-        registerButton = view.findViewById(R.id.register_button);
+        Button registerButton = view.findViewById(R.id.register_button);
         password = view.findViewById(R.id.edit_Password);
         password2 = view.findViewById(R.id.edit_Password2);
         Bundle bundle = getArguments();
+        assert bundle != null;
         String bankName = bundle.getString("bankName");
         /*Register button to start the registration process, later if everything is ok, move
         * customer to logged in status*/

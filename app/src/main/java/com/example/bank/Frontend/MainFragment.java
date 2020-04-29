@@ -22,12 +22,10 @@ import com.example.bank.R;
 
 import java.util.List;
 
-
+/*Main fragment where user selects the bank which he/she wants to log in or create an account
+* Layout file main_fragment.xml*/
 public class MainFragment extends Fragment {
-    private LoginViewModel loginViewModel;
     private Spinner bankSpinner;
-    private TextView textView;
-    private List<Bank> banks;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,10 +35,10 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
-        banks = loginViewModel.getBanks();
+        LoginViewModel loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
+        List<Bank> banks = loginViewModel.getBanks();
         NavController navController = Navigation.findNavController(view);
-        textView = view.findViewById(R.id.select_bank);
+        TextView textView = view.findViewById(R.id.select_bank);
         bankSpinner = view.findViewById(R.id.banks_spinner);
         ArrayAdapter<Bank> bankArrayAdapter = new ArrayAdapter<>(requireActivity(),
                 android.R.layout.simple_spinner_item, banks);
@@ -48,6 +46,8 @@ public class MainFragment extends Fragment {
         bankSpinner.setAdapter(bankArrayAdapter);
 
         Button button = view.findViewById(R.id.button_view_profile);
+        /*When bank is selected move to ProfileFragment which redirects to LoginFragment if user
+        * is not logged in*/
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
