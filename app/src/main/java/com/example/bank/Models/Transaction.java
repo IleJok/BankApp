@@ -16,23 +16,15 @@ import static androidx.room.ForeignKey.CASCADE;
 parentColumns = "id", childColumns = "accountId", onDelete = CASCADE))
 public class Transaction implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    @NonNull
     private int id;
 
     private int accountId; // FK to Account entity
-
     private int cardId;
-
     private double amount;
-
     private String transactionType;
-
     private String transactionDate;
-
     private int receivingId; // id for the account which is receiving the transaction
-
     private String receivingBIC; // BIC for the receiver
-
     private String bic; // Banks BIC
 
     @Ignore

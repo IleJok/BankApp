@@ -16,7 +16,6 @@ import static androidx.room.ForeignKey.CASCADE;
 parentColumns = "id", childColumns = "bankId", onDelete = CASCADE))
 public class Customer implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    @NonNull
     private int id;
 
     private int bankId;
@@ -133,11 +132,7 @@ public class Customer implements Serializable {
         }
 
         final Customer customer = (Customer) object;
-        if (this.id != customer.id){
-            return false;
-        } else {
-            return true;
-        }
+        return this.id == customer.id;
     }
 
     @NonNull

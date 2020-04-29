@@ -7,6 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 
@@ -16,20 +17,15 @@ import static androidx.room.ForeignKey.CASCADE;
 parentColumns = "id", childColumns = "accountId", onDelete = CASCADE))
 public class Card implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    @NonNull
     private int id;
 
     private int accountId; // FK to Account entity
-
     private String cardType;
-
     private int cardPin;
-
     private double withdrawLimit;
-
     private String countryLimit;
-
     private double creditLimit;
+
     @Ignore
     public Card() {
 
@@ -128,13 +124,10 @@ public class Card implements Serializable {
 
     /*Validate the given pin*/
     public boolean validatePin(int pin) {
-        if (this.cardPin == pin){
-            return true;
-        } else {
-            return false;
-        }
+        return this.cardPin == pin;
     }
 
+    @NotNull
     @Override
     public String toString() {
         if (this.cardType.equals("Credit card"))
@@ -144,7 +137,7 @@ public class Card implements Serializable {
     }
 
     /*Returns the length of our card pin*/
-    public int checkPinLength(int cardPin) {
+    private int checkPinLength(int cardPin) {
         int length = 0;
         long temp = 1;
 

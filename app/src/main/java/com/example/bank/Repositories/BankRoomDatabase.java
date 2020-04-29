@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 * entities and increment the version number
 * // IJ 11.4.2020
 * // TODO add entities and increment the version number
-*     also make sure to add abstract interfaces for the entities
+*     also make sure to add abstract classes(or interfaces) for the entities
 *       check BankDao for reference
 * */
 @Database(entities = {Bank.class, Customer.class, Account.class, Transaction.class, Card.class},
@@ -54,7 +54,8 @@ public abstract class BankRoomDatabase extends RoomDatabase {
                             BankRoomDatabase.class, "bank_database")
                             .fallbackToDestructiveMigration()
                             .addCallback(sRoomDatabaseCallback)
-                            .allowMainThreadQueries() // This should not be the case TODO async
+                            .allowMainThreadQueries() // This should not be the case
+                            // TODO async and threads...
                             .build();
                 }
             }
@@ -75,34 +76,28 @@ public abstract class BankRoomDatabase extends RoomDatabase {
                 TransactionDao transactionDao = INSTANCE.transactionDao();
                 CardDao cardDao = INSTANCE.cardDao();
 
-                // When the app starts again, it wipes all the banks
+                /* When the app starts again, it wipes all the banks, customers, accounts,
+                / transactions and cards. TODO implement proper migration strategy*/
                 dao.deleteAllBanks();
                 customerDao.deleteAllCustomers();
                 accountDao.deleteAccounts();
                 transactionDao.deleteAllTransactions();
                 cardDao.deleteAllCards();
-
+                // Populate the database with some information
                 Bank bank = new Bank("Nordea", "Pankkikatu 1",
                         "Suomi", "NDEAFIHH");
                 int id = (int) dao.insert(bank);
                 Bank bank2 = new Bank("OP", "Teollisuuskatu", "Suomi",
                          "OKOYFIHH ");
                 int id2 = (int) dao.insert(bank2);
-                /*
-                Bank bank3 = new Bank( 3, "S-Pankki", "Osuuskuntakatu 1",
-                        "Suomi", "SBANFIHH ");
-                dao.insert(bank3);*/
-
                 Customer customer = new Customer(id, "Ilkka", "testikatu", "Suomi", "044",
                         "ilkka@testi.com", "ilkka");
                 int custId = (int) customerDao.insert(customer);
-
                 Account account = new Account(id, custId, "Current Account", bank.getBIC(), (double) 1000.0, true, true);
                 int accountId = (int)  accountDao.insert(account);
                 Transaction transaction = new Transaction(accountId, 1000.0, "Deposit",
                         "2020/04/23 12:00:00", "NDEAFIHH", accountId);
                 transactionDao.insert(transaction);
-
             });
         }
     };

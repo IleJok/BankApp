@@ -17,6 +17,8 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+/*Writing important things to file was a requirement for this project, so implemented a csvwriter
+* class to meet the requirement. Demonstrating here also the singleton pattern*/
 public class CSVWriter {
 
     private static CSVWriter csvWriter = null;

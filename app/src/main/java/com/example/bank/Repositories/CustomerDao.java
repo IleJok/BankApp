@@ -13,7 +13,10 @@ import com.example.bank.Models.Bank;
 import com.example.bank.Models.Customer;
 
 import java.util.List;
-
+/* A DAO (data access object) validates your SQL at compile-time and associates it with a method.
+ * In your Room DAO, you use handy annotations, like @Insert, to represent the most common database
+ * operations! Room uses the DAO to create a clean API for your code.
+ * https://codelabs.developers.google.com/codelabs/android-room-with-a-view/#4*/
 @Dao
 public abstract class CustomerDao {
 
@@ -49,7 +52,7 @@ public abstract class CustomerDao {
     @Query("SELECT * FROM banks WHERE id =:bankId")
     public abstract Bank getCustomersBank(int bankId);
 
-    public void insertAccounts(Customer customer) {
+    void insertAccounts(Customer customer) {
         List<Account> accounts = customer.getAccounts();
         for (int i = 0; i < accounts.size(); i++) {
             accounts.get(i).setCustomerId(customer.getId());
@@ -60,7 +63,7 @@ public abstract class CustomerDao {
     @Query("SELECT * FROM accounts WHERE customerId =:customerId")
     public abstract List<Account> getAccountsListNotLive(int customerId);
 
-    public Customer getCustomerWithAccounts(int id) {
+    Customer getCustomerWithAccounts(int id) {
         Customer customer = getCustomer(id);
         List<Account> accounts = getAccountsListNotLive(id);
         customer.setAccounts(accounts);

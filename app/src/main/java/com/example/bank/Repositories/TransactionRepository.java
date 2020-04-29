@@ -5,7 +5,10 @@ import android.app.Application;
 import com.example.bank.Models.Transaction;
 
 import java.util.List;
-
+/*A Repository class abstracts access to multiple data sources. The Repository is not part of the
+Architecture Components libraries, but is a suggested best practice for code separation and
+ architecture. A Repository class provides a clean API for data access to the rest of
+ the application. https://codelabs.developers.google.com/codelabs/android-room-with-a-view/#7*/
 public class TransactionRepository {
 
     private TransactionDao transactionDao;
