@@ -11,6 +11,8 @@ import com.example.bank.Models.Account;
 import com.example.bank.R;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 /* Custom LIST adapter to show customers accounts in recyclerview and items are clickable.
 * when item is clicked, user is navigated to that account and AccountFragment is opened*/
@@ -43,17 +45,18 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
         }
     }
 
-    public AccountListAdapter(List<Account> accounts) {
+    AccountListAdapter(List<Account> accounts) {
         mCustomersAccounts = accounts;
     }
-    public void setOnItemClickListener(ClickListener clickListener) {
+    void setOnItemClickListener(ClickListener clickListener) {
         AccountListAdapter.clickListener = clickListener;
     }
 
-    public Account getItem(int position) {
+    Account getItem(int position) {
         return mCustomersAccounts.get(position);
     }
 
+    @NotNull
     @Override
     public AccountViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, parent, false);
@@ -61,14 +64,14 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(AccountViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull AccountViewHolder holder, int position) {
         if (mCustomersAccounts != null) {
             Account account = mCustomersAccounts.get(position);
             // account toString is defined in the Account Model
             holder.accountItemView.setText(account.toString());
         } else {
             // If no account data is available
-            holder.accountItemView.setText("No Accounts available");
+            holder.accountItemView.setText(R.string.no_accounts);
         }
     }
 

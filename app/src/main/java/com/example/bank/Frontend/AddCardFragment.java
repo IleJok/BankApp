@@ -33,17 +33,16 @@ import java.util.TreeSet;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A view for card creation accessed from profile fragment
+ * add_card_fragment.xml is the layout file
  */
 public class AddCardFragment extends Fragment {
-    View view;
-    TextView welcomeText, cardTypeInfo, countryLimitInfo;
-    EditText withdrawLimit, cardPin, creditLimit;
-    Spinner cardTypeSpinner, countrySpinner;
-    CheckBox country;
-    Button saveButton;
-    Boolean limitCountry = false;
-    Account account;
+    private View view;
+    private EditText withdrawLimit, cardPin, creditLimit;
+    private Spinner cardTypeSpinner, countrySpinner;
+    private CheckBox country;
+    private Boolean limitCountry = false;
+    private Account account;
     private AccountViewModel accountViewModel;
 
     public AddCardFragment() {
@@ -66,11 +65,12 @@ public class AddCardFragment extends Fragment {
         accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
 
         Bundle bundle = getArguments();
+        assert bundle != null;
         this.account = (Account) bundle.getSerializable("account");
         SortedSet<String> allCountries = getAllCountries();
-        welcomeText = this.view.findViewById(R.id.add_card_text);
-        cardTypeInfo = this.view.findViewById(R.id.card_type);
-        countryLimitInfo =  this.view.findViewById(R.id.country_limit);
+        TextView welcomeText = this.view.findViewById(R.id.add_card_text);
+        TextView cardTypeInfo = this.view.findViewById(R.id.card_type);
+        TextView countryLimitInfo = this.view.findViewById(R.id.country_limit);
         withdrawLimit =  this.view.findViewById(R.id.card_withdraw_limit);
         cardPin =  this.view.findViewById(R.id.card_pin);
         creditLimit =  this.view.findViewById(R.id.card_credit_limit);
@@ -90,8 +90,8 @@ public class AddCardFragment extends Fragment {
         // IF wanted, could take locale from the device, but since emulating...
         countrySpinner.setSelection(countryAdapter.getPosition("Finland"));
 
-        saveButton = this.view.findViewById(R.id.button_save_card);
-
+        Button saveButton = this.view.findViewById(R.id.button_save_card);
+        /*Add card and navigate back to account fragment*/
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +110,7 @@ public class AddCardFragment extends Fragment {
                         controller.popBackStack(R.id.account_fragment, false);
                     }
                 });
-
+        /*Checkbox listener, nothing fancy here, if checked true...*/
         country.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -122,8 +122,8 @@ public class AddCardFragment extends Fragment {
 
     }
 
-
-    public void addCard(View view) {
+    /*Add card to an account and to DB TODO make this more readable*/
+    private void addCard(View view) {
         Card card = new Card();
         int pinWanted = 0;
         try {
@@ -138,7 +138,8 @@ public class AddCardFragment extends Fragment {
         if (ok.equals("Pin ok")) {
             card.setAccountId(this.account.getId());
             card.setCardType(cardTypeSpinner.getSelectedItem().toString());
-            if (!TextUtils.isEmpty(creditLimit.getText().toString()) && card.getCardType().equals("Credit card"))
+            if (!TextUtils.isEmpty(creditLimit.getText().toString()) &&
+                    card.getCardType().equals("Credit card"))
                 card.setCreditLimit(Double.parseDouble(creditLimit.getText().toString()));
             else
                 card.setCreditLimit(0.0);

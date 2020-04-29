@@ -11,9 +11,12 @@ import com.example.bank.Models.Transaction;
 import com.example.bank.R;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
-/* Custom LIST adapter to show transactions in recyclerview */
+/* Custom LIST adapter to show customers accounts in recyclerview and items are clickable.
+ * when item is clicked, details are shown on the screen*/
 public class TransactionListAdapter extends RecyclerView.Adapter<TransactionListAdapter.TransactionViewHolder> {
     private List<Transaction> mAccountsTransactions;
     private static ClickListener transactionClickListener;
@@ -41,10 +44,10 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
             return false;
         }
     }
-    public TransactionListAdapter(List<Transaction> transactions) {
+    TransactionListAdapter(List<Transaction> transactions) {
         this.mAccountsTransactions = transactions;
     }
-    public void setOnItemClickListener(ClickListener transactionClickListener) {
+    void setOnItemClickListener(ClickListener transactionClickListener) {
         TransactionListAdapter.transactionClickListener = transactionClickListener;
     }
 
@@ -52,6 +55,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
         return mAccountsTransactions.get(position);
     }
 
+    @NotNull
     @Override
     public TransactionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_transaction_item, parent, false);
@@ -59,16 +63,15 @@ public class TransactionListAdapter extends RecyclerView.Adapter<TransactionList
     }
 
     @Override
-    public void onBindViewHolder(TransactionViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull TransactionViewHolder holder, int position) {
         if (mAccountsTransactions != null) {
             Transaction transaction = mAccountsTransactions.get(position);
             holder.transactionItemView.setText(transaction.toString());
         } else {
             // If no customer data is available
-            holder.transactionItemView.setText("No Accounts available");
+            holder.transactionItemView.setText(R.string.no_transactions);
         }
     }
-
 
     public void setTransactions(List<Transaction> accountsTransactions) {
         if (this.mAccountsTransactions.size() > 0)

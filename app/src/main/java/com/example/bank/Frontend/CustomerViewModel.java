@@ -9,7 +9,7 @@ import com.example.bank.Models.Customer;
 import com.example.bank.Repositories.CustomerRepository;
 
 import java.util.List;
-
+/*Currently not used, could be later implemented for admin page to have live data for customers*/
 public class CustomerViewModel extends AndroidViewModel {
 
     private CustomerRepository customerRepository;

@@ -12,14 +12,17 @@ import com.example.bank.Repositories.BankRepository;
 import com.example.bank.Repositories.CustomerRepository;
 
 import java.util.List;
-
+/* Inspiration and guide for this code is from the docs:
+https://developer.android.com/guide/navigation/navigation-conditional
+Main purpose of this ViewModel is to control the registration state and create the user.
+TODO implement proper password encryption and authentication, could use jwt token...
+ */
 public class RegistrationViewModel extends AndroidViewModel {
 
     Customer customer; // Cache for a consumer, store later to db
     private CustomerRepository customerRepository;
     private BankRepository bankRepository;
-    List<Bank> banks;
-    final MutableLiveData<RegistrationState> registrationState =
+    private final MutableLiveData<RegistrationState> registrationState =
             new MutableLiveData<>();
 
     /*Use state to define next steps, first collect data from user,
@@ -35,24 +38,17 @@ public class RegistrationViewModel extends AndroidViewModel {
         registrationState.setValue(RegistrationState.COLLECT_PROFILE_DATA);
         customerRepository = new CustomerRepository(application);
         bankRepository = new BankRepository(application);
-        banks = bankRepository.getAllBanks();
+        List<Bank> banks = bankRepository.getAllBanks();
     }
 
-    public MutableLiveData<RegistrationState> getRegistrationState() {
+    MutableLiveData<RegistrationState> getRegistrationState() {
         return registrationState;
     }
 
-    /*Fake the token TODO implement proper authentication*/
-/*    private String authToken;
-
-    public String getAuthToken(){
-        return authToken;
-    }*/
     /*First time user, so collect data to make a customer, and set registration state to next state*/
-    public void collectProfileData(String name, String address, String country,
-                                   String phone, String email){
+    void collectProfileData(String name, String address, String country,
+                            String phone, String email){
         this.customer = new Customer();
-        //this.customer.setBankId(bankId);
         this.customer.setName(name);
         this.customer.setAddress(address);
         this.customer.setCountry(country);
@@ -62,7 +58,7 @@ public class RegistrationViewModel extends AndroidViewModel {
     }
 
     /*Store the customer in to db and set registration to complete*/
-    public void createAccountAndLogin(String password, String password2, String bankName) {
+    void createAccountAndLogin(String password, String password2, String bankName) {
         if (password.equals(password2) && !password.isEmpty()){
             this.customer.setPassword(password2);
             // Insert the customer into db
@@ -71,7 +67,6 @@ public class RegistrationViewModel extends AndroidViewModel {
                bank = bankRepository.getBankWithName(bankName);
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("KERRO! " + e);
             }
 
             assert bank != null;
@@ -84,14 +79,10 @@ public class RegistrationViewModel extends AndroidViewModel {
     }
 
     /*Set registration state to first state and clear the customer*/
-    public boolean userCancelledRegistrationProcess() {
+    void userCancelledRegistrationProcess() {
         registrationState.setValue(RegistrationState.COLLECT_PROFILE_DATA);
         customer = null;
-        return true;
     }
 
-    public Bank getBankName(String bankName) {
-        return bankRepository.getBankWithName(bankName);
-    }
 
 }

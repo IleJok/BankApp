@@ -13,6 +13,10 @@ import com.example.bank.R;
 
 import java.util.List;
 
+/*This BankListAdapter is currently not used at all, but could be used for admin view or
+* could be used in first screen also. The main idea of this list adapter, is to have live list
+* of banks in a recyclerview, where you can click the bank and move on to that bank.
+* TODO implement this to landing page or for the admin if added later on*/
 public class BankListAdapter extends RecyclerView.Adapter<BankListAdapter.BankViewHolder> {
 
     class BankViewHolder extends RecyclerView.ViewHolder {

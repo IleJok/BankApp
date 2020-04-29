@@ -24,14 +24,15 @@ import com.google.android.material.snackbar.Snackbar;
 
 /* Inspiration and guide for this code is from the docs:
 https://developer.android.com/guide/navigation/navigation-conditional
+In this fragment the user(customer) logs in with existing credentials or moves to registration.
+LoginFragment is accessed from ProfileFragment if the user is not logged in
+Layout file login_fragment.xml
  */
 public class LoginFragment extends Fragment {
 
     private LoginViewModel loginViewModel;
     private EditText customerNameEdit;
     private EditText passwordEdit;
-    private Button loginButton, registerButton;
-    private Bank bank;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,8 +55,9 @@ public class LoginFragment extends Fragment {
         customerNameEdit = view.findViewById(R.id.user_name_input);
         passwordEdit = view.findViewById(R.id.user_password_input);
 
-        registerButton = view.findViewById(R.id.register_button);
+        Button registerButton = view.findViewById(R.id.register_button);
         String finalBankName = bankName;
+        /*Move to RegisterFragment for adding new customer*/
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +67,8 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        loginButton = view.findViewById(R.id.login_button);
+        Button loginButton = view.findViewById(R.id.login_button);
+        /*Log in. If authstate is changed to AUTH, then customer is transferred to ProfileFragment*/
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +86,8 @@ public class LoginFragment extends Fragment {
                         controller.popBackStack(R.id.main_fragment, false);
                     }
                 });
-
+        /*If the user is authenticated, move back to ProfileFragment, else display the wrong
+        * credentials message*/
         loginViewModel.authstate.observe(getViewLifecycleOwner(),
                 new Observer<LoginViewModel.AuthState>() {
                     @Override

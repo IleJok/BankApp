@@ -27,20 +27,19 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to transfer money to an account. Fragment is accessed from AccountFragment.
+ * Layout file is transfer_fragment.xml
  */
 public class TransferFragment extends Fragment {
-    View view;
-    TextView welcomeText, balanceText, transferText, transferAmount;
-    EditText accountNumber;
-    SeekBar transferSeekBar;
-    Account account;
-    Button transfer;
+    private View view;
+    private TextView transferAmount;
+    private EditText accountNumber;
+    private SeekBar transferSeekBar;
+    private Account account;
     private AccountViewModel accountViewModel;
-    List<Transaction> transactions;
-    Transaction transaction;
-    double balance = 0.0;
-    int value = 0;
+    private List<Transaction> transactions;
+    private double balance = 0.0;
+    private int value = 0;
 
     public TransferFragment() {
         // Required empty public constructor
@@ -61,14 +60,15 @@ public class TransferFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final NavController controller = Navigation.findNavController(view);
         accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
-        welcomeText = this.view.findViewById(R.id.withdraw_welcome);
+        TextView welcomeText = this.view.findViewById(R.id.withdraw_welcome);
         transferAmount = this.view.findViewById(R.id.transferAmount);
-        transferText = this.view.findViewById(R.id.transfer_text);
+        TextView transferText = this.view.findViewById(R.id.transfer_text);
         transferSeekBar = this.view.findViewById(R.id.seekBarTransfer);
-        transfer = this.view.findViewById(R.id.button_transfer);
+        Button transfer = this.view.findViewById(R.id.button_transfer);
         accountNumber = this.view.findViewById(R.id.account_number);
-        balanceText = this.view.findViewById(R.id.transfer_balance);
+        TextView balanceText = this.view.findViewById(R.id.transfer_balance);
         Bundle bundle = getArguments();
+        assert bundle != null;
         this.account = (Account) bundle.getSerializable("account");
         assert account != null;
         balance = this.account.getBalance();
@@ -76,7 +76,7 @@ public class TransferFragment extends Fragment {
         value = (int) balance;
         transferSeekBar.setMax(value);
         this.transactions = getTransactions(account.getId());
-
+        /*Make the transfer if the is enough money and legit receiver*/
         transfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,7 +132,7 @@ public class TransferFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 amountToTransfer = progress;
-                transferAmount.setText(Integer.toString(amountToTransfer));
+                transferAmount.setText(String.valueOf(amountToTransfer));
             }
 
             @Override
@@ -142,19 +142,21 @@ public class TransferFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                transferAmount.setText(Integer.toString(amountToTransfer));
+                transferAmount.setText(String.valueOf(amountToTransfer));
             }
         });
 
     }
     /*Transfers money to given account, adds the new transaction to both receiver and sender*/
-    public List<Transaction> transfer(Double amount, int receivingId, View v) {
+    private List<Transaction> transfer(Double amount, int receivingId, View v) {
         Account receiver = accountViewModel.getAccountWithTransactions(receivingId);
+        /* Account has to have enough money and receiver cant be null, because then the money
+        would disappear*/
         if (amount < this.account.getBalance() && amount > 0 && receiver != null) {
             try {
-                this.transaction = this.account.transfer(amount, receiver);
-                if (this.transaction != null) {
-                    accountViewModel.insertTransaction(this.transaction);
+                Transaction transaction = this.account.transfer(amount, receiver);
+                if (transaction != null) {
+                    accountViewModel.insertTransaction(transaction);
                     List<Transaction> newTransactions = accountViewModel.getTransactionsList(this.account.getId());
                     account.setTransactionList(newTransactions);
                     receiver.addToTransactionList(transaction);
@@ -175,8 +177,9 @@ public class TransferFragment extends Fragment {
         }
         return null;
     }
+
     /*Returns list of transactions for this account*/
-    public List<Transaction> getTransactions(int id) {
+    private List<Transaction> getTransactions(int id) {
         try {
             this.transactions = accountViewModel.getTransactionsList(id);
             account.setTransactionList(this.transactions);

@@ -22,14 +22,14 @@ import com.example.bank.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to modify a customers details. Fragment is accessed from ProfileFragment.
+ * Layout file is edit_customer_fragment.xml
  */
 public class EditCustomerFragment extends Fragment {
-    View view;
+    private View view;
     private EditText mEditName, mEditAddress, mEditCountry, mEditPhone, mEditEmail, mEditPassword;
-    Button saveCustomer;
     private LoginViewModel loginViewModel;
-    Customer customer;
+    private Customer customer;
     public EditCustomerFragment() {
         // Required empty public constructor
     }
@@ -49,6 +49,7 @@ public class EditCustomerFragment extends Fragment {
         final NavController controller = Navigation.findNavController(view);
         loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
         Bundle bundle = getArguments();
+        assert bundle != null;
         this.customer = (Customer) bundle.getSerializable("customer");
         mEditName = this.view.findViewById(R.id.edit_Name);
         mEditName.setText(this.customer.getName());
@@ -61,12 +62,13 @@ public class EditCustomerFragment extends Fragment {
         mEditEmail = this.view.findViewById(R.id.edit_Email);
         mEditEmail.setText(this.customer.getEmail());
         mEditPassword = this.view.findViewById(R.id.edit_Password);
-        saveCustomer = this.view.findViewById(R.id.button_save);
+        Button saveCustomer = this.view.findViewById(R.id.button_save);
 
+        /*Update the customer and return to profile fragment*/
         saveCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateAccount();
+                updateCustomer();
                 controller.navigate(R.id.action_edit_customer_fragment_to_profile_fragment);
             }
         });
@@ -80,8 +82,8 @@ public class EditCustomerFragment extends Fragment {
                 });
 
     }
-
-    public void updateAccount() {
+    /*Update the customer to db, if no new information is added, use the old stuff*/
+    private void updateCustomer() {
         if (!TextUtils.isEmpty(mEditName.getText()))
             this.customer.setName(mEditName.getText().toString());
         if (!TextUtils.isEmpty(mEditAddress.getText()))

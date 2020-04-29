@@ -17,13 +17,14 @@ import com.example.bank.Repositories.TransactionRepository;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-/*AccountViewModel is used in many fragments, its main purpose is to handle changes */
+/*AccountViewModel is used in many fragments, ViewModels main purpose is to handle changes in data
+for the user interface. More information about ViewModels:
+https://developer.android.com/topic/libraries/architecture/viewmodel*/
 public class AccountViewModel extends AndroidViewModel {
 
     private AccountRepository accountRepository;
     private TransactionRepository transactionRepository;
     private CardRepository cardRepository;
-
 
     public AccountViewModel(Application application) {
         super(application);
@@ -31,38 +32,37 @@ public class AccountViewModel extends AndroidViewModel {
         transactionRepository = new TransactionRepository(application);
         cardRepository = new CardRepository(application);
     }
-
-    public void addAccount(int bankId, int customerId, String accountType, String bankBIC, Double balance, Boolean transfers, Boolean cardPayments) throws IOException {
+    /*Add new account to for the customer*/
+    void addAccount(int bankId, int customerId, String accountType, String bankBIC, Double balance, Boolean transfers, Boolean cardPayments) throws IOException {
         Account account = new Account(bankId, customerId, accountType, bankBIC, balance, transfers, cardPayments);
         accountRepository.insert(account);
-
     }
 
-    public List<Transaction> getTransactionsList(int id) {
+    List<Transaction> getTransactionsList(int id) {
         return accountRepository.getTransactionsList(id);
     }
 
-    public Account getAccountWithTransactions(int id) {
+    Account getAccountWithTransactions(int id) {
         return accountRepository.getAccountWithTransactions(id);
     }
-    public void insertTransaction(Transaction transaction) {
+    void insertTransaction(Transaction transaction) {
         transactionRepository.insert(transaction);
     }
-    public void updateAccount(Account account) {
+    void updateAccount(Account account) {
         accountRepository.update(account);
     }
 
-    public void insertCard(Card card) {cardRepository.insert(card);}
+    void insertCard(Card card) {cardRepository.insert(card);}
 
-    public LiveData<List<Card>> getCardsForAccount(int accountId) {
+    LiveData<List<Card>> getCardsForAccount(int accountId) {
         return cardRepository.getCardsForAccount(accountId);
     }
 
-    public List<Card> getCardsForAccountNoLive(int accountId) {
+    List<Card> getCardsForAccountNoLive(int accountId) {
         return cardRepository.getCardsForAccountNoLive(accountId);
     }
 
-    public void updateCard(Card card) {
+    void updateCard(Card card) {
         cardRepository.update(card);
     }
 

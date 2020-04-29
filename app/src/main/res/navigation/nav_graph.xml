@@ -17,7 +17,7 @@
         app:startDestination="@id/enter_user_profile_fragment">
 
         <fragment android:id="@+id/enter_user_profile_fragment"
-            android:name="com.example.bank.Frontend.ProfileDataFragment"
+            android:name="com.example.bank.Frontend.RegisterFragment"
             android:label="Enter Profile Data"
             tools:layout="@layout/profile_info_fragment">
 
