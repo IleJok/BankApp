@@ -17,7 +17,7 @@ import com.example.bank.Repositories.TransactionRepository;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
+/*AccountViewModel is used in many fragments, its main purpose is to handle changes */
 public class AccountViewModel extends AndroidViewModel {
 
     private AccountRepository accountRepository;
@@ -36,9 +36,6 @@ public class AccountViewModel extends AndroidViewModel {
         Account account = new Account(bankId, customerId, accountType, bankBIC, balance, transfers, cardPayments);
         accountRepository.insert(account);
 
-    }
-    public void insertTransactions(Account account) {
-        accountRepository.insertTransactions(account);
     }
 
     public List<Transaction> getTransactionsList(int id) {
@@ -63,10 +60,6 @@ public class AccountViewModel extends AndroidViewModel {
 
     public List<Card> getCardsForAccountNoLive(int accountId) {
         return cardRepository.getCardsForAccountNoLive(accountId);
-    }
-    /*Return the latest account for customer*/
-    public Account getLatestAccount( int customerId) {
-        return accountRepository.getLatestAccount(customerId);
     }
 
     public void updateCard(Card card) {

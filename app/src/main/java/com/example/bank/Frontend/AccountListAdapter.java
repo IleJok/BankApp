@@ -12,7 +12,8 @@ import com.example.bank.R;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
-/* Custom LIST adapter to show accounts in recyclerview */
+/* Custom LIST adapter to show customers accounts in recyclerview and items are clickable.
+* when item is clicked, user is navigated to that account and AccountFragment is opened*/
 public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.AccountViewHolder> {
     private List<Account> mCustomersAccounts;
     private static ClickListener clickListener;
@@ -63,14 +64,16 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
     public void onBindViewHolder(AccountViewHolder holder, int position) {
         if (mCustomersAccounts != null) {
             Account account = mCustomersAccounts.get(position);
+            // account toString is defined in the Account Model
             holder.accountItemView.setText(account.toString());
         } else {
-            // If no customer data is available
+            // If no account data is available
             holder.accountItemView.setText("No Accounts available");
         }
     }
 
-
+    /*This is an important function as it lets us to notify if there is changes in our list of
+    * accounts*/
     void setAccounts(List<Account> customersAccounts) {
         this.mCustomersAccounts = customersAccounts;
         notifyDataSetChanged();

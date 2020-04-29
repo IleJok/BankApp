@@ -39,7 +39,9 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * This fragment could be described as the main view of this application. Through this view,
+ * customer can see transactions and navigate to different views like transfer money, withdraw,
+ * deposit, modify account and so on.
  */
 public class AccountFragment extends Fragment {
     View view;
@@ -98,7 +100,7 @@ public class AccountFragment extends Fragment {
                 android.R.layout.simple_spinner_item, cards);
         cardArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cardSpinner.setAdapter(cardArrayAdapter);
-
+        /*Notify the adapter which holds the Customers cards for changes*/
         accountViewModel.getCardsForAccount(account.getId()).observe(requireActivity(), new Observer<List<Card>>() {
             @Override
             public void onChanged(@Nullable final List<Card> cardsList) {
@@ -110,6 +112,8 @@ public class AccountFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         final TransactionListAdapter transactionListAdapter = new TransactionListAdapter(this.transactions);
         recyclerView.setAdapter(transactionListAdapter);
+        /*Clicking individual transaction at moment only shows the details on the screen by
+        * snackbar which is configured in TransactionListAdapter*/
         transactionListAdapter.setOnItemClickListener(new TransactionListAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
@@ -120,7 +124,7 @@ public class AccountFragment extends Fragment {
                 Log.d(TAG, "onItemClick position: " + position);
             }
         });
-
+        /*Navigate to AddCardFragment where you can add a card to account*/
         addCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +134,7 @@ public class AccountFragment extends Fragment {
                 controller.navigate(R.id.action_account_fragment_to_addCardFragment, bundle4);
             }
         });
-
+        /*Navigate to ModifyAccountFragment where you can modify an account*/
         editAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +144,7 @@ public class AccountFragment extends Fragment {
                 controller.navigate(R.id.action_accountFragment_to_modifyAccountFragment, bundle1);
             }
         });
-
+        /*Navigate to DepositFragment where you can deposit money to an account*/
         deposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +154,7 @@ public class AccountFragment extends Fragment {
                 controller.navigate(R.id.action_account_fragment_to_deposit_fragment, bundle2);
             }
         });
-
+        /*Navigate to WithdrawFragment where you can withdraw money from an account with(out) card*/
         withdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,7 +166,8 @@ public class AccountFragment extends Fragment {
                 controller.navigate(R.id.action_account_fragment_to_withdraw_fragment, bundle3);
             }
         });
-
+        /*Navigate to TransferFragment where you can transfer money from an account to another
+        * account*/
         transfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +177,7 @@ public class AccountFragment extends Fragment {
                 controller.navigate(R.id.action_account_fragment_to_transfer_fragment, bundle5);
             }
         });
-
+        /*Display card details and modify them*/
         cardDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
