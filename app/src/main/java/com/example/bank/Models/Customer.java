@@ -140,4 +140,16 @@ public class Customer implements Serializable {
     public String toString() {
         return name + " " + " " + email;
     }
+
+    /*Returns String which is stored to customers.txt file*/
+    public String toCSV() {
+        return this.id + ";" + this.bankId + ";" + this.name + ";" + this.address +
+                ";" + this.password +";" + this.country + ";" + this.phone + ";"+ email+";"+"\n";
+    }
+
+    /*Returns String which is stored to customers.txt as a header*/
+    public String headersCSV(){
+        return "id;bankId;name;address;password;country;phone;email;\n";
+    }
+
 }

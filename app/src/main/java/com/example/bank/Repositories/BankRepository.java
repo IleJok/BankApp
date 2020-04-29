@@ -13,12 +13,13 @@ public class BankRepository {
 
     private BankDao mBankDao;
     private List<Bank> mAllBanks;
-
+    private Application application;
     /* Dependency injection */
     public BankRepository(Application application) {
         BankRoomDatabase db = BankRoomDatabase.getDatabase(application);
         mBankDao = db.bankDao();
         mAllBanks = mBankDao.loadAllBanks();
+        this.application = application;
     }
 
     public List<Bank> getAllBanks() {
@@ -34,6 +35,10 @@ public class BankRepository {
     }
 
     public void insert(Bank bank) {
+        boolean writer;
+        CSVWriter csvWriter = CSVWriter.getInstance();
+        writer = csvWriter.writeBank(bank, application);
+        System.out.println("Writing banks to csv file succeeded: "+ writer);
         BankRoomDatabase.databaseWriteExecutor.execute(() -> {
             mBankDao.insert(bank);
         });
@@ -46,8 +51,10 @@ public class BankRepository {
     }
 
     public void update(Bank banks) {
-        BankRoomDatabase.databaseWriteExecutor.execute(() -> {
-            mBankDao.updateBanks(banks);
-        });
+        boolean writer;
+        CSVWriter csvWriter = CSVWriter.getInstance();
+        writer = csvWriter.writeBank(banks, application);
+        System.out.println("Writing banks to csv file succeeded: "+ writer);
+        BankRoomDatabase.databaseWriteExecutor.execute(() -> mBankDao.updateBanks(banks));
     }
 }

@@ -13,12 +13,13 @@ public class TransactionRepository {
 
     private TransactionDao transactionDao;
     private List<Transaction> allTransactions;
-
+    private Application application;
     /* Dependency injection / Constructor for Repo */
     public TransactionRepository(Application application) {
         BankRoomDatabase db = BankRoomDatabase.getDatabase(application);
         transactionDao = db.transactionDao();
         allTransactions = transactionDao.loadAllTransactions();
+        this.application = application;
     }
 
     List<Transaction> getAllTransactions() {return allTransactions;}
@@ -26,6 +27,10 @@ public class TransactionRepository {
     Transaction getTransaction(int id) {return transactionDao.getTransaction(id);}
 
     public void insert(Transaction transaction) {
+        boolean writer;
+        CSVWriter csvWriter = CSVWriter.getInstance();
+        writer = csvWriter.writeTransaction(transaction, application);
+        System.out.println("Writing transaction to csv succeeded: "+ writer);
         BankRoomDatabase.databaseWriteExecutor.execute(()-> {
             transactionDao.insert(transaction);
         });

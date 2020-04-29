@@ -201,18 +201,13 @@ public class AccountFragment extends Fragment {
 
     /*Returns transactions for this account. TODO implement with LiveData*/
     public List<Transaction> getTransactions(int id) {
-        boolean writer = false;
         try {
             this.transactions = accountViewModel.getTransactionsList(id);
             account.setTransactionList(this.transactions);
-            CSVWriter csvWriter = CSVWriter.getInstance();
-            writer = csvWriter.writeTransactions(this.transactions, getActivity().getApplicationContext());
             return account.getTransactionList();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Writing to csv succeeded: "+ writer);
-
         return this.transactions;
     }
 

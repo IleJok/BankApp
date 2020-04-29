@@ -135,6 +135,15 @@ public class Card implements Serializable {
         else
             return "Card: " + this.id + ", Card type: " + this.cardType;
     }
+    /*Returns String which is stored to cards.txt file*/
+    public String toCSV() {
+        return this.id + ";" + this.accountId + ";" + this.cardType + ";" + this.cardPin +
+                ";" + this.withdrawLimit +";" + this.countryLimit + ";" + this.creditLimit + ";"+ "\n";
+    }
+    /*Returns String which is stored to cards.txt as a header*/
+    public String headersCSV(){
+        return "id;accountId;cardType;cardPin;withdrawLimit;countryLimit;creditLimit;\n";
+    }
 
     /*Returns the length of our card pin*/
     private int checkPinLength(int cardPin) {

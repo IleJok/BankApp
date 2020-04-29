@@ -1,6 +1,7 @@
 package com.example.bank.Frontend;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -10,9 +11,11 @@ import com.example.bank.Models.Account;
 import com.example.bank.Models.Bank;
 import com.example.bank.Models.Customer;
 import com.example.bank.Repositories.BankRepository;
+import com.example.bank.Repositories.CSVWriter;
 import com.example.bank.Repositories.CustomerRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 /* Inspiration and guide for this code is from the docs:
 https://developer.android.com/guide/navigation/navigation-conditional
@@ -32,6 +35,7 @@ public class LoginViewModel extends AndroidViewModel {
     Customer customer;
     private List<Bank> banks;
     private LiveData<List<Customer>> customers;
+
 
      public LoginViewModel(Application application){
          super(application);
@@ -89,5 +93,5 @@ public class LoginViewModel extends AndroidViewModel {
     /*Returns the bank from db*/
     Bank getCustomersBank(int bankId) {return bankRepository.getBank(bankId);}
     /*Returns all the banks stored in the db*/
-    List<Bank> getBanks() {return bankRepository.getAllBanks();}
+    List<Bank> getBanks() { return bankRepository.getAllBanks();}
 }

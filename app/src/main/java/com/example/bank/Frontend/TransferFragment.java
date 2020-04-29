@@ -101,7 +101,8 @@ public class TransferFragment extends Fragment {
                         transactions.addAll(newTransactions);
                         account.setTransactionList(transactions);
                         accountViewModel.updateAccount(account);
-                        Snackbar.make(v, transferAmount.getText().toString() + "transferred from account",
+                        Snackbar.make(v, transferAmount.getText().toString()
+                                        + " transferred from account",
                                 Snackbar.LENGTH_SHORT).show();
                         balance = account.getBalance();
                         value = (int) balance;

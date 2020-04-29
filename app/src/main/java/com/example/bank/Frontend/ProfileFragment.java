@@ -68,7 +68,6 @@ public class ProfileFragment extends Fragment {
                     switch (authState){
                         case AUTH: // If customer is authenticated show her/his accounts and welcome
                             int id = showWelcome();
-                            getAccounts(id);
                             List<Account> accounts = new ArrayList<>();
                             recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
                             final AccountListAdapter adapter = new AccountListAdapter(accounts);
@@ -147,19 +146,6 @@ public class ProfileFragment extends Fragment {
         return loginViewModel.customer.getId();
     }
 
-    /*Returns all accounts that this customer has based on his id*/
-    private void getAccounts(int customerId) {
-        Customer customer = loginViewModel.getCustomersAccounts(customerId);
-        boolean writer = false;
-        try {
-            CSVWriter csvWriter = CSVWriter.getInstance();
-            writer = csvWriter.writeAccount(customer.getAccounts(),
-                    Objects.requireNonNull(getActivity()).getApplicationContext());
-        } catch (IndexOutOfBoundsException  | IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Writing account to csv file: "+ writer);
-    }
     /*Returns the bank where customer is customer*/
     private Bank getCustomersBank(int bankId) {
         return loginViewModel.getCustomersBank(bankId);

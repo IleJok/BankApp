@@ -18,12 +18,13 @@ public class CustomerRepository {
 
     private CustomerDao mCustomerDao;
     private LiveData<List<Customer>> mAllCustomers;
-
+    private Application application;
     /* Dependency injection*/
     public CustomerRepository(Application application) {
         BankRoomDatabase db = BankRoomDatabase.getDatabase(application);
         mCustomerDao = db.customerDao();
         mAllCustomers = mCustomerDao.loadAllCustomers();
+        this.application = application;
     }
 
     // Returns all the customers
@@ -41,16 +42,26 @@ public class CustomerRepository {
     public int insert(Customer customer) {
         int joku = 0;
         joku = (int)mCustomerDao.insert(customer);
+        boolean writer;
+        customer.setId(joku);
+        CSVWriter csvWriter = CSVWriter.getInstance();
+        writer = csvWriter.writeCustomer(customer, application);
+        System.out.println("Writing to csv succeeded: "+ writer);
         return joku;
     }
     // Delete given customers from the db
     public void delete(Customer... customers) {
+
         BankRoomDatabase.databaseWriteExecutor.execute(() -> {
             mCustomerDao.deleteCustomers(customers);
         });
     }
     // Update given customers, can be one or many
     public void update(Customer... customers) {
+        boolean writer;
+        CSVWriter csvWriter = CSVWriter.getInstance();
+        writer = csvWriter.writeCustomer(customers[0], application);
+        System.out.println("Writing to csv succeeded: "+ writer);
         BankRoomDatabase.databaseWriteExecutor.execute(() -> {
             mCustomerDao.updateCustomers(customers);
         });

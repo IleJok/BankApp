@@ -37,7 +37,6 @@ public abstract class BankRoomDatabase extends RoomDatabase {
     public abstract AccountDao accountDao();
     public abstract TransactionDao transactionDao();
     public abstract CardDao cardDao();
-
     private static volatile BankRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor =
@@ -88,7 +87,7 @@ public abstract class BankRoomDatabase extends RoomDatabase {
                         "Suomi", "NDEAFIHH");
                 int id = (int) dao.insert(bank);
                 Bank bank2 = new Bank("OP", "Teollisuuskatu", "Suomi",
-                         "OKOYFIHH ");
+                         "OKOYFIHH");
                 int id2 = (int) dao.insert(bank2);
                 Customer customer = new Customer(id, "Ilkka", "testikatu", "Suomi", "044",
                         "ilkka@testi.com", "ilkka");

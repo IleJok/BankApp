@@ -98,5 +98,16 @@ public class Bank implements Serializable {
         return name + " " + address + " " + country + " " + BIC;
     }
 
+    /*Returns String which is stored to banks.txt file*/
+    public String toCSV() {
+        return this.id + ";"  + this.name + ";" + this.address +
+                ";" + this.country + ";" + this.BIC + ";"+"\n";
+    }
+
+    /*Returns String which is stored to banks.txt as a header*/
+    public String headersCSV(){
+        return "id;name;address;country;phone;email;BIC;\n";
+    }
+
 
 }

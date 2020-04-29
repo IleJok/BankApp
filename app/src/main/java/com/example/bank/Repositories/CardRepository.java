@@ -15,12 +15,14 @@ public class CardRepository {
 
     private CardDao cardDao;
     private List<Card> allCards;
+    private Application application;
 
     /* Dependency injection / Constructor for Repo */
     public CardRepository(Application application) {
         BankRoomDatabase db = BankRoomDatabase.getDatabase(application);
         cardDao = db.cardDao();
         allCards = cardDao.loadAllCards();
+        this.application = application;
     }
     /*GetAllCards from the db*/
     List<Card> getAllCards() {return allCards;}
@@ -36,9 +38,15 @@ public class CardRepository {
     }
 
     public void insert(Card card) {
+        boolean writer;
+        CSVWriter csvWriter = CSVWriter.getInstance();
+        writer = csvWriter.writeCard(card, application);
+        System.out.println("Writing to csv succeeded: "+ writer);
         BankRoomDatabase.databaseWriteExecutor.execute(()-> {
             cardDao.insert(card);
         });
+
+
     }
 
     public void delete(Card... cards) {
@@ -48,6 +56,10 @@ public class CardRepository {
     }
 
     public void update(Card... cards) {
+        boolean writer;
+        CSVWriter csvWriter = CSVWriter.getInstance();
+        writer = csvWriter.writeCard(cards[0], application);
+        System.out.println("Writing to csv succeeded: "+ writer);
         BankRoomDatabase.databaseWriteExecutor.execute(()-> {
             cardDao.updateCards(cards);
         });
