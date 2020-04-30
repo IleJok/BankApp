@@ -261,8 +261,8 @@ public class Account implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return "Account number: " + id
-                + ", Balance : " + getBalance();
+        return "Account number: " + id + "; BIC: " + this.bankBIC
+                + "; Balance : " + getBalance();
     }
     /*Returns String which is stored to accounts.txt file*/
     public String toCSV() {

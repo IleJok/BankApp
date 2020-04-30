@@ -164,6 +164,8 @@ public class TransferFragment extends Fragment {
                     accountViewModel.updateAccount(receiver);
                     return newTransactions;
                 } else {
+                    Snackbar.make(v, "Transfers are not allowed on this account!",
+                            Snackbar.LENGTH_SHORT).show();
                     return null;
                 }
             } catch (Exception e) {
