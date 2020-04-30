@@ -36,10 +36,10 @@ public class Account implements Serializable {
     private Boolean transfers; // if transfers are allowed or not
     // if cardPayments are allowed or not TODO implement some effect on card payments
     private Boolean cardPayments;
-
+    // Transaction made and received from/to this account
     @Ignore
     private List<Transaction> transactionList = new ArrayList<>();
-
+    // Card connected to this account
     @Ignore
     private List<Card> cardList = new ArrayList<>();
 
@@ -209,11 +209,18 @@ public class Account implements Serializable {
     }
 
     /* Withdraw money from account with card*/
-    public Transaction withdrawWithCard(Double amount, Card card) {
+    public Transaction withdrawWithCard(Double amount, Card card, String country) {
         @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         switch (card.getCardType()) {
             case "Credit card":
+                /*Check whether card has country limit and if it has, does the current country
+                * equal to that limit*/
+                if (!card.getCountryLimit().isEmpty()) {
+                    if (!card.getCountryLimit().equals(country)) {
+                        return null;
+                    }
+                }
                 if (this.balance + card.getCreditLimit() >= amount && card.getWithdrawLimit()
                 >= amount) {
                     this.balance -= amount;
@@ -225,6 +232,11 @@ public class Account implements Serializable {
                     return null;
                 }
             case "Debit card":
+                if (!card.getCountryLimit().isEmpty()) {
+                    if (!card.getCountryLimit().equals(country)) {
+                        return null;
+                    }
+                }
                 if (this.balance >= amount && card.getWithdrawLimit() >= amount) {
                     this.balance -= amount;
                     Transaction transaction = new Transaction(this.id, card.getId(),amount * -1, "Card Withdraw",

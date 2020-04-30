@@ -25,7 +25,7 @@ public class Customer implements Serializable {
     private String country;
     private String phone;
     private String email;
-
+    // List of all customers accounts
     @Ignore
     private List<Account> accounts;
 

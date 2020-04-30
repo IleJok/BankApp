@@ -146,21 +146,26 @@ public class Transaction implements Serializable {
     public void setBic(String bic) {
         this.bic = bic;
     }
-
+    /* We want different kind of toString implementation for different transactions, so use of simple
+    does the trick*/
     @NonNull
     @Override
     public String toString() {
         switch (this.transactionType) {
             case "Deposit":
             case "Withdraw":
-                return "Account: "+ this.getAccountId() + "; BIC:"+this.getBic() +"; Date: " + this.getTransactionDate() + "; Type: " + this.getTransactionType()
-                        + "; Amount: " + this.getAmount();
+                return "Account: "+ this.accountId + "; BIC:"+this.bic +"; Date: "
+                        + this.transactionDate + "; Type: " + this.transactionType
+                        + "; Amount: " + this.amount;
             case "Card Withdraw":
-                return "Account: "+ this.getAccountId() + "; BIC:"+this.getBic() +"; Date: " + this.getTransactionDate() + "; Type: " + this.getTransactionType()
-                        + "; Amount: " + this.getAmount() + "; Card id: " + this.cardId;
+                return "Account: "+ this.accountId + "; BIC:"+this.bic +"; Date: "
+                        + this.transactionDate + "; Type: " + this.transactionType
+                        + "; Amount: " + this.amount + "; Card id: " + this.cardId;
             default:
-                return "Account: "+ this.getAccountId() + "; BIC:"+this.getBic() +"; Date: " + this.getTransactionDate() + "; Type: " + this.getTransactionType()
-                        + "; Amount: " + this.getAmount() + ", Receiver: " + this.getReceivingId() + ", Receivers BIC: " + this.getReceivingBIC();
+                return "Account: "+ this.accountId + "; BIC:"+this.bic +"; Date: "
+                        + this.transactionDate+ "; Type: " + this.transactionType
+                        + "; Amount: " + this.amount + ", Receiver: "
+                        + this.receivingId + ", Receivers BIC: " + this.receivingBIC;
         }
     }
 

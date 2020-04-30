@@ -52,6 +52,7 @@ public class WithdrawFragment extends Fragment {
     private List<Transaction> transactions;
     private double balance = 0.0;
     private int value = 0;
+    private String selectedCountry;
     public WithdrawFragment() {
         // Required empty public constructor
     }
@@ -129,7 +130,7 @@ public class WithdrawFragment extends Fragment {
                     }
                     if (card.validatePin(pinToTest)) {
                         newTransactions = withdrawWithCard(Double.parseDouble(
-                                withdrawAmount.getText().toString()), card);
+                                withdrawAmount.getText().toString()), card, selectedCountry);
                     } else {
                         Snackbar.make(v,"Pin is incorrect",
                                 Snackbar.LENGTH_SHORT).show();
@@ -166,6 +167,18 @@ public class WithdrawFragment extends Fragment {
                 Card card = (Card) cardSpinner.getItemAtPosition(position);
                 value += (int)card.getCreditLimit();
                 withdrawSeekBar.setMax(value);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCountry = countrySpinner.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -218,11 +231,10 @@ public class WithdrawFragment extends Fragment {
     }
 
     /*Withdraw from account with a card*/
-    private List<Transaction> withdrawWithCard(Double amount, Card card) {
+    private List<Transaction> withdrawWithCard(Double amount, Card card, String selectedCountry) {
         if (amount > 0) {
             try {
-                this.transaction = this.account.withdrawWithCard(amount, card);
-                //this.account.addToTransactionList(transaction);
+                this.transaction = this.account.withdrawWithCard(amount, card, selectedCountry);
                 if (this.transaction != null) {
                     accountViewModel.insertTransaction(this.transaction);
                     List<Transaction> newTransactions = accountViewModel.getTransactionsList(this.account.getId());

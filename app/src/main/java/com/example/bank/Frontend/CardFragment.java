@@ -76,6 +76,7 @@ public class CardFragment extends Fragment {
         creditLimit =  this.view.findViewById(R.id.card_credit_limit);
         countries = this.view.findViewById(R.id.countries);
 
+
         cardTypes = this.view.findViewById(R.id.card_types_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireActivity(),
                 R.array.card_types, android.R.layout.simple_spinner_item);
@@ -88,7 +89,14 @@ public class CardFragment extends Fragment {
                 android.R.layout.simple_spinner_item, allCountries.toArray(new String[0]));
         countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         countrySpinner.setAdapter(countryAdapter);
-        countrySpinner.setSelection(countryAdapter.getPosition("Finland"));
+        String limit = card.getCountryLimit();
+        if (limit != null) {
+            countries.setChecked(true);
+            countrySpinner.setSelection(countryAdapter.getPosition(card.getCountryLimit()));
+        } else {
+            countries.setChecked(false);
+            countrySpinner.setSelection(countryAdapter.getPosition("Finland"));
+        }
 
         Button saveCard = this.view.findViewById(R.id.button_save_card);
         /*Save card and return to account fragment*/
