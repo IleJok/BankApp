@@ -39,7 +39,7 @@ public class AccountViewModel extends AndroidViewModel {
     }
 
     List<Transaction> getTransactionsList(int id) {
-        return accountRepository.getTransactionsList(id);
+        return transactionRepository.getTransactionsList(id);
     }
 
     Account getAccountWithTransactions(int id) {

@@ -45,12 +45,15 @@ public class LoginFragment extends Fragment {
         final View root = view;
         loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
         String bankName = "";
-        try {
-            Bundle bundle = getArguments();
-            bankName = bundle.getString("bankName");
-        } catch (Exception e) {
-            e.printStackTrace();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            try {
+                bankName = bundle.getString("bankName");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
 
         customerNameEdit = view.findViewById(R.id.user_name_input);
         passwordEdit = view.findViewById(R.id.user_password_input);

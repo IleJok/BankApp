@@ -35,6 +35,10 @@ public abstract class TransactionDao {
     @Query("SELECT * FROM transactions WHERE id =:id AND transactionDate BETWEEN :someDate AND :anotherDate")
     public abstract List<Transaction> loadTransactionsBetweenDates(int id, String someDate, String anotherDate);
 
+    /* Get all the transactions for this account either sender or receiver */
+    @Query("SELECT * FROM transactions WHERE accountId =:accountId OR receivingId =:accountId ORDER BY transactionDate DESC")
+    public abstract List<Transaction> getTransactionsList(int accountId) throws Exception;
+
     @Query("SELECT * FROM transactions WHERE id =:id")
     public abstract Transaction getTransaction(int id);
 

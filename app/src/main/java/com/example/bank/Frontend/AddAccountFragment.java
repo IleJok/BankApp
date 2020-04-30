@@ -81,9 +81,10 @@ public class AddAccountFragment extends Fragment {
                     controller.navigate(R.id.profile_fragment);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Snackbar.make(v, "Account was not created!",
+                            Snackbar.LENGTH_SHORT).show();
                 }
-                Snackbar.make(v, "Account was not created!",
-                        Snackbar.LENGTH_SHORT).show();
+
             }
         });
 

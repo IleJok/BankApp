@@ -58,6 +58,16 @@ public class ProfileFragment extends Fragment {
         final NavController controller = Navigation.findNavController(view);
         loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
         welcomeText = this.view.findViewById(R.id.profileText);
+        Bundle bundle1 = getArguments();
+        String bankName;
+        if (bundle1 != null) {
+            try {
+                bankName = bundle1.getString("bankName");
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }
+        }
+
         RecyclerView recyclerView = this.view.findViewById(R.id.recyclerview);
         Button button = this.view.findViewById(R.id.account_fab);
         Button profileButton = this.view.findViewById(R.id.edit_details);
@@ -78,6 +88,11 @@ public class ProfileFragment extends Fragment {
                                     adapter.setAccounts(accounts1);
                                 }
                             });
+                            if (loginViewModel.bank.getId() == loginViewModel.customer.getBankId())
+                                System.out.println("ID ja pankki" + loginViewModel.bank.getName()
+                                + loginViewModel.bank.getId());
+                            else
+                                System.out.println("MIKÄÄN EI TÄSMÄÄ!! pankki" + loginViewModel.bank.getName());
                             bank = getCustomersBank(loginViewModel.customer.getBankId());
 
                             recyclerView.setAdapter(adapter);
@@ -125,14 +140,14 @@ public class ProfileFragment extends Fragment {
                             logOut.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    controller.navigate(R.id.main_fragment);
                                     loginViewModel.refuse();
+                                    controller.navigate(R.id.main_fragment);
+
                                 }
                             });
 
                             break;
                         case UNAUTH: // unauth redirects to LoginFragment
-                            Bundle bundle1 = getArguments();
                             controller.navigate(R.id.login_fragment, bundle1);
                             break;
                     }

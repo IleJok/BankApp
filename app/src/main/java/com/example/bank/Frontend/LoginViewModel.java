@@ -33,6 +33,7 @@ public class LoginViewModel extends AndroidViewModel {
     private BankRepository bankRepository;
     final MutableLiveData<AuthState> authstate = new MutableLiveData<>();
     Customer customer;
+    Bank bank;
     private List<Bank> banks;
     private LiveData<List<Customer>> customers;
 
@@ -67,8 +68,10 @@ public class LoginViewModel extends AndroidViewModel {
      */
     private boolean checkIfPasswordMatches(String customername, String password){
         this.customer = getCustomerWithCred(customername, password);
-
         if (this.customer != null) {
+            this.bank = bankRepository.getBank(customer.getBankId());
+        }
+        if (this.customer != null && this.bank != null) {
             System.out.println("true " + customer.toString());
             return true;
         } else {
