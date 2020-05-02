@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.bank.Models.Account;
 import com.example.bank.Models.Bank;
 import com.example.bank.Models.Customer;
+import com.example.bank.Repositories.AccountRepository;
 import com.example.bank.Repositories.BankRepository;
 import com.example.bank.Repositories.CSVWriter;
 import com.example.bank.Repositories.CustomerRepository;
@@ -31,6 +32,8 @@ public class LoginViewModel extends AndroidViewModel {
     }
     private CustomerRepository customerRepository;
     private BankRepository bankRepository;
+    private AccountRepository accountRepository;
+
     final MutableLiveData<AuthState> authstate = new MutableLiveData<>();
     Customer customer;
     Bank bank;
@@ -45,6 +48,7 @@ public class LoginViewModel extends AndroidViewModel {
          bankRepository = new BankRepository(application);
          banks = getBanks();
          customers = customerRepository.getAllCustomers();
+         accountRepository = new AccountRepository(application);
      }
 
     /*Method to authenticate*/
@@ -92,7 +96,7 @@ public class LoginViewModel extends AndroidViewModel {
     public void update(Customer customer) {customerRepository.update(customer);}
     /*Get the list of accounts for this customer from db*/
     LiveData<List<Account>> getAccountsList(int customerId)
-    {return customerRepository.getAccountsList(customerId);}
+    {return accountRepository.getAccountsList(customerId);}
     /*Returns the bank from db*/
     Bank getCustomersBank(int bankId) {return bankRepository.getBank(bankId);}
     /*Returns all the banks stored in the db*/

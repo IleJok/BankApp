@@ -3,6 +3,8 @@ package com.example.bank.Repositories;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.bank.Models.Account;
 import com.example.bank.Models.Transaction;
 
@@ -20,7 +22,6 @@ public class AccountRepository {
 
     private AccountDao accountDao;
     private List<Account> allAccounts;
-    private List<Transaction> transactions;
     private Application application;
         /* Dependency injection*/
         public AccountRepository(Application application) {
@@ -36,8 +37,8 @@ public class AccountRepository {
     public Account getAccountWithTransactions(int id) {
         return accountDao.getAccountWithTransactions(id);
     }
-
-
+    // Get all accounts for customer
+    public LiveData<List<Account>> getAccountsList(int customerId){return accountDao.getAccountsList(customerId);}
 
     Account getAccount(int id) {return accountDao.getAccount(id);}
 

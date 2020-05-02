@@ -33,7 +33,6 @@ public class CustomerRepository {
     public Customer getCustomerWithAccounts(int id) {
         return mCustomerDao.getCustomerWithAccounts(id);
     }
-    public LiveData<List<Account>> getAccountsList(int customerId){return mCustomerDao.getAccountsList(customerId);}
     // Get customer with the id
     public Customer getCustomer(int id) {return mCustomerDao.getCustomer(id);}
     public Customer getCustomerWithCred(String name, String password) {
@@ -42,11 +41,7 @@ public class CustomerRepository {
     public int insert(Customer customer) {
         int joku = 0;
         joku = (int)mCustomerDao.insert(customer);
-        boolean writer;
         customer.setId(joku);
-        CSVWriter csvWriter = CSVWriter.getInstance();
-        writer = csvWriter.writeCustomer(customer, application);
-        System.out.println("Writing to csv succeeded: "+ writer);
         return joku;
     }
     // Delete given customers from the db

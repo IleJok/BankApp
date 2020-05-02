@@ -30,10 +30,10 @@ public class TransactionRepository {
 
     /*Gets transactions for given account, also returns them in latest first. Also apply some
      * logic to transfer explained in the method*/
-    public List<Transaction> getTransactionsList(int id) {
+    public List<Transaction> getTransactionsList(int accountId) {
 
         try {
-            this.transactions = transactionDao.getTransactionsList(id);
+            this.transactions = transactionDao.getTransactionsList(accountId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,7 +43,7 @@ public class TransactionRepository {
         while (iterator.hasNext()) {
             Transaction transaction = iterator.next();
             if (transaction.getTransactionType().equals("Transfer")) {
-                if (transaction.getReceivingId() != id) {
+                if (transaction.getReceivingId() != accountId) {
                     transaction.setAmount(transaction.getAmount()*-1);
                 }
             }

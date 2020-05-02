@@ -50,11 +50,11 @@ public class BankRepository {
         });
     }
 
-    public void update(Bank banks) {
+    public void update(Bank bank) {
         boolean writer;
         CSVWriter csvWriter = CSVWriter.getInstance();
-        writer = csvWriter.writeBank(banks, application);
+        writer = csvWriter.writeBank(bank, application);
         System.out.println("Writing banks to csv file succeeded: "+ writer);
-        BankRoomDatabase.databaseWriteExecutor.execute(() -> mBankDao.updateBanks(banks));
+        BankRoomDatabase.databaseWriteExecutor.execute(() -> mBankDao.updateBanks(bank));
     }
 }

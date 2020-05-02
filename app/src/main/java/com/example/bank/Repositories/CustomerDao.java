@@ -45,9 +45,7 @@ public abstract class CustomerDao {
     // Get customer with credentials, used for login // TODO implement proper auth
     @Query("SELECT * FROM customers WHERE name =:name AND password=:password")
     public abstract Customer getCustomerWithCred(String name, String password);
-    // Get the customer and her/his accounts
-    @Query("SELECT * FROM accounts WHERE customerId =:customerId")
-     public abstract LiveData<List<Account>> getAccountsList(int customerId);
+
 
     @Query("SELECT * FROM banks WHERE id =:bankId")
     public abstract Bank getCustomersBank(int bankId);

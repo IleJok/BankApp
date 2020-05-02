@@ -154,10 +154,18 @@ public class ProfileFragment extends Fragment {
                 });
     }
 
-    /* Displays welcome text for the customer if successfully logged in*/
+    /* Displays welcome text for the customer if successfully logged in. Also write the bank to csv
+    * and the customer to csv. Then we have a list of banks which have been used and list of
+    * customers that have been using the app.*/
     private int showWelcome() {
         String welcome = getString(R.string.welcome);
         this.welcomeText.setText(String.format("%s %s", welcome, loginViewModel.customer.getName()));
+        boolean writer;
+        CSVWriter csvWriter = CSVWriter.getInstance();
+        writer = csvWriter.writeBank(loginViewModel.bank, requireActivity());
+        System.out.println("Writing banks to csv file succeeded: "+ writer);
+        writer = csvWriter.writeCustomer(loginViewModel.customer, requireActivity());
+        System.out.println("Writing to csv succeeded: "+ writer);
         return loginViewModel.customer.getId();
     }
 

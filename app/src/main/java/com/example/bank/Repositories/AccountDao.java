@@ -1,5 +1,6 @@
 package com.example.bank.Repositories;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -47,7 +48,9 @@ public abstract class AccountDao {
     /* Get all the transactions for this account either sender or receiver */
     @Query("SELECT * FROM transactions WHERE accountId =:accountId OR receivingId =:accountId ORDER BY transactionDate DESC")
     public abstract List<Transaction> getTransactionsList(int accountId) throws Exception;
-
+    // Get customers accounts
+    @Query("SELECT * FROM accounts WHERE customerId =:customerId")
+    public abstract LiveData<List<Account>> getAccountsList(int customerId);
     /*Gets the cards for given account based on the account id*/
     @Query("SELECT * FROM cards WHERE accountId =:accountId")
     public abstract List<Card> getCardsForAccount(int accountId);
