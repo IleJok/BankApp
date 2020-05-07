@@ -17,3 +17,6 @@ Here are the main requirements (property of LUT) for this final project:
 - If you name your variables well, it helps. But if you use i,j,k.l,a,b,c –variables, it may be difficult to understand "
 
 Every project needs a somekind of design plan, so here is mine: https://github.com/IleJok/BankApp/blob/master/app/docs/Project%20design.pdf
+
+And here is the documentation of my project:
+https://github.com/IleJok/BankApp/blob/master/app/docs/Project%20documentation.pdf
